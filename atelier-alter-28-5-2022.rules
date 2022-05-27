@@ -1,0 +1,118 @@
+
+(rules PCB atelier-alter-28-5-2022
+  (snap_angle 
+    fortyfive_degree
+  )
+  (autoroute_settings
+    (fanout off)
+    (autoroute on)
+    (postroute on)
+    (vias on)
+    (via_costs 50)
+    (plane_via_costs 5)
+    (start_ripup_costs 100)
+    (start_pass_no 1027)
+    (layer_rule F.Cu
+      (active on)
+      (preferred_direction horizontal)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 2.0)
+    )
+    (layer_rule B.Cu
+      (active on)
+      (preferred_direction vertical)
+      (preferred_direction_trace_costs 1.0)
+      (against_preferred_direction_trace_costs 2.0)
+    )
+  )
+  (rule
+    (width 100.0)
+    (clear 200.2)
+    (clear 50.0 (type smd_to_turn_gap))
+    (clear 50.0 (type smd_smd))
+  )
+  (padstack "Via[0-1]_600:300_um"
+    (shape
+      (circle F.Cu 600.0 0.0 0.0)
+    )
+    (shape
+      (circle B.Cu 600.0 0.0 0.0)
+    )
+    (attach off)
+  )
+  (padstack "Via[0-1]_800:400_um"
+    (shape
+      (circle F.Cu 800.0 0.0 0.0)
+    )
+    (shape
+      (circle B.Cu 800.0 0.0 0.0)
+    )
+    (attach off)
+  )
+  (via 
+    "Via[0-1]_600:300_um" "Via[0-1]_600:300_um" default
+  )
+  (via 
+    "Via[0-1]_800:400_um" "Via[0-1]_800:400_um" default
+  )
+  (via 
+    "Via[0-1]_600:300_um-kicad_default" "Via[0-1]_600:300_um" "kicad_default"
+  )
+  (via 
+    "Via[0-1]_800:400_um-kicad_default" "Via[0-1]_800:400_um" "kicad_default"
+  )
+  (via 
+    "Via[0-1]_600:300_um-Power" "Via[0-1]_600:300_um" Power
+  )
+  (via 
+    "Via[0-1]_800:400_um-Power" "Via[0-1]_800:400_um" Power
+  )
+  (via_rule
+    default "Via[0-1]_600:300_um"
+  )
+  (via_rule
+    "kicad_default" "Via[0-1]_600:300_um-kicad_default"
+  )
+  (via_rule
+    Power "Via[0-1]_800:400_um-Power"
+  )
+  (class default
+    GND "Net-(C2-Pad2)" "Net-(C3-Pad2)" "Net-(C4-Pad2)" ROW1 "Net-(D1-Pad2)" ROW2 "Net-(D2-Pad2)"
+    "Net-(D3-Pad2)" "Net-(D4-Pad2)" "Net-(D5-Pad2)" "Net-(D6-Pad2)" VCC COL1 COL2 COL3
+    "D-" "Net-(R1-Pad2)" D+ "Net-(R2-Pad2)" "Net-(R3-Pad1)" "Net-(R4-Pad1)" "unconnected-(U1-Pad1)" "unconnected-(U1-Pad8)"
+    "unconnected-(U1-Pad9)" "unconnected-(U1-Pad10)" D11 "unconnected-(U1-Pad12)" "unconnected-(U1-Pad18)" "unconnected-(U1-Pad19)" "unconnected-(U1-Pad20)" "unconnected-(U1-Pad21)"
+    ROW3 "unconnected-(U1-Pad25)" "Net-(D17-Pad2)" "Net-(D7-Pad2)" "Net-(D7-Pad4)" D12 "unconnected-(U1-Pad31)" "unconnected-(U1-Pad32)"
+    "unconnected-(U1-Pad36)" "unconnected-(U1-Pad37)" "unconnected-(U1-Pad38)" "unconnected-(U1-Pad39)" "unconnected-(U1-Pad40)" "Net-(D10-Pad2)" "unconnected-(U1-Pad42)" "unconnected-(USB1-Pad2)"
+    "unconnected-(USB1-Pad5)" D21 "Net-(D11-Pad1)" "Net-(D12-Pad1)" "Net-(D13-Pad1)" "Net-(D14-Pad1)" "unconnected-(D16-Pad1)" RGB
+    "Net-(D18-Pad2)" "Net-(D19-Pad2)" "unconnected-(U1-Pad30)"
+    (clearance_class default)
+    (via_rule default)
+    (rule
+      (width 100.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+    )
+  )
+  (class "kicad_default"
+    (clearance_class "kicad_default")
+    (via_rule kicad_default)
+    (rule
+      (width 100.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+    )
+  )
+  (class Power
+    +5V
+    (clearance_class Power)
+    (via_rule Power)
+    (rule
+      (width 150.0)
+    )
+    (circuit 
+      (use_layer F.Cu B.Cu)
+    )
+  )
+)
