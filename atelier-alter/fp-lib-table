@@ -3,4 +3,5 @@
   (lib (name "random-keyboard-parts")(type "KiCad")(uri "E:/Atelier-Keypad/random-keyboard-parts.pretty")(options "")(descr ""))
   (lib (name "Connector_USB")(type "KiCad")(uri "E:/Atelier-Keypad/kicad-footprints/Connector_USB.pretty")(options "")(descr ""))
   (lib (name "Type-C")(type "KiCad")(uri "E:/Atelier-Keypad/Type-C.pretty")(options "")(descr ""))
+  (lib (name "Cherry MX")(type "KiCad")(uri "E:/Atelier-Keypad/Cherry-MX-Breakout-Board/libraries/Cherry MX.pretty")(options "")(descr ""))
 )
