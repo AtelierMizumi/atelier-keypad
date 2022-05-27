@@ -2,4 +2,5 @@
   (lib (name "MX_Only")(type "KiCad")(uri "E:/Atelier-Keypad/MX_Alps_Hybrid/MX_Only.pretty")(options "")(descr ""))
   (lib (name "random-keyboard-parts")(type "KiCad")(uri "E:/Atelier-Keypad/random-keyboard-parts.pretty")(options "")(descr ""))
   (lib (name "Connector_USB")(type "KiCad")(uri "E:/Atelier-Keypad/kicad-footprints/Connector_USB.pretty")(options "")(descr ""))
+  (lib (name "Type-C")(type "KiCad")(uri "E:/Atelier-Keypad/Type-C.pretty")(options "")(descr ""))
 )
