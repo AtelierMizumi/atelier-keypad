@@ -11,7 +11,7 @@
     (via_costs 50)
     (plane_via_costs 5)
     (start_ripup_costs 100)
-    (start_pass_no 11709)
+    (start_pass_no 5308)
     (layer_rule F.Cu
       (active on)
       (preferred_direction horizontal)
@@ -26,9 +26,9 @@
     )
   )
   (rule
-    (width 100.0)
+    (width 150.0)
     (clear 200.2)
-    (clear 50.0 (type smd_to_turn_gap))
+    (clear 75.0 (type smd_to_turn_gap))
     (clear 50.0 (type smd_smd))
   )
   (padstack "Via[0-1]_600:300_um"
@@ -77,18 +77,18 @@
     Power "Via[0-1]_800:400_um-Power"
   )
   (class default
-    GND "Net-(C2-Pad2)" "Net-(C3-Pad2)" ROW1 ROW2 "Net-(D2-Pad2)" VCC COL1
-    COL2 COL3 "D-" "Net-(R1-Pad2)" D+ "Net-(R2-Pad2)" "Net-(R3-Pad1)" "unconnected-(U1-Pad1)"
-    "unconnected-(U1-Pad8)" "unconnected-(U1-Pad9)" "unconnected-(U1-Pad10)" D11 "unconnected-(U1-Pad12)" "unconnected-(U1-Pad11)" "unconnected-(U1-Pad28)" "unconnected-(U1-Pad29)"
-    "unconnected-(U1-Pad41)" ROW3 "unconnected-(U1-Pad25)" "Net-(D17-Pad2)" D12 "unconnected-(U1-Pad31)" "unconnected-(U1-Pad32)" "unconnected-(U1-Pad36)"
-    "unconnected-(U1-Pad37)" "unconnected-(U1-Pad38)" "unconnected-(U1-Pad39)" "unconnected-(U1-Pad40)" "unconnected-(U1-Pad42)" D21 RGB "Net-(D18-Pad2)"
-    "Net-(D19-Pad2)" "unconnected-(U1-Pad30)" "unconnected-(USB1-Pad9)" "unconnected-(USB1-Pad3)" "Net-(C6-Pad2)" "Net-(D2-Pad4)" "Net-(D11-Pad2)" "Net-(D12-Pad2)"
-    "Net-(D13-Pad2)" "Net-(R4-Pad2)" "Net-(R5-Pad2)" "Net-(R6-Pad1)" "Net-(MX1-Pad3)" "Net-(MX2-Pad3)" "Net-(MX4-Pad3)" "Net-(MX5-Pad3)"
-    "unconnected-(MX6-Pad3)" "Net-(D21-Pad2)" "Net-(D22-Pad2)" "Net-(D23-Pad2)" "Net-(D31-Pad2)" "Net-(D32-Pad2)" "Net-(D33-Pad2)" "Net-(D9-Pad4)"
+    "Net-(C2-Pad2)" "Net-(C3-Pad2)" ROW1 ROW2 "Net-(D2-Pad2)" COL1 COL2 COL3
+    "D-" "Net-(R1-Pad2)" D+ "Net-(R2-Pad2)" "Net-(R3-Pad1)" "unconnected-(U1-Pad1)" "unconnected-(U1-Pad8)" "unconnected-(U1-Pad9)"
+    "unconnected-(U1-Pad10)" D11 "unconnected-(U1-Pad12)" "unconnected-(U1-Pad11)" "unconnected-(U1-Pad28)" "unconnected-(U1-Pad29)" "unconnected-(U1-Pad41)" ROW3
+    "unconnected-(U1-Pad25)" "Net-(D17-Pad2)" D12 "unconnected-(U1-Pad31)" "unconnected-(U1-Pad32)" "unconnected-(U1-Pad36)" "unconnected-(U1-Pad37)" "unconnected-(U1-Pad38)"
+    "unconnected-(U1-Pad39)" "unconnected-(U1-Pad40)" "unconnected-(U1-Pad42)" D21 RGB "Net-(D18-Pad2)" "Net-(D19-Pad2)" "unconnected-(U1-Pad30)"
+    "unconnected-(USB1-Pad9)" "unconnected-(USB1-Pad3)" "Net-(C6-Pad2)" "Net-(D2-Pad4)" "Net-(D11-Pad2)" "Net-(D12-Pad2)" "Net-(D13-Pad2)" "Net-(R4-Pad2)"
+    "Net-(R5-Pad2)" "Net-(R6-Pad1)" "Net-(MX1-Pad3)" "Net-(MX2-Pad3)" "Net-(MX4-Pad3)" "Net-(MX5-Pad3)" "unconnected-(MX6-Pad3)" "Net-(D21-Pad2)"
+    "Net-(D22-Pad2)" "Net-(D23-Pad2)" "Net-(D31-Pad2)" "Net-(D32-Pad2)" "Net-(D33-Pad2)" "Net-(D9-Pad4)"
     (clearance_class default)
     (via_rule default)
     (rule
-      (width 100.0)
+      (width 150.0)
     )
     (circuit 
       (use_layer F.Cu B.Cu)
@@ -98,18 +98,18 @@
     (clearance_class "kicad_default")
     (via_rule kicad_default)
     (rule
-      (width 100.0)
+      (width 150.0)
     )
     (circuit 
       (use_layer F.Cu B.Cu)
     )
   )
   (class Power
-    +5V
+    +5V GND
     (clearance_class Power)
     (via_rule Power)
     (rule
-      (width 150.0)
+      (width 300.0)
     )
     (circuit 
       (use_layer F.Cu B.Cu)
