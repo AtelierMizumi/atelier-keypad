@@ -38,18 +38,18 @@
             152230 -60325  152323 -60124.4  152381 -59910.5  152400 -59690
             152400 -54610  162560 -54610  162560 -59690)
     )
-    (keepout "" (polygon signal 0  160568 -88700  160568 -91700  163968 -91700  163968 -88700
-            160568 -88700))
-    (keepout "" (polygon signal 0  141518 -88700  141518 -91700  144918 -91700  144918 -88700
-            141518 -88700))
-    (keepout "" (polygon signal 0  179618 -88637.5  179618 -91637.5  183018 -91637.5  183018 -88637.5
-            179618 -88637.5))
-    (keepout "" (polygon signal 0  170093 -69650  170093 -72650  173493 -72650  173493 -69650
-            170093 -69650))
-    (keepout "" (polygon signal 0  151043 -69650  151043 -72650  154443 -72650  154443 -69650
-            151043 -69650))
-    (keepout "" (polygon signal 0  131993 -69587.5  131993 -72587.5  135393 -72587.5  135393 -69587.5
-            131993 -69587.5))
+    (keepout "" (polygon signal 0  141175 -88065  141175 -91065  144575 -91065  144575 -88065
+            141175 -88065))
+    (keepout "" (polygon signal 0  179275 -88065  179275 -91065  182675 -91065  182675 -88065
+            179275 -88065))
+    (keepout "" (polygon signal 0  160225 -88065  160225 -91065  163625 -91065  163625 -88065
+            160225 -88065))
+    (keepout "" (polygon signal 0  170385 -69015  170385 -72015  173785 -72015  173785 -69015
+            170385 -69015))
+    (keepout "" (polygon signal 0  132285 -69015  132285 -72015  135685 -72015  135685 -69015
+            132285 -69015))
+    (keepout "" (polygon signal 0  151335 -69015  151335 -72015  154735 -72015  154735 -69015
+            151335 -69015))
     (keepout "" (polygon F.Cu 0  137269 -117732  149350 -120751  150127 -129871  151949 -130969
             152743 -134938  116230 -134931  116230 -112509  133187 -112423
             137269 -117732))
@@ -63,16 +63,16 @@
   )
   (placement
     (component "Cherry MX:Cherry-MX_PCB-Mounted_LTST-A683CEGBW_Kailh_Socket"
-      (place MX6 181317.600000 -95187.500000 front 180.000000 (PN Cherry_MX_Cherry_MX_RGB))
+      (place MX6 180975.000000 -94615.000000 front 180.000000 (PN Cherry_MX_Cherry_MX_RGB))
     )
     (component Button_Switch_THT:SW_PUSH_6mm_H9.5mm
       (place SW2 122505.200000 -96968.800000 front 0.000000 (PN SW_DPST))
     )
     (component "Cherry MX:Cherry-MX_PCB-Mounted_LTST-A683CEGBW_Kailh_Socket::1"
-      (place MX5 162267.600000 -95250.000000 front 180.000000 (PN Cherry_MX_Cherry_MX_RGB))
+      (place MX5 161925.000000 -94615.000000 front 180.000000 (PN Cherry_MX_Cherry_MX_RGB))
     )
     (component "Cherry MX:Cherry-MX_PCB-Mounted_LTST-A683CEGBW_Kailh_Socket::2"
-      (place MX4 143217.600000 -95250.000000 front 180.000000 (PN Cherry_MX_Cherry_MX_RGB))
+      (place MX4 142875.000000 -94615.000000 front 180.000000 (PN Cherry_MX_Cherry_MX_RGB))
     )
     (component Button_Switch_THT:SW_PUSH_6mm_H9.5mm::1
       (place SW3 122505.100000 -105700.000000 front 0.000000 (PN SW_DPST))
@@ -90,16 +90,16 @@
       (place SW1 122505.100000 -88237.500000 front 0.000000 (PN SW_DPST))
     )
     (component "Cherry MX:Cherry-MX_PCB-Mounted_LTST-A683CEGBW_Kailh_Socket::3"
-      (place MX3 171792.600000 -76200.000000 front 180.000000 (PN Cherry_MX_Cherry_MX_RGB))
+      (place MX3 172085.000000 -75565.000000 front 180.000000 (PN Cherry_MX_Cherry_MX_RGB))
     )
     (component "Cherry MX:Cherry-MX_PCB-Mounted_LTST-A683CEGBW_Kailh_Socket::4"
-      (place MX1 133692.600000 -76137.500000 front 180.000000 (PN Cherry_MX_Cherry_MX_RGB))
+      (place MX1 133985.000000 -75565.000000 front 180.000000 (PN Cherry_MX_Cherry_MX_RGB))
     )
     (component "Type-C:HRO-TYPE-C-31-M-12-HandSoldering"
       (place USB1 157505.100000 -53181.300000 front 180.000000 (PN "HRO-TYPE-C-31-M-12"))
     )
     (component "Cherry MX:Cherry-MX_PCB-Mounted_LTST-A683CEGBW_Kailh_Socket::5"
-      (place MX2 152742.600000 -76200.000000 front 180.000000 (PN Cherry_MX_Cherry_MX_RGB))
+      (place MX2 153035.000000 -75565.000000 front 180.000000 (PN Cherry_MX_Cherry_MX_RGB))
     )
     (component LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm
       (place D5 190048.900000 -119380.000000 back 180.000000 (PN SK6812))
@@ -178,7 +178,7 @@
       (place C11 189550.000000 -123825.000000 back 180.000000 (PN 100nF))
     )
     (component "Diode_SMD:D_SOD-123::5"
-      (place D22 162560.000000 -105410.000000 back 180.000000 (PN "SOD-123"))
+      (place D22 162560.000000 -105410.000000 back 0.000000 (PN "SOD-123"))
     )
     (component Capacitor_SMD:C_0805_2012Metric::10
       (place C13 162560.000000 -71120.000000 back 270.000000 (PN 100nF))
@@ -208,13 +208,13 @@
       (place D12 143510.000000 -83820.000000 back 270.000000 (PN "SOD-123"))
     )
     (component "random-keyboard-parts:SKQG-1155865"
-      (place SW4 143510.000000 -114300.000000 back 0.000000 (PN RESET))
+      (place SW4 143510.000000 -113030.000000 back 0.000000 (PN RESET))
     )
     (component Resistor_SMD:R_0805_2012Metric::6
       (place R3 189230.000000 -114300.000000 back 0.000000 (PN 10k))
     )
     (component "Package_TO_SOT_SMD:SOT-143_Handsoldering"
-      (place U2 184150.000000 -83820.000000 back 180.000000 (PN PRTR5V0U2X))
+      (place U2 184785.000000 -83185.000000 back 180.000000 (PN PRTR5V0U2X))
     )
     (component Capacitor_SMD:C_0805_2012Metric::13
       (place C16 181610.000000 -71120.000000 back 270.000000 (PN 100nF))
@@ -297,28 +297,28 @@
       (pin Round[A]Pad_2000_um (rotate 90) 2@1 6500 -4500)
     )
     (image "Cherry MX:Cherry-MX_PCB-Mounted_LTST-A683CEGBW_Kailh_Socket::1"
-      (outline (path signal 120  -2000 -3250  -2000 -3550))
-      (outline (path signal 120  -1700 -3250  -2000 -3250))
-      (outline (path signal 120  -7800 -7800  -7800 7800))
-      (outline (path signal 120  -7800 7800  7800 7800))
-      (outline (path signal 120  7800 -7800  7800 7800))
       (outline (path signal 120  7800 -7800  -7800 -7800))
-      (pin Rect[B]Pad_1800x900_um 1 -2600 -4300)
-      (pin Rect[B]Pad_1800x900_um 2 -2600 -5800)
-      (pin Rect[B]Pad_1800x900_um 3 2600 -4300)
-      (pin Rect[B]Pad_1800x900_um 4 2600 -5800)
-      (pin Rect[B]Pad_2550x2500_um 5 -7410 2540)
+      (outline (path signal 120  7800 -7800  7800 7800))
+      (outline (path signal 120  -7800 7800  7800 7800))
+      (outline (path signal 120  -7800 -7800  -7800 7800))
+      (outline (path signal 120  -1700 -3250  -2000 -3250))
+      (outline (path signal 120  -2000 -3250  -2000 -3550))
       (pin Rect[B]Pad_2550x2500_um 6 6015 5080)
-      (keepout "" (circle F.Cu 1700 5080 0))
-      (keepout "" (circle B.Cu 1700 5080 0))
-      (keepout "" (circle F.Cu 3000 2540 5080))
-      (keepout "" (circle B.Cu 3000 2540 5080))
-      (keepout "" (circle F.Cu 4000))
-      (keepout "" (circle B.Cu 4000))
-      (keepout "" (circle F.Cu 1700 -5080 0))
-      (keepout "" (circle B.Cu 1700 -5080 0))
+      (pin Rect[B]Pad_2550x2500_um 5 -7410 2540)
+      (pin Rect[B]Pad_1800x900_um 4 2600 -5800)
+      (pin Rect[B]Pad_1800x900_um 3 2600 -4300)
+      (pin Rect[B]Pad_1800x900_um 2 -2600 -5800)
+      (pin Rect[B]Pad_1800x900_um 1 -2600 -4300)
       (keepout "" (circle F.Cu 3000 -3810 2540))
       (keepout "" (circle B.Cu 3000 -3810 2540))
+      (keepout "" (circle F.Cu 1700 -5080 0))
+      (keepout "" (circle B.Cu 1700 -5080 0))
+      (keepout "" (circle F.Cu 4000))
+      (keepout "" (circle B.Cu 4000))
+      (keepout "" (circle F.Cu 3000 2540 5080))
+      (keepout "" (circle B.Cu 3000 2540 5080))
+      (keepout "" (circle F.Cu 1700 5080 0))
+      (keepout "" (circle B.Cu 1700 5080 0))
     )
     (image "Cherry MX:Cherry-MX_PCB-Mounted_LTST-A683CEGBW_Kailh_Socket::2"
       (outline (path signal 120  -1700 -3250  -2000 -3250))
