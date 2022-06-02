@@ -11,7 +11,7 @@
     (via_costs 50)
     (plane_via_costs 5)
     (start_ripup_costs 100)
-    (start_pass_no 6748)
+    (start_pass_no 6072)
     (layer_rule F.Cu
       (active on)
       (preferred_direction horizontal)
@@ -84,7 +84,7 @@
     "unconnected-(U1-Pad39)" "unconnected-(U1-Pad40)" "unconnected-(U1-Pad42)" D21 RGB "Net-(D18-Pad2)" "Net-(D19-Pad2)" "unconnected-(U1-Pad30)"
     "unconnected-(USB1-Pad9)" "unconnected-(USB1-Pad3)" "Net-(C6-Pad2)" "Net-(D2-Pad4)" "Net-(D11-Pad2)" "Net-(D12-Pad2)" "Net-(D13-Pad2)" "Net-(R4-Pad2)"
     "Net-(R5-Pad2)" "Net-(R6-Pad1)" "Net-(MX1-Pad3)" "Net-(MX2-Pad3)" "Net-(MX4-Pad3)" "Net-(MX5-Pad3)" "unconnected-(MX6-Pad3)" "Net-(D21-Pad2)"
-    "Net-(D22-Pad2)" "Net-(D23-Pad2)" "Net-(D31-Pad2)" "Net-(D32-Pad2)" "Net-(D33-Pad2)" "Net-(D9-Pad4)"
+    "Net-(D22-Pad2)" "Net-(D23-Pad2)" "Net-(D31-Pad2)" "Net-(D32-Pad2)" "Net-(D33-Pad2)" "Net-(D14-Pad2)"
     (clearance_class default)
     (via_rule default)
     (rule
