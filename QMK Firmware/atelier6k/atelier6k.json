@@ -1,0 +1,27 @@
+[
+    {
+    "name": "atelier6k",
+    "author": "Tran Minh Thuan",
+    "manufacturer": "Tran Minh Thuan",
+    "notes": "rate 1 phan tram get go dude",
+    "vendorId": "0xFEED",
+    "productId": "0x6060",
+    "device_version": "0.0.1",
+    "url": "",
+    "matrix": {
+      "rows": "3",
+      "cols": "3"
+    },
+    "layouts": {
+      "LAYOUT": {
+        "layout": [
+          [{"x":0.25},"K00","K01","K02"],
+          [{"x":0.75},"K10","K11","K12"],
+          [{"y":-0.5,"w":0.5,"h":0.5},"K20"],
+          [{"y":-0.5,"w":0.5,"h":0.5},"K21"],
+          [{"y":-0.5,"w":0.5,"h":0.5},"K22"]
+        ]
+      }
+    }
+  } 
+]

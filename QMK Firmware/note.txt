@@ -1,0 +1,5 @@
+Để tự compile cái firmware này:
+#1 Copy paste "atelier6k" vào mục keyboards của nơi chứa QMK Firmware
+# Vào QMK MSYS gõ qmk compile -kb atelier6k -km default
+
+Nếu biết tự làm firmware rồi, chắc không cần chỉ dẫn thêm. Good Luck!
