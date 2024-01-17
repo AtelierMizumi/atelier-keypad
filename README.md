@@ -1,61 +1,33 @@
-﻿# Atelier6K
+﻿# Atelier6K Keypad Project
+The Atelier6K is a 6 keys keypad with 3 additional button designed for playing osu! or to be used as small macropad
++ Hotswapable
++ Per switch RGB + Bottom Case RGB
++ Acrylic Case
++ QMK Firmware with VIA compable (Keybinding, Light Control ...)
 
-### Side project
+# Preview images
 
-
-Keypad chủ yếu để bấm osu hoặc làm macro pad, feature bao gồm:
-
-Atmega32u4 controller
-
-6 Switch bấm chính + 3 nút phụ
-
-RGB Led lủng lung linh, có 6 led mỗi switch, 4 góc có 4 led làm đèn gầm, phất lên + case mica khói ở đáy
-
-Case Mica làm chủ đạo
-
-Feet cao su when
-
-Ốc M2 general shits
-
-Ác mộng USB-C
-
-Chỉnh màu mè keybind qua phần mềm VIA cho dễ dùng
-
-
-# Một số Hình ảnh xem trước
-
-## Mặt trước PCB
+## PCB front view
 
 <img src="https://cdn.discordapp.com/attachments/814127567699181609/982276721074118706/unknown.png">
 
 
-## Mặt sau
+## PCB back view
 
 <img src="https://cdn.discordapp.com/attachments/814127567699181609/982276748978831400/unknown.png">
 
-## Case Drawing
+## Case
 
 <img src="https://cdn.discordapp.com/attachments/814127567699181609/982274844605444166/unknown.png">
 
-Vẫn chưa hoàn toàn là sản phẩm cuối, lười update hình lắm
++ 7$: Fuse, Led, Switch, Bolts, Keycap, USB C Female connector, Rubber Feet
++ 5$: Atmega32u4
++ 5$: Acrylic Case
++ 3$: PCB printing
++ 2$: USB Cable
 
-+ 165k: linh kiện: điện trở, tụ, led gầm, led switch, switch, keycap, ốc vít, cổng usb c female, feet cao su chống trượt 
+$40 to be expected
 
-+ 105k: atmega controller
-
-+ 120k: cắt case mica, chắc in hình signature lên thêm đẹp
-
-+ 60k: in pcb
-
-+ 40k: chỉ riêng dây usb-c 2 mét lmao
-
-
-Tong chi phi toi thieu 500k 1 keypad
-
-Chi phí sau khi optimize cost, chắc không thể optimize nữa, batch đầu target 10 cái là vào việc
-
-Phí phát sinh: idk 
-
-# sketch tay dep nhat
+# Sketch
 
 <img src="https://cdn.discordapp.com/attachments/814127567699181609/980171661036879872/unknown.png">
