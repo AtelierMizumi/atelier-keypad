@@ -1,0 +1,27 @@
+# KiCad
+*-backups/
+fp-info-cache
+*.kicad_prl
+*.lck
+*-bak
+_autosave-*
+~*.lck
+# QMK build output (only the released .hex is tracked)
+firmware/build/*
+!firmware/build/*.uf2
+# CAD / Blender scratch
+*.blend1
+*.bak
+*.dwl
+*.dwl2
+plot.log
+hardcopy.log
+# Editors / OS
+.vscode/
+.DS_Store
+Thumbs.db
+__pycache__/
+.pytest_cache/
+# Generated documents are never committed
+*.pdf
+.pytest_cache/
