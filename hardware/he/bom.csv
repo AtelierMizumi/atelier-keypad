@@ -1,0 +1,22 @@
+group,ref,qty,part,package,source,unit_usd_low_qty,confidence,note
+mcu,U1,1,ARTERY AT32F405CCT7,LQFP-48,LCSC (search AT32F405),2.00,estimate,"HS USB with internal PHY, 12-bit 2 Msps ADC; no listing price found, AT32F407RCT7 is 2.95 at 1 pc on LCSC"
+mcu,Y1,1,12 MHz crystal 3225,SMD3225,LCSC,0.10,estimate,HS USB needs a crystal; check the AT32F405 clock tree for the required frequency
+mcu,C,2,"20 pF load caps",0402,LCSC,0.01,estimate,
+power,U2,1,"LP5907-3.3 low-noise LDO",SOT-23-5,LCSC,0.20,estimate,"Analog rail for sensors and ADC; separate from LED 5 V"
+power,F1,1,"Polyfuse 500 mA hold",1206,LCSC,0.05,estimate,As rev 1
+power,D1,1,USBLC6-2SC6 ESD,SOT-23-6,LCSC,0.10,estimate,
+power,J1,1,USB-C 16-pin receptacle,SMD,LCSC,0.15,estimate,
+power,R,2,5.1 kOhm CC pull-downs,0402,LCSC,0.01,estimate,
+sense,U10-U15,6,Nanjing Ouzhuo OH49E-S linear Hall,SOT-23,LCSC C85573,0.23,found,"0.2349 at 5+, 0.1232 at 3000+; pinout to check"
+sense,U10-U15 alt,6,TI DRV5056A3 linear Hall (unipolar),SOT-23,TI / LCSC,0.60,estimate,"Option: 1.6x the span of the 49E in the model; same footprint only if pinouts agree"
+sense,C,6,100 nF per sensor,0402,LCSC,0.005,estimate,
+light,D20-D29,10,SK6812MINI-E,3228 reverse,LCSC C5149201,0.08,estimate,As rev 1; pinout check carried over
+light,U3,1,74AHCT1G125,SOT-23-5,LCSC,0.10,estimate,
+input,SW1-SW3,3,Tact switch 6x6,SMD,LCSC,0.03,estimate,The three side buttons stay digital
+passives,misc,1,"Decoupling, pull-ups, LED caps",0402,LCSC,0.40,estimate,
+switches,SW10-SW15,6,Gateron Magnetic Jade (KS-20 family),plate mount,mechanicalkeyboards.com,0.46,found,"0.46 to 0.80 depending on vendor"
+pcb,PCB,1,"2-layer FR4 1.6 mm, 81 x 74 mm",,JLCPCB,0.40,estimate,"5 boards for about 2 USD plus shipping"
+plate,PLATE,1,"FR4 1.6 mm switch plate",,JLCPCB,0.40,estimate,Ordered as a second PCB design
+case,CASE,1,"Laser-cut cast acrylic (base, two frames)",,local laser shop,6.00,estimate,"Translucent blue for the look; price varies most by shop"
+keycaps,KC,6,"1u keycaps",,any,0.35,estimate,
+hardware,M3,4,"M3 x 14 screws, nuts, washers",,any,0.10,estimate,
