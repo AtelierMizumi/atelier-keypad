@@ -7,8 +7,9 @@ The PCB is inside the case, not a layer of the sandwich:
      4.5  cover      2 mm translucent blue acrylic: switch, button and screw holes only
      2.5  gasket     0.5 mm EVA foam ring, closes the seam under the cover
      2.0  spacer     2 mm ring; a 1.2 mm ledge and screw lugs clamp the board edge from above
-     0.0  pcb-ring   2 mm ring around the board edge, 0.25 mm clearance
-    -2.0  lower-wall 5 mm ring; a 1.2 mm ledge (with a 0.4 mm gasket) carries the board
+     0.0  pcb-ring   2 mm ring around the 1.2 mm board edge, 0.25 mm clearance
+    -2.0  lower-wall 5 mm ring; a 1.2 mm ledge carries the board on a 1.0 mm EVA strip
+                     squeezed to 0.8 mm
     -7.0  base       3 mm clear acrylic: nut pockets, BOOT hole
    -10.0
 
@@ -53,6 +54,8 @@ USB_SLOT = 13.0
 TILT_DEG = 6.0
 FRONT_FOOT = 1.0
 SCREW_LENGTHS = (10, 12, 14, 16)
+UNDER_GASKET = 1.0              # EVA strip on the lower ledge, under the board edge
+UNDER_GASKET_COMPRESSED = 0.8   # squeezed 20 % when the screws are tight
 
 
 @dataclass
@@ -133,15 +136,17 @@ def design() -> Case:
                                         for a in range(0, 360, 60)]))
     base = base.difference(Point(boot).buffer(BOOT_HOLE / 2, quad_segs=ARC))
 
+    lower_top = -(circuit.THICKNESS + UNDER_GASKET_COMPRESSED)   # PCB top is z = 0
+    ring_t = round(-lower_top, 3)                                # the ring fills board + strip
     stack = [
         ("base", 3.0, base, "clear", "Base", "3 mm clear acrylic; nut pockets, BOOT hole"),
         ("lower-wall", 5.0, lower_wall, "blue", "Lower wall", "5 mm blue acrylic; ledge carries the board"),
-        ("pcb-ring", 2.0, pcb_ring, "blue", "Board ring", "2 mm blue acrylic around the board edge"),
+        ("pcb-ring", ring_t, pcb_ring, "blue", "Board ring", "2 mm blue acrylic around the board edge"),
         ("spacer", 2.0, spacer, "blue", "Spacer", "2 mm blue acrylic; ledge clamps the board"),
         ("gasket", 0.5, spacer, "eva", "Gasket", "0.5 mm EVA foam, seals the cover"),
         ("cover", 2.0, _single(cover), "blue", "Cover", "2 mm translucent blue; the only top surface"),
     ]
-    z = -2.0 - 5.0 - 3.0
+    z = lower_top - 5.0 - 3.0
     layers = []
     for name, t, shape, material, label, sub in stack:
         layers.append(Layer(name, t, z, shape, material, label, sub))
@@ -189,7 +194,7 @@ def write_model(case: Case, path: Path) -> Path:
         "generic": True, "units": "mm",
         "origin": "board centre, PCB top surface at z = 0, +Y towards the USB edge",
         "pcb": {"thickness": circuit.THICKNESS, "outline": rings(case.pcb)[0], "kicad_centre": [cx, cy], "order": 0.0,
-                "label": "PCB", "sub": "1.6 mm, coated; sensors under the switches"},
+                "label": "PCB", "sub": f"{circuit.THICKNESS:g} mm, coated; sensors on the underside, under each switch"},
         "layers": layers,
         "switches": [pt(p) for p in case.switches],
         "switch_label": ["Magnetic switches", "3 × Gateron Magnetic Jade, PCB mount"],

@@ -101,10 +101,20 @@ def test_layers_are_stock_materials(case):
 def test_stack_heights(case):
     z = {l.name: (l.z0, l.z0 + l.thickness) for l in case.layers}
     assert z["pcb-ring"] == pytest.approx((-2.0, 0.0))
-    assert z["lower-wall"][1] == pytest.approx(-2.0)            # 0.4 mm gasket under the 1.6 mm PCB
+    # the board's underside sits on the compressed EVA strip that lies on the lower ledge
+    assert z["lower-wall"][1] == pytest.approx(-g.circuit.THICKNESS - g.UNDER_GASKET_COMPRESSED)
     assert z["cover"][1] <= 5.0                                 # under the MX plate line
     for a, b in zip(case.layers, case.layers[1:]):
         assert b.z0 == pytest.approx(a.z0 + a.thickness), (a.name, b.name)
+
+
+def test_board_is_clamped_between_gaskets(case):
+    # Lower ledge top to spacer ledge bottom: the board plus the EVA strip under its edge,
+    # a 1.0 mm sheet squeezed to 0.8 mm. Too wide and the board rattles; too tight and it bows.
+    lower_top = case.layer("lower-wall").z0 + case.layer("lower-wall").thickness
+    spacer_bottom = case.layer("spacer").z0
+    assert g.UNDER_GASKET == pytest.approx(1.0) and g.UNDER_GASKET_COMPRESSED == pytest.approx(0.8)
+    assert spacer_bottom - lower_top == pytest.approx(g.circuit.THICKNESS + 0.8, abs=0.2)
 
 
 def test_feet_give_a_6_degree_typing_angle(case):
