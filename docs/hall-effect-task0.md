@@ -4,6 +4,10 @@ Task 0 of the [build plan](superpowers/plans/2026-11-14-atelier6k-he.md).
 Goal: know the real total before spending anything, and buy only what Task 1
 (the bench test) needs first.
 
+> Superseded for buying by [build/sourcing-vn.md](build/sourcing-vn.md) and
+> [build/ordering.md](build/ordering.md): the PCB now comes from a Vietnamese
+> fab (CXT / SmartPCB88), and the chips from one China order through an agency.
+
 ## Done at the desk (14 Nov 2026)
 
 | Check | Result | Source |
