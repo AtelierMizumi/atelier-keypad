@@ -1,22 +1,22 @@
 group,item,qty,unit_vnd_low,unit_vnd_high,plan_vnd,where,confidence,note
 lcsc,ARTERY AT32F405CCT7 (LQFP-48),1,45000,80000,55000,LCSC,estimate,"No listing price found; AT32F407RCT7 is 2.95 USD at 1 pc on LCSC"
 lcsc,TI DRV5056A4QDBZR linear Hall (SOT-23),4,12000,25000,16000,LCSC,estimate,"3 + 1 spare; pinout 1 VCC 2 OUT 3 GND (TI SBAS644)"
-lcsc,LP5907MFX-3.3 LDO (SOT-23-5),2,4000,8000,5000,LCSC,estimate,
+lcsc,LP5907MFX-3.3 LDO (SOT-23-5),2,4000,8000,5000,LCSC,estimate,"1 used + 1 spare; a ferrite bead splits off the analog rail"
 lcsc,USB-C 16-pin receptacle,2,3000,6000,4000,LCSC,estimate,
 lcsc,USBLC6-2SC6 ESD,2,2000,5000,3000,LCSC,estimate,
 lcsc,Polyfuse 500 mA 1206,2,1000,3000,2000,LCSC,estimate,
-lcsc,Crystal for HS USB (3225),2,2500,6000,3000,LCSC,estimate,Frequency per the AT32F405 clock tree
+lcsc,Crystal 12 MHz (3225),2,2500,6000,3000,LCSC,estimate,"The OTGHS PHY only runs from a 12 MHz HEXT (datasheet 2.13.6)"
 lcsc,SK6812MINI-E,10,2000,3000,2200,LCSC C5149201,estimate,7 used; pinout check carried over from rev 1
 lcsc,74AHCT1G125 (SOT-23-5),2,2000,4000,2500,LCSC,estimate,
-lcsc,Tact switch 6x6 SMD,5,500,1500,800,LCSC,estimate,
-lcsc,"Passives: 0402 R/C, 1 MOhm, 4.7 nF, 10 uF",1,25000,45000,30000,LCSC,estimate,Minimum quantities dominate
+lcsc,"Tact switches: 2 x 6x6 THT 7.3 mm (Esc, retry), 1 x TL3342 (BOOT)",3,800,2500,1500,LCSC,estimate,
+lcsc,"Passives: 0603 R/C, 12k 1%, 1 MOhm, 4.7 nF, 18 pF, 0402 5.1k, 600R ferrite",1,25000,45000,30000,LCSC,estimate,Minimum quantities dominate
 ship,LCSC shipping to Vietnam,1,0,400000,0,LCSC,unknown,"Plan: merge into the JLCPCB parcel; if LCSC ships alone, budget breaks (see Plan B)"
-jlc,"PCB 2-layer 1.6 mm, about 80 x 50 mm, 5 pcs",1,53000,60000,53000,JLCPCB,found,"2 USD for 5 boards under 100 x 100 mm"
+jlc,"PCB 2-layer 1.6 mm, 76 x 70 mm, 5 pcs",1,53000,60000,53000,JLCPCB,found,"2 USD for 5 boards under 100 x 100 mm"
 ship,JLCPCB shipping to Vietnam (PCB + LCSC parts),1,130000,320000,200000,JLCPCB,unknown,Check on the quote page with your address
 local,Gateron Magnetic Jade PCB-mount,4,12000,25000,18000,Shopee / local keyboard shop,estimate,"3 + 1 spare; 0.46-0.80 USD abroad"
 local,Keycaps 1u,4,8000,15000,10000,Shopee,estimate,
-local,"Acrylic laser cut: base, walls, top cover (3 mm)",1,100000,200000,140000,Local laser shop,estimate,Send DXF; price by sheet area and cut length
-local,EVA / silicone foam gasket tape 1 mm,1,15000,30000,20000,Shopee,estimate,
-local,"Nylon M3 screws, nuts, rubber feet",1,20000,40000,30000,Shopee / hardware store,estimate,
+local,"Acrylic laser cut: 5 pieces about 84 x 78 mm (3, 5, 2, 2, 2 mm)",1,100000,220000,150000,Local laser shop,estimate,"DXF in case/dxf-he; blue translucent for walls and cover, clear base"
+local,EVA foam gasket 0.5 mm (sheet or tape),1,15000,30000,20000,Shopee,estimate,"Cut to the spacer outline; 0.4 mm strips under the board edge"
+local,"Nylon M3 x 14 screws and nuts, rubber feet 1 mm (front) and 7.5 mm (rear)",1,20000,40000,30000,Shopee / hardware store,estimate,
 local,Conformal coating (acrylic),1,60000,150000,90000,Shopee / electronics shop,estimate,"e.g. CRC Plastik 70 or a PCB coating bottle"
 local,Flux for LQFP soldering,1,0,40000,25000,Electronics shop,estimate,Skip if you have it

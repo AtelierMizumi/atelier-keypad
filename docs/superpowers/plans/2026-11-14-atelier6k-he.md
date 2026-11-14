@@ -78,7 +78,7 @@ Gate: chosen sensor's measured RT floor ≤ 0.05 mm at the top of the stroke. If
 
 Gate: shift ≤ 0.05 mm, or a per-key linear compensation (victim −= k × aggressor travel) that brings it under 0.05 mm in the data.
 
-### Task 3: Circuit as code
+### Task 3: Circuit as code — done 14 Nov 2026 (19 tests, ERC 0; see docs/rev2-board.md)
 
 **Files:**
 - Create: `hardware/he/circuit.py`, `hardware/he/tests/test_circuit.py`, `hardware/he/tests/conftest.py`
@@ -118,7 +118,7 @@ Gate: shift ≤ 0.05 mm, or a per-key linear compensation (victim −= k × aggr
 - [ ] **Step 5:** WS2812 by DMA, triggered from the end-of-scan hook; "performance" profile disables it.
 - [ ] **Step 6:** Commit: `feat(he): libhmk board, LED driver, host tests`
 
-### Task 5: PCB
+### Task 5: PCB — done 14 Nov 2026 (7 layout tests, DRC 0, 0 unconnected)
 
 **Files:**
 - Create: `hardware/he/gen_pcb.py`, `hardware/he/route.py` (adapted from rev 1), `hardware/he/tests/test_layout.py`
@@ -127,7 +127,7 @@ Gate: shift ≤ 0.05 mm, or a per-key linear compensation (victim −= k × aggr
 - [ ] **Step 2:** Run → FAIL. **Step 3:** Place and route. **Step 4:** PASS; DRC 0 errors, 0 unconnected.
 - [ ] **Step 5:** Commit.
 
-### Task 6: Sealed case with a 6° wedge
+### Task 6: Sealed case with a 6° wedge — done 14 Nov 2026 (14 tests; the wedge became taller rear feet)
 
 **Files:**
 - Create: `case/generate_he.py` (reuses `case/generate.py` geometry helpers), `case/tests/test_case_he.py`

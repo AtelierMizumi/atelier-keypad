@@ -1,0 +1,5 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "local")(type "KiCad")(uri "${KIPRJMOD}/../libs/local")(options "")(descr "Atelier project footprints"))
+  (lib (name "he_art")(type "KiCad")(uri "${KIPRJMOD}/art")(options "")(descr "Rev 2 art"))
+)

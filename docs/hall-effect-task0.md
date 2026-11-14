@@ -16,7 +16,7 @@ Goal: know the real total before spending anything, and buy only what Task 1
 | AT32F405 dev board | None found for sale (WeAct sells AT32F403A, not F405) | search, Nov 2026 |
 | AT32F405 price | Not found; estimated 45–80k VND from the AT32F407 (2.95 USD) | [LCSC AT32F407RCT7](https://lcsc.com/product-detail/Microcontrollers-MCU-MPU-SOC_ARTERY-AT32F407RCT7_C528443.html) |
 | JLCPCB, 5 boards ≤ 100 × 100 mm | 2 USD; shipping depends on address, seen only at checkout | [JLCPCB shipping](https://jlcpcb.com/help/article/how-much-does-shipping-cost) |
-| Budget | Planned 884,000 VND; best 627,500; worst 1,726,500 | `hardware/he/bom.csv` |
+| Budget | Planned 894,500 VND; best 627,400; worst 1,746,500 | `hardware/he/bom.csv` |
 
 ## Needs you (10 minutes, no money spent)
 

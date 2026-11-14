@@ -1,0 +1,214 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-11-14T12:23:58",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.8",
+    "schematic_parity": [],
+    "source": "atelier-he.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Segment on Edge.Cuts",
+                    "pos": {
+                        "x": 64.0,
+                        "y": 82.0
+                    },
+                    "uuid": "53e7767c-e42e-4fcf-bb74-9cf96e5a1488"
+                },
+                {
+                    "description": "Segment of J1 on B.Silkscreen",
+                    "pos": {
+                        "x": 95.3,
+                        "y": 82.5
+                    },
+                    "uuid": "ecb35e7b-160e-491f-b4ec-5856877db718"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Segment on Edge.Cuts",
+                    "pos": {
+                        "x": 64.0,
+                        "y": 82.0
+                    },
+                    "uuid": "53e7767c-e42e-4fcf-bb74-9cf96e5a1488"
+                },
+                {
+                    "description": "Segment of J1 on B.Silkscreen",
+                    "pos": {
+                        "x": 104.7,
+                        "y": 82.5
+                    },
+                    "uuid": "9cb1e59f-bd29-486b-b54b-677d903340b5"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0.8000 mm; actual 0.7000 mm)",
+            "items": [
+                {
+                    "description": "PCB text 'BOOT: hold while plugging in' on B.Silkscreen",
+                    "pos": {
+                        "x": 122.0,
+                        "y": 91.5
+                    },
+                    "uuid": "9cd975cc-f508-4983-9769-20b65e5ac8ac"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Reference field of TP3",
+                    "pos": {
+                        "x": 123.5,
+                        "y": 85.552
+                    },
+                    "uuid": "dad7d063-6c11-4469-a0a6-fe3335abfd42"
+                },
+                {
+                    "description": "Reference field of TP2",
+                    "pos": {
+                        "x": 121.0,
+                        "y": 85.552
+                    },
+                    "uuid": "e10fc662-16a1-4d8c-8fcc-cd7513c3b80c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "PCB text 'BOOT: hold while plugging in' on B.Silkscreen",
+                    "pos": {
+                        "x": 122.0,
+                        "y": 91.5
+                    },
+                    "uuid": "9cd975cc-f508-4983-9769-20b65e5ac8ac"
+                },
+                {
+                    "description": "PTH pad 1 [BTN_SW2] of SW2",
+                    "pos": {
+                        "x": 129.25,
+                        "y": 90.75
+                    },
+                    "uuid": "de296198-2b08-4855-95cf-e0653fa2110d"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "PCB text 'BOOT: hold while plugging in' on B.Silkscreen",
+                    "pos": {
+                        "x": 122.0,
+                        "y": 91.5
+                    },
+                    "uuid": "9cd975cc-f508-4983-9769-20b65e5ac8ac"
+                },
+                {
+                    "description": "PTH pad 1 [BTN_SW2] of SW2",
+                    "pos": {
+                        "x": 122.75,
+                        "y": 90.75
+                    },
+                    "uuid": "9a77e3c0-61d9-49b1-9f3f-22c3431f3267"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "PCB text 'BOOT: hold while plugging in' on B.Silkscreen",
+                    "pos": {
+                        "x": 122.0,
+                        "y": 91.5
+                    },
+                    "uuid": "9cd975cc-f508-4983-9769-20b65e5ac8ac"
+                },
+                {
+                    "description": "Pad 2 [+3V3] of SW3 on B.Cu",
+                    "pos": {
+                        "x": 118.4,
+                        "y": 92.35
+                    },
+                    "uuid": "7b5d75bc-26aa-436b-a5b6-19bdf35fb350"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "PCB text 'BOOT: hold while plugging in' on B.Silkscreen",
+                    "pos": {
+                        "x": 122.0,
+                        "y": 91.5
+                    },
+                    "uuid": "9cd975cc-f508-4983-9769-20b65e5ac8ac"
+                },
+                {
+                    "description": "Pad 1 [BOOT0] of SW3 on B.Cu",
+                    "pos": {
+                        "x": 114.6,
+                        "y": 92.35
+                    },
+                    "uuid": "c2fecc9f-d460-4996-8a76-74a855bb88a9"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        }
+    ]
+}

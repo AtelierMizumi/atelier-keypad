@@ -35,11 +35,11 @@ Each revision gets its own mark, so a photo tells them apart at a glance:
 |---|---|---|---|
 | Theme | The person who started it | A board written as code | Magnets and the night sea |
 | Art | Your ATRI trace, unchanged | Proposed: the router's own grid: the A* search pattern of one net, printed in tone 1 under the switches | Moon over the sea, with the three magnets' field lines (below) |
-| Where | Top, beside the buttons | Top, between the keys | Bottom, seen through the clear base, lit by the underglow |
+| Where | Top, beside the buttons | Top, between the keys | Top, in the palm area under the clear cover, lit by the underglow |
 | Tones | 1 (silkscreen) | 2 (copper under mask + silkscreen) | 4 |
 | Mask | Green | Black | Blue |
 
-![Rev 2 bottom art, preview on blue mask with ENIG](images/rev2-art-preview.png)
+![Rev 2 art, preview on blue mask with ENIG](images/rev2-art-preview.png)
 
 The rev 2 art is drawn in code (`tools/pcb_art/motif_rev2.py`), so it belongs
 to the project and can be published with it: the moon is bare gold copper
@@ -72,11 +72,10 @@ thinner than 0.3 mm disappears.
 
 | Where | What | How you find it |
 |---|---|---|
-| Under the middle keycap | `00:00` in small slanted digits: the hour that should not exist | Pull the keycap |
-| Bottom, through the base | The moon-and-field-lines art, gold under the cyan underglow | Turn the pad over |
-| Inside the wall layer | The model's field curve, laser-engraved: "6.1 mm → 2.1 mm, 9 → 82 mT" | Open the case |
-| Next to the USB connector | `26.05.2022`, rev 0's first commit | Look closely |
-| On the copper under the magnets | Each sensor footprint carries a tiny gold `N` showing the magnet's pole | Bench work, Task 1 |
+| Under the middle keycap's rim | `00:00` in small slanted digits: the hour that should not exist | Pull the keycap |
+| Palm area, under the cover | The moon-and-field-lines art, gold under the cyan underglow | Rest your hand on it |
+| Inside the wall layer (to engrave) | The model's field curve, laser-engraved: "6.1 mm → 2.1 mm, 9 → 82 mT" | Open the case |
+| Bottom, at the wrist edge | `26.05.2022`, rev 0's first commit | Open the case |
 | Firmware | Hold Esc and retry for 3 s: the underglow sweeps like a tide | Try it |
 | Firmware | Tap faster than 15 presses per second for 2 s and the underglow turns from blue to white until you stop | Stream |
 

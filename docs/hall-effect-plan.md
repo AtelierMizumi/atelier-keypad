@@ -1,6 +1,6 @@
 # Atelier rev 2 (HE): design spec
 
-Status: **designed on paper, nothing built.** Branch `plan/hall-effect`,
+Status: **schematic, board and case designed and checked (ERC 0, DRC 0); nothing built.** See [`rev2-board.md`](rev2-board.md). Branch `plan/hall-effect`,
 November 2026. One unit, for one player, on a budget of **1,000,000 VND**
 (about 38 USD) all-in. Prices marked *estimate* in `hardware/he/bom.csv` were not found in a live listing.
 
@@ -59,7 +59,7 @@ hand, a sealed case, and being open; not on price.
   It is symmetric, so it works for either hand and the board is not lopsided.
 - **Centred.** The board outline is centred on the middle key; the cable exits
   at the far edge, behind the middle key.
-- **6° wedge**, front edge as low as the stack allows. Evidence for any exact
+- **6° typing angle from the feet** (1.0 mm front, 7.5 mm rear), front edge as low as the stack allows. Evidence for any exact
   angle is weak (vendor blogs, forum reports), so the case generator takes the
   angle as a parameter and Task 7 A/B-tests 0° and 6°.
 - **Esc and retry** on two 6 × 6 mm tact buttons at the far corners, where a
@@ -150,8 +150,8 @@ switch's magnet polarity.
 
 ### Look
 
-Translucent blue acrylic walls, a clear base that shows the art on the bottom
-of the PCB, cyan underglow, white keycaps. LEDs: one under each key and four
+Translucent blue acrylic walls and cover, art in the palm area under the clear
+cover, cyan underglow, white keycaps. LEDs: one under each key and four
 underglow (7 in total). Details and easter eggs in [`pcb-art.md`](pcb-art.md).
 
 ## Electrical architecture
@@ -159,14 +159,15 @@ underglow (7 in total). Details and easter eggs in [`pcb-art.md`](pcb-art.md).
 ```
 USB-C ─ USBLC6 ─ polyfuse ─ 5 V ───────────► 74AHCT1G125 ─► 7 × SK6812MINI-E
   shell ─ 1 MΩ ∥ 4.7 nF ─ GND
-                 └─ LP5907 3.3 V (analog) ─► 3 × DRV5056A4 ─► 3 ADC pins ┐
-                 └─ 3.3 V (digital) ───────► AT32F405 (HS USB, crystal) ◄┘
+                 └─ LP5907 3.3 V ─► AT32F405 VDD (HS USB, 12 MHz crystal) ◄─┐
+                                 └─ ferrite ─► +3V3A: VDDA, 3 × DRV5056A4 ─► 3 ADC pins
                                               ▲
                                  2 tact buttons┘ + BOOT pad underneath
 ```
 
-- Sensors and the ADC share one quiet LDO; the sensors are ratiometric, so
-  supply ripple cancels.
+- One LDO; a ferrite bead separates the analog rail (sensors and VDDA). The
+  datasheet requires VDDA at VDD's potential, which rules out a second
+  regulator. The sensors are ratiometric, so supply ripple cancels.
 - LED current returns to the USB ground on its own path.
 - One RC (1 kΩ / 10 nF) per sensor output; ~10 µs, inside the budget.
 - Sensors on the top layer, centred on each switch's magnet axis within 0.1 mm.
@@ -186,9 +187,9 @@ on average.
 
 | | VND |
 |---|---|
-| Planned | **884,000** |
-| Best case | 627,500 |
-| Worst case (LCSC and JLCPCB ship separately, high local prices) | 1,726,500 |
+| Planned | **894,500** |
+| Best case | 627,400 |
+| Worst case (LCSC and JLCPCB ship separately, high local prices) | 1,746,500 |
 
 It fits only if the LCSC parts travel in the JLCPCB parcel and the case is cut
 locally. Shipping is the largest unknown, so Task 0 checks it before anything
