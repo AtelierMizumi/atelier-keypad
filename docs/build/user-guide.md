@@ -15,8 +15,8 @@ rising. USB-C, 8 kHz polling, firmware [libhmk](https://github.com/peppapighs/li
 | Key | Sends |
 |---|---|
 | K1 / K2 / K3 | Z / X / C |
-| Esc | Esc *(not read yet: libhmk scans analog keys only, issue #12)* |
-| Retry | `` ` `` (osu! quick retry) *(same)* |
+| Esc | Esc |
+| Retry | `` ` `` (osu! quick retry: hold it) |
 
 ## Settings
 

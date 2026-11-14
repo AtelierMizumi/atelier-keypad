@@ -93,6 +93,10 @@ Set actuation at 1.2 mm and rapid trigger at 0.10 mm on all keys.
 | Rest a finger on a pressed key for 10 s | no extra presses | | | |
 | Repeat at 0.05 mm | 20/20, no chatter | | | |
 
+Buttons: press Esc and Retry 20 times each in the key tester. Pass when you
+see exactly 20 Esc and 20 `` ` `` presses (the 5 ms debounce swallows contact
+bounce). Esc: ___ / 20. Retry: ___ / 20.
+
 ## 5. Case and sealing
 
 | Check | Pass when |

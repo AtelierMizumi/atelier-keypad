@@ -16,6 +16,10 @@ case "$src" in "$root"/build/fw/src) rm -rf -- "$src" ;; *) echo "refusing to cl
 mkdir -p "$src"
 (cd "$here/libhmk" && git archive HEAD) | tar -x -C "$src"
 cp -r "$here/keyboards/atelier-he" "$src/keyboards/"
+# Esc and Retry as keys (issue #12): our module plus a small patch to libhmk's matrix.c
+cp "$here"/ext/include/*.h "$src/include/"
+cp "$here"/ext/src/*.c "$src/src/"
+patch -p1 --forward --silent -d "$src" < "$here/ext/libhmk-digital-keys.patch"
 
 pio=(pio)
 # libhmk's build scripts import pydantic inside PlatformIO's own Python

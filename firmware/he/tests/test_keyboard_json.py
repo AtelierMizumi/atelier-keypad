@@ -27,7 +27,7 @@ def gpio(pin: str) -> str:
 def test_keyboard_json_is_at32f405_hs_12mhz_three_keys(kb):
     assert kb["hardware"] == {"hse_value": 12_000_000, "driver": "at32f405xx"}
     assert kb["usb"]["port"] == "hs"
-    assert kb["keyboard"]["num_keys"] == 3
+    assert kb["keyboard"]["num_keys"] == 5   # 3 Hall keys + Esc and Retry
 
 
 def test_keyboard_json_adc_pins_match_circuit(kb):
@@ -58,9 +58,9 @@ def test_invert_adc_matches_sensor_polarity(kb):
     assert kb["analog"].get("invert_adc", False) is False
 
 
-def test_default_keymap_is_osu_three_keys(kb):
-    assert kb["keymap"][0] == ["KC_Z", "KC_X", "KC_C"]
-    assert len(kb["layout"]["keymap"]) == 1 and len(kb["layout"]["keymap"][0]) == 3
+def test_default_keymap_puts_osu_on_the_hall_keys(kb):
+    # keys 0-2 are the Hall keys; 3 and 4 are Esc and Retry (issue #12, test_digital_keys.py)
+    assert kb["keymap"][0][:3] == ["KC_Z", "KC_X", "KC_C"]
 
 
 def test_libhmk_is_pinned():
