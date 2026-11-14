@@ -35,17 +35,16 @@
   <nav class="menu" aria-label="Choose a revision">
     <a href="#rev0" data-rev="0"><span class="tag">REV 0</span><span class="note">2022 · ATmega32U4 · the original</span></a>
     <a href="#rev1" data-rev="1"><span class="tag">REV 1</span><span class="note">2026 · RP2040 · generated from code</span></a>
-    <a href="#rev2" data-rev="2"><span class="tag">REV 2</span><span class="note">Planned · 3 Hall keys · rapid trigger</span></a>
+    <a href="#rev2" data-rev="2"><span class="tag">REV 2</span><span class="note">Designed · 3 Hall keys · 8 kHz</span></a>
   </nav>
 
   <div class="show">
     <span class="numeral" aria-hidden="true">0</span>
-    <model-viewer id="model" src="assets/atelier6k.glb?v=merged-1" poster="assets/pcb-iso.png"
+    <model-viewer id="model" src="assets/atelier6k.glb?v=merged-2" poster="assets/pcb-iso.png"
       alt="Interactive 3D model of the selected Atelier6K board"
       camera-controls auto-rotate auto-rotate-delay="1200" rotation-per-second="16deg"
       shadow-intensity="0.7" exposure="0.6" tone-mapping="neutral"
       camera-orbit="30deg 55deg auto" interaction-prompt="none" reveal="auto"></model-viewer>
-    <img id="concept" class="concept" src="assets/he-concept.svg" alt="Concept drawing of the planned Hall-effect board: six magnetic switches over sensors" hidden>
   </div>
 </section>
 
@@ -129,6 +128,12 @@
   </section>
 
   <section>
+    <h2>Click through it</h2>
+    <p class="sub">The generated KiCad 10 files in KiCanvas. Click a part or a net to follow it.</p>
+    <div class="kicanvas" data-sources="kicad/atelier6k-rev1.kicad_pcb kicad/atelier6k-rev1.kicad_sch"></div>
+  </section>
+
+  <section>
     <h2>Is it any good?</h2>
     <p class="sub">An honest grade of the board as a test of PCB work.</p>
     <ul class="findings">
@@ -146,10 +151,10 @@
 <article class="rev" id="page-rev2" data-rev="2" hidden>
   <header class="rev-head">
     <h1>Magnets, measured every 125 µs</h1>
-    <p class="lede">Three magnetic keys on an arc that follows the fingers, in a sealed case. Every key's travel is read as a distance, so a key releases the moment it starts to rise. One unit, one player, one million đồng. Nothing is built yet.</p>
+    <p class="lede">Three magnetic keys on an arc that follows the fingers, in a sealed case. Every key's travel is read as a distance, so a key releases the moment it starts to rise. One unit, one player, one million đồng. Schematic and board are designed and pass every check; nothing is built yet.</p>
     <dl class="specs" id="he-specs">
       <div><dt>Keys</dt><dd>3 Hall + 2 buttons</dd></div>
-      <div><dt>Scan</dt><dd>8 kHz target</dd></div>
+      <div><dt>Checks</dt><dd>ERC 0, DRC 0, 0 unrouted</dd></div>
       <div><dt>Report</dt><dd>USB High Speed, 8 kHz</dd></div>
       <div><dt>Budget</dt><dd id="he-cost">≤ 1,000,000 VND</dd></div>
     </dl>
@@ -188,9 +193,31 @@
   </section>
 
   <section>
-    <h2>Art under the board</h2>
-    <p class="sub">Four tones from the four things a PCB is made of: mask over laminate, mask over copper, bare gold copper and white ink. A moon over the night sea, and the field lines of the three magnets. Seen through the clear base, lit by the underglow.</p>
-    <figure class="art"><img loading="lazy" src="assets/rev2-art-preview.png" alt="Preview of the rev 2 bottom art: a gold crescent moon over a blue sea, with gold and blue field-line arcs rising from three white magnets on the horizon" width="1200" height="681"></figure>
+    <h2>Sealed case</h2>
+    <p class="sub">The board sits inside the walls: a ledge with a gasket carries its edge, another clamps it from above, and a gasketed cover is the only top surface. Rear feet 6.5 mm taller than the front give the 6° angle; swap them to try it flat.</p>
+    <iframe class="case-view" data-src="case.html?rev=2" title="Exploded view of the sealed rev 2 case" loading="lazy"></iframe>
+  </section>
+
+  <section>
+    <h2>Board and schematic</h2>
+    <p class="sub">Generated from one Python file and routed by the project's own router: 34 nets, 648 track segments, 330 vias, most of them stitching the two ground pours together. The USB pair runs straight from the connector to the MCU.</p>
+    <div class="gallery">
+      <figure><a href="assets/rev2-pcb-top.png"><img loading="lazy" src="assets/rev2-pcb-top.png" alt="Rev 2 PCB, top: three sensors under the switch outlines, two buttons, underglow LEDs and the moon art in the palm area" width="1600" height="1500"></a><figcaption>Top: sensors, buttons, the art under the clear cover</figcaption></figure>
+      <figure><a href="assets/rev2-pcb-bottom.png"><img loading="lazy" src="assets/rev2-pcb-bottom.png" alt="Rev 2 PCB, bottom: AT32F405, USB-C, crystal and the LED chain" width="1600" height="1500"></a><figcaption>Bottom: AT32F405, USB-C, 12 MHz crystal</figcaption></figure>
+      <figure><a href="assets/rev2-schematic.svg"><img loading="lazy" src="assets/rev2-schematic.svg" alt="Rev 2 schematic" width="1600" height="1130"></a><figcaption>Generated schematic</figcaption></figure>
+    </div>
+    <div class="kicanvas" data-sources="kicad/atelier-he.kicad_pcb kicad/atelier-he.kicad_sch"></div>
+  </section>
+
+  <section>
+    <h2>Art in the palm</h2>
+    <p class="sub">Four tones from the four things a PCB is made of: mask over laminate, mask over copper, bare gold copper and white ink. A moon over the night sea and the field lines of the three magnets, in the palm area under the clear cover, lit by the underglow.</p>
+    <figure class="art"><img loading="lazy" src="assets/rev2-art-preview.png" alt="Preview of the rev 2 art: a gold crescent moon over a blue sea, with gold and blue field-line arcs rising from three white magnets on the horizon" width="1200" height="320"></figure>
+  </section>
+
+  <section>
+    <h2>Inside one key</h2>
+    <figure class="art"><img loading="lazy" src="assets/he-concept.svg" alt="Cross-section of a magnetic switch: the magnet in the stem moves 4 mm toward a Hall sensor on the PCB" width="700" height="520"></figure>
   </section>
 </article>
 </main>

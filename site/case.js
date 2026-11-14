@@ -13,9 +13,9 @@ import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 const q = new URLSearchParams(location.search);
 // ?rev=1 shows the rev 1 board and its case (FR4 plate, MCU module under the PCB).
-const TAG = q.get('rev') === '1' ? '-rev1' : '';
+const TAG = { 1: '-rev1', 2: '-he' }[q.get('rev')] || '';
 // Bump when the GLB files change, so browsers do not keep the old ones.
-const MODEL_VERSION = 'merged-1';
+const MODEL_VERSION = 'merged-2';
 const num = (k, d) => (q.has(k) ? parseFloat(q.get(k)) : d);
 const flag = (k, d) => (q.has(k) ? q.get(k) !== '0' : d);
 if (q.get('theme') === 'light') document.body.classList.add('light');
@@ -52,6 +52,8 @@ controls.dampingFactor = 0.08;
 const world = new THREE.Group();
 world.rotation.x = -Math.PI / 2;
 scene.add(world);
+const tiltGroup = new THREE.Group(); // rev 2 sits on taller rear feet
+world.add(tiltGroup);
 
 const EXPLODE_STEP = 15; // mm between neighbouring parts at full explode
 const parts = [];        // { group, order, label, sub, anchorZ, optional }
@@ -59,7 +61,7 @@ const parts = [];        // { group, order, label, sub, anchorZ, optional }
 function addPart(name, order, label, sub, anchorZ, optional = false) {
   const group = new THREE.Group();
   group.name = name;
-  world.add(group);
+  tiltGroup.add(group);
   const part = { group, order, label, sub, anchorZ, optional, el: null };
   if (label) {
     part.el = document.createElement('div');
@@ -76,6 +78,8 @@ function addPart(name, order, label, sub, anchorZ, optional = false) {
 const ACRYLIC = {
   clear: { color: 0xbfe6ff, opacity: 0.22, roughness: 0.06, edge: 0xdff4ff },
   frosted: { color: 0xf4f7f9, opacity: 0.62, roughness: 0.75, edge: 0xffffff },
+  blue: { color: 0x2f6fe0, opacity: 0.42, roughness: 0.1, edge: 0x9fd8ff },
+  eva: { color: 0x15161a, opacity: 0.92, roughness: 0.95, edge: 0x3a3d44 },
   fr4: { color: 0x2f7d4a, opacity: 0.93, roughness: 0.55, edge: 0xbfe8c8 },
 };
 
@@ -159,8 +163,47 @@ function nut(thickness) {
   return cyl(5.5 / Math.sqrt(3), 5.5 / Math.sqrt(3), thickness, 6, std(0xb8bcc2, 0.3, 1.0));
 }
 
+async function buildGeneric(data) {
+  // Rev 2: the stack is described by the JSON itself (labels, order, feet, tilt).
+  const mm = (l) => l.sub;
+  const base = data.layers[0];
+  const top = data.layers.at(-1).z0 + data.layers.at(-1).thickness;
+  const feet = addPart('feet', -3, 'Rubber feet', 'taller at the back: 6° typing angle', base.z0 - 1);
+  for (const [x, y, h] of data.feet) {
+    const f = cyl(4, 4, h, 24, std(0x111111, 0.9));
+    f.position.set(x, y, base.z0 - h);
+    feet.add(f);
+  }
+  data.layers.forEach((l, i) => {
+    addPart(l.name, l.order, l.label, mm(l), l.z0 + l.thickness / 2).add(acrylicLayer(l, i + 1));
+  });
+  const pcb = addPart('pcb', data.pcb.order, data.pcb.label, data.pcb.sub, -data.pcb.thickness / 2);
+  const [swLabel, swSub] = data.switch_label;
+  const switches = addPart('switches', 5.2, swLabel, swSub, 7, true);
+  const caps = addPart('keycaps', 6.2, 'Keycaps', `${data.switches.length} × 1u`, 14, true);
+  for (const [x, y] of data.switches) {
+    const s = mxSwitch(); s.position.set(x, y, 0); switches.add(s);
+    const c = keycap(); c.position.set(x, y, 0); caps.add(c);
+  }
+  const screws = addPart('screws', 8.6, `${data.screw.size} × ${data.screw.length}`, '4 ×, from the top', top - 4);
+  for (const [x, y] of data.screws) {
+    const s = screw(data.screw.length); s.position.set(x, y, top); screws.add(s);
+  }
+  return { pcb, tilt: data.tilt_deg || 0 };
+}
+
 async function build() {
   const data = await (await fetch(`assets/case${TAG}.json`)).json();
+  const xs = data.pcb.outline.map((p) => p[0]), ys = data.pcb.outline.map((p) => p[1]);
+  CORNERS = [[Math.max(...xs), Math.max(...ys)], [Math.max(...xs), Math.min(...ys)],
+             [Math.min(...xs), Math.max(...ys)], [Math.min(...xs), Math.min(...ys)]];
+  if (data.generic) {
+    const { pcb, tilt } = await buildGeneric(data);
+    await addBoard(data, pcb);
+    tiltGroup.rotation.x = THREE.MathUtils.degToRad(tilt);
+    statusEl.remove();
+    return data;
+  }
   const L = Object.fromEntries(data.layers.map((l) => [l.name, l]));
   const top = L['plate'].z0 + L['plate'].thickness;
   const baseTop = L['base'].z0 + L['base'].thickness;
@@ -210,16 +253,7 @@ async function build() {
     const s = screw(data.screw.length); s.position.set(x, y, top); screws.add(s);
   }
 
-  // KiCad exports the board in metres, y-up, with its bottom face on the origin plane.
-  const gltf = await new GLTFLoader().loadAsync(`assets/atelier6k${TAG}.glb?v=${MODEL_VERSION}`);
-  const board = gltf.scene;
-  board.scale.setScalar(1000);
-  const holder = new THREE.Group();
-  holder.rotation.x = Math.PI / 2; // undo the world tilt: glTF is already y-up
-  holder.add(board);
-  holder.position.z = num('pcbz', -data.pcb.thickness);
-  pcb.add(holder);
-  window.__pcbBox = new THREE.Box3().setFromObject(board);
+  await addBoard(data, pcb);
 
   if (data.module) {
     // The KiCad model has no 3D body for the MCU module: draw a stand-in under the board.
@@ -234,6 +268,19 @@ async function build() {
 
   statusEl.remove();
   return data;
+}
+
+async function addBoard(data, pcb) {
+  // KiCad exports the board in metres, y-up, with its bottom face on the origin plane.
+  const gltf = await new GLTFLoader().loadAsync(`assets/atelier6k${TAG}.glb?v=${MODEL_VERSION}`);
+  const board = gltf.scene;
+  board.scale.setScalar(1000);
+  const holder = new THREE.Group();
+  holder.rotation.x = Math.PI / 2; // undo the world tilt: glTF is already y-up
+  holder.add(board);
+  holder.position.z = num('pcbz', -data.pcb.thickness);
+  pcb.add(holder);
+  window.__pcbBox = new THREE.Box3().setFromObject(board);
 }
 
 function applyExplode(t) {
@@ -257,7 +304,7 @@ function frame(data, t) {
 }
 
 const v = new THREE.Vector3();
-const CORNERS = [[40.64, 36.83], [40.64, -36.83], [-40.64, 36.83], [-40.64, -36.83]];
+let CORNERS = [[40.64, 36.83], [40.64, -36.83], [-40.64, 36.83], [-40.64, -36.83]];
 function placeLabels(t) {
   const show = tagsBox.checked && t > 0.35;
   const w = stage.clientWidth, h = stage.clientHeight;
@@ -268,7 +315,7 @@ function placeLabels(t) {
     const z = p.anchorZ + p.group.position.z;
     let best = null;
     for (const [cx, cy] of CORNERS) {
-      v.set(cx, cy, z).applyMatrix4(world.matrixWorld).project(camera);
+      v.set(cx, cy, z).applyMatrix4(tiltGroup.matrixWorld).project(camera);
       if (!best || v.x > best.x) best = { x: v.x, y: v.y };
     }
     p.el.style.left = `${(best.x * 0.5 + 0.5) * w + 12 + shift}px`;

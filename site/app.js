@@ -1,13 +1,12 @@
 // Revision switcher and the rapid-trigger demo.
 const REVS = {
-  0: { model: 'assets/atelier6k.glb?v=merged-1', poster: 'assets/pcb-iso.png' },
-  1: { model: 'assets/atelier6k-rev1.glb?v=merged-1', poster: 'assets/rev1-pcb-top.png' },
-  2: { model: null },
+  0: { model: 'assets/atelier6k.glb?v=merged-2', poster: 'assets/pcb-iso.png' },
+  1: { model: 'assets/atelier6k-rev1.glb?v=merged-2', poster: 'assets/rev1-pcb-top.png' },
+  2: { model: 'assets/atelier6k-he.glb?v=merged-2', poster: 'assets/rev2-pcb-top.png' },
 };
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const show = document.querySelector('.show');
 const model = document.getElementById('model');
-const concept = document.getElementById('concept');
 const numeral = document.querySelector('.numeral');
 
 function wake(article) {
@@ -41,9 +40,7 @@ function select(rev, animate) {
     if (on) wake(art);
   }
   const r = REVS[rev];
-  model.hidden = !r.model;
-  concept.hidden = !!r.model;
-  if (r.model && model.getAttribute('src') !== r.model) {
+  if (model.getAttribute('src') !== r.model) {
     model.setAttribute('poster', r.poster);
     model.setAttribute('src', r.model);
   }
