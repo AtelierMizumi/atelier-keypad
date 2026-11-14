@@ -1,7 +1,7 @@
 {
     "$schema": "https://schemas.kicad.org/drc.v1.json",
     "coordinate_units": "mm",
-    "date": "2026-11-14T12:23:58",
+    "date": "2026-11-14T15:49:38",
     "ignored_checks": [
         {
             "description": "Footprint has no courtyard defined",
@@ -43,7 +43,7 @@
                         "x": 64.0,
                         "y": 82.0
                     },
-                    "uuid": "53e7767c-e42e-4fcf-bb74-9cf96e5a1488"
+                    "uuid": "9ffb53e2-5f75-4595-b0d9-70c1cdfc9038"
                 },
                 {
                     "description": "Segment of J1 on B.Silkscreen",
@@ -51,7 +51,7 @@
                         "x": 95.3,
                         "y": 82.5
                     },
-                    "uuid": "ecb35e7b-160e-491f-b4ec-5856877db718"
+                    "uuid": "f50155a6-9b07-47a4-a161-63177c714c7b"
                 }
             ],
             "severity": "warning",
@@ -66,7 +66,7 @@
                         "x": 64.0,
                         "y": 82.0
                     },
-                    "uuid": "53e7767c-e42e-4fcf-bb74-9cf96e5a1488"
+                    "uuid": "9ffb53e2-5f75-4595-b0d9-70c1cdfc9038"
                 },
                 {
                     "description": "Segment of J1 on B.Silkscreen",
@@ -74,7 +74,7 @@
                         "x": 104.7,
                         "y": 82.5
                     },
-                    "uuid": "9cb1e59f-bd29-486b-b54b-677d903340b5"
+                    "uuid": "fdd1ec2e-2265-4d49-9b3d-ba440a1737b0"
                 }
             ],
             "severity": "warning",
@@ -89,7 +89,7 @@
                         "x": 122.0,
                         "y": 91.5
                     },
-                    "uuid": "9cd975cc-f508-4983-9769-20b65e5ac8ac"
+                    "uuid": "78b333ab-b478-43d8-bb56-e4d71007b878"
                 }
             ],
             "severity": "warning",
@@ -104,7 +104,7 @@
                         "x": 123.5,
                         "y": 85.552
                     },
-                    "uuid": "dad7d063-6c11-4469-a0a6-fe3335abfd42"
+                    "uuid": "73256905-78d3-4a9d-aa67-218f6a9fef9d"
                 },
                 {
                     "description": "Reference field of TP2",
@@ -112,7 +112,7 @@
                         "x": 121.0,
                         "y": 85.552
                     },
-                    "uuid": "e10fc662-16a1-4d8c-8fcc-cd7513c3b80c"
+                    "uuid": "db1fd107-0d7c-4cef-97e2-1035c99e790b"
                 }
             ],
             "severity": "warning",
@@ -127,7 +127,7 @@
                         "x": 122.0,
                         "y": 91.5
                     },
-                    "uuid": "9cd975cc-f508-4983-9769-20b65e5ac8ac"
+                    "uuid": "78b333ab-b478-43d8-bb56-e4d71007b878"
                 },
                 {
                     "description": "PTH pad 1 [BTN_SW2] of SW2",
@@ -135,7 +135,7 @@
                         "x": 129.25,
                         "y": 90.75
                     },
-                    "uuid": "de296198-2b08-4855-95cf-e0653fa2110d"
+                    "uuid": "c686552c-3733-48e2-9451-85087db9b228"
                 }
             ],
             "severity": "warning",
@@ -150,7 +150,7 @@
                         "x": 122.0,
                         "y": 91.5
                     },
-                    "uuid": "9cd975cc-f508-4983-9769-20b65e5ac8ac"
+                    "uuid": "78b333ab-b478-43d8-bb56-e4d71007b878"
                 },
                 {
                     "description": "PTH pad 1 [BTN_SW2] of SW2",
@@ -158,7 +158,7 @@
                         "x": 122.75,
                         "y": 90.75
                     },
-                    "uuid": "9a77e3c0-61d9-49b1-9f3f-22c3431f3267"
+                    "uuid": "090e3a17-b290-4276-b292-796918659d43"
                 }
             ],
             "severity": "warning",
@@ -173,7 +173,7 @@
                         "x": 122.0,
                         "y": 91.5
                     },
-                    "uuid": "9cd975cc-f508-4983-9769-20b65e5ac8ac"
+                    "uuid": "78b333ab-b478-43d8-bb56-e4d71007b878"
                 },
                 {
                     "description": "Pad 2 [+3V3] of SW3 on B.Cu",
@@ -181,7 +181,7 @@
                         "x": 118.4,
                         "y": 92.35
                     },
-                    "uuid": "7b5d75bc-26aa-436b-a5b6-19bdf35fb350"
+                    "uuid": "75b3eb55-7b4e-4e12-b320-f049cc561e16"
                 }
             ],
             "severity": "warning",
@@ -196,7 +196,7 @@
                         "x": 122.0,
                         "y": 91.5
                     },
-                    "uuid": "9cd975cc-f508-4983-9769-20b65e5ac8ac"
+                    "uuid": "78b333ab-b478-43d8-bb56-e4d71007b878"
                 },
                 {
                     "description": "Pad 1 [BOOT0] of SW3 on B.Cu",
@@ -204,7 +204,7 @@
                         "x": 114.6,
                         "y": 92.35
                     },
-                    "uuid": "c2fecc9f-d460-4996-8a76-74a855bb88a9"
+                    "uuid": "3bb3fd7b-21fb-42e1-adc2-66601acc2606"
                 }
             ],
             "severity": "warning",

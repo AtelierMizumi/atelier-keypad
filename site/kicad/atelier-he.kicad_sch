@@ -4631,7 +4631,7 @@
 		(dnp no)
 		(uuid "34ae54bb-859f-5024-93f5-68016955b13c")
 		(property "Reference" "C4" (at 343.535 189.23 0) (effects (font (size 1.27 1.27))))
-		(property "Value" "10nF" (at 343.535 194.31 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "47nF" (at 343.535 194.31 0) (effects (font (size 1.27 1.27))))
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
 			(at 343.8652 195.58 0)
 			(hide yes)
@@ -4879,7 +4879,7 @@
 		(dnp no)
 		(uuid "a9aabf21-1a36-50a3-b19c-2b1964bbdcc5")
 		(property "Reference" "C5" (at 216.535 214.63 0) (effects (font (size 1.27 1.27))))
-		(property "Value" "10nF" (at 216.535 219.71 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "47nF" (at 216.535 219.71 0) (effects (font (size 1.27 1.27))))
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
 			(at 216.8652 220.98 0)
 			(hide yes)
@@ -5127,7 +5127,7 @@
 		(dnp no)
 		(uuid "23d80a1b-d5ef-54c6-9a4a-a411f2fa15c8")
 		(property "Reference" "C6" (at 318.135 214.63 0) (effects (font (size 1.27 1.27))))
-		(property "Value" "10nF" (at 318.135 219.71 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "47nF" (at 318.135 219.71 0) (effects (font (size 1.27 1.27))))
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
 			(at 318.4652 220.98 0)
 			(hide yes)

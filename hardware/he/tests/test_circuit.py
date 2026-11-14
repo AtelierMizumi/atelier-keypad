@@ -170,7 +170,7 @@ def test_sensors_sit_on_their_key_axis(parts):
     for i, key in enumerate(("K1", "K2", "K3"), start=1):
         s = next(p for p in parts.values() if p.symbol.startswith("Sensor_Magnetic:") and p.ref == f"U{9 + i}")
         kx, ky = circuit.KEYS[key]
-        assert math.hypot(s.x - kx, s.y - ky) <= 0.1 and s.side == "F"
+        assert math.hypot(s.x - kx, s.y - ky) <= 0.1
 
 
 def test_buttons_are_out_of_the_tapping_path(parts):
@@ -193,3 +193,22 @@ def test_board_fits_the_cheap_pcb_size():
 def test_references_are_unique():
     refs = [p.ref for p in circuit.parts()]
     assert len(refs) == len(set(refs))
+
+
+# ------------------------------------------------ rev 2.0 (docs/research/he-switch-field.md)
+
+def test_sensors_are_on_the_bottom_at_each_key(parts):
+    # Decision D2: Gateron's flux figures are measured through a 1.2 mm PCB; on top the A4 saturates.
+    for i, key in enumerate(circuit.KEY_ORDER, start=1):
+        s = parts[f"U{9 + i}"]
+        assert s.side == "B" and math.hypot(s.x - circuit.KEYS[key][0], s.y - circuit.KEYS[key][1]) <= 0.1
+
+
+def test_sensor_filter_is_1k_47nF(parts, nets):
+    for key in circuit.KEY_ORDER:
+        on_adc = [parts[r] for r, _ in nets[f"ADC_{key}"]]
+        assert sorted(p.value for p in on_adc if p.ref[0] in "RC") == ["1k", "47nF"]
+
+
+def test_board_is_1p2_mm():
+    assert circuit.THICKNESS == 1.2

@@ -107,11 +107,33 @@ def test_crystal_is_close_to_the_mcu(pcb):
     assert length(t["HEXT_IN"]) < 15 and length(t["HEXT_OUT"]) < 15
 
 
-def test_sensors_are_on_top_under_each_magnet(pcb):
+def test_sensors_are_on_bottom_under_each_magnet(pcb):
+    # Decision D2 (rev 2.0): through the PCB, as Gateron measures the flux. Was "on top" in rev 2.
     for i, key in enumerate(circuit.KEY_ORDER, start=1):
         _, (x, y), layer = footprint(pcb, f"U{9 + i}")
         kx, ky = circuit.KEYS[key]
-        assert layer == "F.Cu" and math.hypot(x - kx, y - ky) <= 0.1
+        assert layer == "B.Cu" and math.hypot(x - kx, y - ky) <= 0.1
+
+
+def test_sensor_pads_carry_vcc_out_gnd(pcb):
+    # Flipped to the bottom, the SOT-23 is mirrored; the pad numbers must still carry the DRV5056 pinout.
+    for i, key in enumerate(circuit.KEY_ORDER, start=1):
+        fp, _, _ = footprint(pcb, f"U{9 + i}")
+        pads = {str(p[1]): (str(find(p, "net")[1]), [str(l) for l in find(p, "layers")[1:]]) for p in find_all(fp, "pad")}
+        assert pads["1"][0] == "+3V3A" and pads["2"][0] == f"SENSE_{key}" and pads["3"][0] == "GND"
+        assert all("B.Cu" in layers for _, layers in pads.values())
+
+
+def test_bottom_parts_under_a_key_do_not_collide():
+    # KiCad's DRC checks courtyards; the report must carry no overlap anywhere.
+    import json
+    report = json.loads((BOARD.parents[2] / "docs" / "reports" / "he-drc.json").read_text())
+    assert not [v for v in report["violations"] if v["type"] == "courtyards_overlap"]
+
+
+def test_silkscreen_says_rev_2_0(pcb):
+    texts = [str(t[2]) for t in find_all(pcb, "gr_text")] + [str(t[1]) for t in find_all(pcb, "gr_text")]
+    assert any("rev 2.0" in t for t in texts)
 
 
 def test_switch_footprints_at_the_keys(pcb):

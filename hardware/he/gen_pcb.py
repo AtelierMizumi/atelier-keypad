@@ -160,7 +160,8 @@ def place() -> None:
             if prop[1] not in ("Reference", "Value", "Footprint", "private") and not str(prop[1]).startswith("ki_"):
                 fp.SetField(str(prop[1]), str(prop[2]))
                 fp.GetField(str(prop[1])).SetVisible(False)
-        fp.Reference().SetVisible(p.ref.startswith(("U", "J", "SW", "TP")))
+        # sensors sit under the switches, where their labels only collide with their own capacitors
+        fp.Reference().SetVisible(p.ref.startswith(("U", "J", "SW", "TP")) and not p.symbol.startswith("Sensor_Magnetic:"))
         by_number = {}
         for pin, net in p.pins.items():
             number, name = table[pin][0], names[table[pin][0]]
@@ -196,7 +197,7 @@ def place() -> None:
     if art.exists():
         board_only(board, ART_FOOTPRINT, "ART1", "moon over the sea", (ax0 + ax1) / 2, (ay0 + ay1) / 2)
 
-    silk_text(board, "ATELIER rev 2  ·  HE", 100.0, 125.6, pcbnew.F_SilkS, 1.6)
+    silk_text(board, "ATELIER rev 2.0  ·  HE", 100.0, 125.6, pcbnew.F_SilkS, 1.6)
     silk_text(board, "00:00", circuit.KEYS["K2"][0] + 7.6, circuit.KEYS["K2"][1] - 7.9, pcbnew.F_SilkS, 0.8)  # under the keycap rim
     silk_text(board, "26.05.2022", 100.0, 150.2, pcbnew.B_SilkS, 0.8)
     silk_text(board, "BOOT: hold while plugging in", 122.0, 91.5, pcbnew.B_SilkS, 0.7)

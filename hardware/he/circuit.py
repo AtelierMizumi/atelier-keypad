@@ -15,7 +15,7 @@ OUTLINE = (62.0, 82.0, 138.0, 152.0)
 OUTLINE_RADIUS = 2.0
 HOLES = [(66.0, 86.0), (134.0, 86.0), (66.0, 148.0), (134.0, 148.0)]
 HOLE_FOOTPRINT = "MountingHole:MountingHole_3.2mm_M3"
-THICKNESS = 1.6
+THICKNESS = 1.2   # rev 2.0: Gateron's flux figures are measured through a 1.2 mm PCB
 ART_ZONE = (69.0, 129.0, 131.0, 147.0)  # x0, y0, x1, y1: nothing but art in here
 
 # Finger arc: 19.05 mm pitch, middle key 4.76 mm further from the wrist.
@@ -147,13 +147,14 @@ def parts() -> list[Part]:
     for i, key in enumerate(KEY_ORDER, start=1):
         kx, ky = KEYS[key]
         out.append(Part(f"U{9 + i}", "DRV5056A4", "Sensor_Magnetic:DRV5055A4xDBZxQ1", "Package_TO_SOT_SMD:SOT-23",
-                        kx, ky, 0, "F", {"VCC": "+3V3A", "OUT": f"SENSE_{key}", "GND": "GND"}))
-        # bottom side, just below the sensor: its decoupling, then the RC anti-alias filter
-        # between the pegs (+-5.08 mm) and clear of the LED cut-out (+5.08 mm)
-        cap(f"C{i}", "100nF", kx, ky - 2.0, "+3V3A")
+                        kx, ky, 0, B, {"VCC": "+3V3A", "OUT": f"SENSE_{key}", "GND": "GND"}))
+        # rev 2.0: the sensor reads the magnet through the 1.2 mm board, as Gateron specifies the flux.
+        # Around it on the bottom: its decoupling, then the RC filter, between the pegs (+-5.08 mm)
+        # and clear of the reverse-mount LED (+5.08 mm).
+        cap(f"C{i}", "100nF", kx, ky - 2.6, "+3V3A")
         side_r = -3.0 if key == "K1" else 3.0   # filter on the side facing its route to the MCU
         res(f"R{9 + i}", "1k", kx + side_r, ky + 1.4, f"SENSE_{key}", f"ADC_{key}", rot=90)
-        cap(f"C{3 + i}", "10nF", kx - side_r, ky + 1.4, f"ADC_{key}", rot=90)
+        cap(f"C{3 + i}", "47nF", kx - side_r, ky + 1.4, f"ADC_{key}", rot=90)
 
     # ----------------------------------------------------------------- LEDs
     out.append(Part("U4", "74AHCT1G125", "74xGxx:74AHCT1G125", "Package_TO_SOT_SMD:SOT-23-5",
