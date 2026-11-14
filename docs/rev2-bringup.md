@@ -9,6 +9,17 @@ Tools: a multimeter, a USB power meter (or a bench supply with a current
 display), hot air or a fine iron, flux, a caliper, and a magnifier for the
 LQFP.
 
+## 0. Check the magnet's pole (before soldering any sensor)
+
+The firmware and the DRV5056 assume Gateron's magnet faces **north-down**,
+towards the board. No primary source for that was found. Check one switch:
+
+1. Hold a compass flat, and bring the **bottom** of the switch to it.
+2. The compass's **south** end (usually the unmarked or white end) swings to
+   the switch: the face is a north pole, as assumed.
+3. If the **north** end swings to it, the magnets are south-down. Order
+   DRV5055A4 (bipolar, same pinout) instead of the DRV5056A4, and see step 3.
+
 ## 1. Assemble in stages
 
 Solder, then measure, then add the next stage. A short found on stage 1 costs
@@ -51,9 +62,11 @@ DRV5056's own sensitivity tolerance.
 How to read the result:
 
 - **All inside the bands:** the model holds. Go to step 4.
-- **Bottom lower than rest:** the polarity is reversed. Set `invert_adc: true`
-  in `keyboard.json`. The switch magnet then faces south-down, or the sensor
-  is rotated.
+- **Rest ≈ bottom ≈ 490, flat over the whole stroke:** the field is reversed.
+  The DRV5056 is unipolar: it answers one pole only, so `invert_adc` cannot
+  help. Fit **DRV5055A4** instead: bipolar, same SOT-23 pinout, so no board
+  change. Then set `initial_rest_value` near 2,048 plus the measured offset
+  in `keyboard.json`. Step 0 above exists to catch this before soldering.
 - **Bottom near 3,700 (rail):** the sensor saturates. Rev 2.1 needs a thicker
   board, or the A3 → A4 reasoning is wrong.
 - **Rest outside its band, bottom inside:** the sensor's zero-field offset is

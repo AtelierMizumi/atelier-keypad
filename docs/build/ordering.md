@@ -94,6 +94,9 @@ it. At 1.6 mm the field model and the case no longer match.
 - 4 × Gateron Magnetic Jade (original, PCB mount) from TechSpace. Three go on
   the board, one is a spare.
 - 4 × 1u keycaps, any MX-stem set.
+- When the switches arrive, before ordering the chips if you can, do the
+  compass check in `docs/rev2-bringup.md` step 0. If the magnets face
+  south-down, buy DRV5055A4 instead of DRV5056A4.
 
 ## 6. Acrylic
 

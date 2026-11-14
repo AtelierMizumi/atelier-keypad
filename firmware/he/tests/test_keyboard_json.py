@@ -69,3 +69,12 @@ def test_libhmk_is_pinned():
     sha = subprocess.run(["git", "-C", str(root / "libhmk"), "rev-parse", "HEAD"],
                          capture_output=True, text=True, check=True).stdout.strip()
     assert sha in (root / "README.md").read_text()
+
+
+def test_initial_rest_value_sits_above_every_switch_at_rest(kb):
+    # libhmk only ever lowers a key's rest value. Start above the strongest switch's rest
+    # (Gateron +15 G, +5 % sensor gain), or that key sits part-way into its travel forever.
+    ref = he_model.REFERENCE
+    strongest_rest_mT = 13.5
+    v = ref.sensor.volts(strongest_rest_mT * 1.05, ref.vcc)
+    assert kb["calibration"]["initial_rest_value"] >= ref.adc.counts_f(v)

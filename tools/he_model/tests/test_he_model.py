@@ -193,3 +193,13 @@ def test_reference_is_the_fitted_jade_on_the_bottom_of_a_1p2_mm_board():
     assert m.REF_PLACEMENT == m.Placement("bottom", 1.2)
     assert m.REFERENCE.sensor.name == "DRV5056A4"
     assert m.REFERENCE.geometry.travel_mm == 3.5
+
+
+def test_reversed_magnet_gives_a_flat_reading_on_a_unipolar_sensor():
+    # The DRV5056 only answers one pole. If the switch's magnet faced the other way, the output
+    # would sit at its zero-field level for the whole stroke: no flag in firmware can recover it.
+    ref = m.REFERENCE
+    reversed_mag = m.Magnet(ref.magnet.diameter_mm, ref.magnet.length_mm, -ref.magnet.br_mT)
+    d = m.Design(ref.geometry, reversed_mag, ref.sensor, ref.adc, ref.vcc)
+    counts = {c for _, c in d.curve()}
+    assert counts == {int(ref.adc.counts_f(ref.sensor.volts(0.0, ref.vcc)))}
