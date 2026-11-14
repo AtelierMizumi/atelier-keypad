@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 520" font-family="Barlow Semi Condensed, sans-serif">
-  <title>Cross-section of a magnetic switch: the magnet in the stem moves 4 mm toward a Hall sensor on the PCB</title>
+  <title>Cross-section of a magnetic switch: the magnet in the stem moves 3.5 mm toward a Hall sensor under the 1.2 mm PCB</title>
   <defs>
     <linearGradient id="mag" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#ff5f87"/><stop offset=".5" stop-color="#ff5f87"/>
@@ -27,22 +27,22 @@
     </g>
     <!-- pcb and sensor -->
     <rect x="100" y="380" width="400" height="22" fill="#0d2f8f" stroke="#38d6ff" stroke-width="2"/>
-    <rect x="285" y="366" width="30" height="14" fill="#ffffff"/>
-    <text x="330" y="360" fill="#ffffff" font-size="20" font-weight="700">Hall sensor</text>
+    <rect x="285" y="402" width="30" height="14" fill="#ffffff"/>
+    <text x="330" y="430" fill="#ffffff" font-size="20" font-weight="700">Hall sensor, under the board</text>
     <text x="510" y="398" fill="#8fb2d9" font-size="18" font-weight="600">PCB</text>
     <!-- gap dimension -->
     <g stroke="#ffd65a" stroke-width="2">
-      <line x1="250" y1="222" x2="250" y2="366"/><line x1="240" y1="222" x2="260" y2="222"/><line x1="240" y1="366" x2="260" y2="366"/>
+      <line x1="250" y1="222" x2="250" y2="409"/><line x1="240" y1="222" x2="260" y2="222"/><line x1="240" y1="409" x2="260" y2="409"/>
     </g>
-    <text x="92" y="300" fill="#ffd65a" font-size="22" font-weight="700">6.1 mm up</text>
-    <text x="92" y="326" fill="#ffd65a" font-size="22" font-weight="700">2.1 mm down</text>
+    <text x="92" y="300" fill="#ffd65a" font-size="22" font-weight="700">5.9 mm up</text>
+    <text x="92" y="326" fill="#ffd65a" font-size="22" font-weight="700">2.4 mm down</text>
     <!-- travel arrow -->
     <g stroke="#ffffff" stroke-width="3" fill="#ffffff">
       <line x1="470" y1="60" x2="470" y2="130"/><path d="M462 124 l8 14 l8 -14 z"/>
     </g>
-    <text x="484" y="104" fill="#ffffff" font-size="22" font-weight="700">4.0 mm</text>
+    <text x="484" y="104" fill="#ffffff" font-size="22" font-weight="700">3.5 mm</text>
     <!-- readout -->
-    <text x="100" y="460" fill="#d8f4ff" font-size="22" font-weight="600">9 mT at rest → 82 mT at bottom-out</text>
-    <text x="100" y="490" fill="#8fb2d9" font-size="20">read 32× per key, 8000 times a second</text>
+    <text x="100" y="470" fill="#d8f4ff" font-size="22" font-weight="600">12 mT at rest → 80 mT at bottom-out (Gateron)</text>
+    <text x="100" y="500" fill="#8fb2d9" font-size="20">read 32× per key, 8000 times a second</text>
   </g>
 </svg>

@@ -35,7 +35,7 @@
   <nav class="menu" aria-label="Choose a revision">
     <a href="#rev0" data-rev="0"><span class="tag">REV 0</span><span class="note">2022 · ATmega32U4 · the original</span></a>
     <a href="#rev1" data-rev="1"><span class="tag">REV 1</span><span class="note">2026 · RP2040 · generated from code</span></a>
-    <a href="#rev2" data-rev="2"><span class="tag">REV 2</span><span class="note">Designed · 3 Hall keys · 8 kHz</span></a>
+    <a href="#rev2" data-rev="2"><span class="tag">REV 2</span><span class="note">Rev 2.0 · order files ready · 8 kHz</span></a>
   </nav>
 
   <div class="show">
@@ -151,7 +151,7 @@
 <article class="rev" id="page-rev2" data-rev="2" hidden>
   <header class="rev-head">
     <h1>Magnets, measured every 125 µs</h1>
-    <p class="lede">Three magnetic keys on an arc that follows the fingers, in a sealed case. Every key's travel is read as a distance, so a key releases the moment it starts to rise. One unit, one player, one million đồng. Schematic and board are designed and pass every check; nothing is built yet.</p>
+    <p class="lede">Three magnetic keys on an arc that follows the fingers, in a sealed case. Every key's travel is read as a distance, so a key releases the moment it starts to rise. One unit, one player, one million đồng. Rev 2.0 has its order files, firmware and a CI that checks them; nothing is built yet.</p>
     <dl class="specs" id="he-specs">
       <div><dt>Keys</dt><dd>3 Hall + 2 buttons</dd></div>
       <div><dt>Checks</dt><dd>ERC 0, DRC 0, 0 unrouted</dd></div>
@@ -183,13 +183,13 @@
     <ul class="findings" id="he-points">
       <li><b class="good">MCU</b>AT32F405: USB High Speed built in for 8 kHz reports, and an ADC input for every sensor, so there is no multiplexer.</li>
       <li><b class="good">Scan</b>Three keys, 32 samples each, in 48 µs of every 125 µs. Device-side delay 250 µs worst case, against 1125 µs on a 1 kHz board.</li>
-      <li><b class="good">Sense</b>A TI DRV5056A4 under each key. The model gives a 0.015 mm rapid-trigger floor; the A3 variant was rejected because this magnet saturates it at the bottom of the stroke.</li>
-      <li><b class="warn">Firmware</b>A fork of the open libhmk firmware, which already has rapid trigger and 8 kHz on this chip; LED support gets added so it never interrupts a scan.</li>
+      <li><b class="good">Sense</b>A TI DRV5056A4 under each key, reading the magnet through a 1.2 mm board: the condition Gateron measures its switch flux in. A model fitted to Gateron's figures gives about a 0.025 mm rapid-trigger floor. On top of the board, the first design, the sensor would read flat over the last 1.2 mm of the stroke.</li>
+      <li><b class="warn">Firmware</b>The open libhmk firmware, pinned to v1.8.1: rapid trigger and 8 kHz on this chip, configured from the browser. It does not read the two buttons or drive the LEDs yet.</li>
       <li><b class="good">Hand</b>Three keys 19.05 mm apart, the middle one 4.76 mm further out for the longest finger. Symmetric, so it suits either hand. A 6° wedge, Esc and retry out of the tapping path.</li>
       <li><b class="good">Sweat</b>The board sits inside closed walls under a gasketed cover and is lacquered all over; magnetic switches have no contacts, so nothing needs to stay bare. Nylon screws. USB's 5 V cannot shock you; the case is there for static and salt.</li>
       <li><b class="bad">Honest</b>A mass-made 3-key Hall pad costs about what this single unit costs. This one wins on a finer measured floor, a layout fitted to one hand, a sealed case and openness, not on price.</li>
     </ul>
-    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/hall-effect-plan.md">Read the full Hall-effect plan</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/hall-effect-task0.md">Task 0: prices and parts</a></p>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/build/ordering.md">How to order one</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/build/sourcing-vn.md">Where to buy in Vietnam</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/research/he-switch-field.md">Why the sensors are underneath</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/releases">Production files</a></p>
   </section>
 
   <section>
@@ -200,10 +200,10 @@
 
   <section>
     <h2>Board and schematic</h2>
-    <p class="sub">Generated from one Python file and routed by the project's own router: 34 nets, 648 track segments, 330 vias, most of them stitching the two ground pours together. The USB pair runs straight from the connector to the MCU.</p>
+    <p class="sub">Generated from one Python file and routed by the project's own router: 34 nets, 635 track segments, 328 vias, most of them stitching the two ground pours together. The USB pair runs straight from the connector to the MCU.</p>
     <div class="gallery">
-      <figure><a href="assets/rev2-pcb-top.png"><img loading="lazy" src="assets/rev2-pcb-top.png" alt="Rev 2 PCB, top: three sensors under the switch outlines, two buttons, underglow LEDs and the moon art in the palm area" width="1600" height="1500"></a><figcaption>Top: sensors, buttons, the art under the clear cover</figcaption></figure>
-      <figure><a href="assets/rev2-pcb-bottom.png"><img loading="lazy" src="assets/rev2-pcb-bottom.png" alt="Rev 2 PCB, bottom: AT32F405, USB-C, crystal and the LED chain" width="1600" height="1500"></a><figcaption>Bottom: AT32F405, USB-C, 12 MHz crystal</figcaption></figure>
+      <figure><a href="assets/rev2-pcb-top.png"><img loading="lazy" src="assets/rev2-pcb-top.png" alt="Rev 2.0 PCB, top: the three switch outlines, two buttons, underglow LEDs and the moon art in the palm area" width="1600" height="1500"></a><figcaption>Top: switches, buttons, the art under the clear cover</figcaption></figure>
+      <figure><a href="assets/rev2-pcb-bottom.png"><img loading="lazy" src="assets/rev2-pcb-bottom.png" alt="Rev 2.0 PCB, bottom: AT32F405, USB-C, crystal, a Hall sensor under each key and the LED chain" width="1600" height="1500"></a><figcaption>Bottom: AT32F405, USB-C, a Hall sensor under each key</figcaption></figure>
       <figure><a href="assets/rev2-schematic.svg"><img loading="lazy" src="assets/rev2-schematic.svg" alt="Rev 2 schematic" width="1600" height="1130"></a><figcaption>Generated schematic</figcaption></figure>
     </div>
     <div class="kicanvas" data-sources="kicad/atelier-he.kicad_pcb kicad/atelier-he.kicad_sch"></div>
@@ -217,13 +217,13 @@
 
   <section>
     <h2>Inside one key</h2>
-    <figure class="art"><img loading="lazy" src="assets/he-concept.svg" alt="Cross-section of a magnetic switch: the magnet in the stem moves 4 mm toward a Hall sensor on the PCB" width="700" height="520"></figure>
+    <figure class="art"><img loading="lazy" src="assets/he-concept.svg" alt="Cross-section of a magnetic switch: the magnet in the stem moves 3.5 mm toward a Hall sensor under the 1.2 mm PCB" width="700" height="520"></figure>
   </section>
 </article>
 </main>
 
 <footer>
-  <p>Hardware under CERN-OHL-P v2, firmware under GPL-2.0-or-later. Rev 0 designed by thuanc177 in 2022.</p>
+  <p>Hardware under CERN-OHL-P v2; rev 0/1 firmware under GPL-2.0-or-later, rev 2 firmware (libhmk) under GPL-3.0. Rev 0 designed by thuanc177 in 2022.</p>
 </footer>
 </body>
 </html>

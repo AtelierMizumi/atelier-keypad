@@ -1,27 +1,30 @@
-# Rev 2 (Hall effect): the board
+# Rev 2.0 (Hall effect): the board
 
-Designed, routed and checked; **not built**. Tasks 3, 5 and 6 of the
-[build plan](superpowers/plans/2026-11-14-atelier6k-he.md) are done at the
-desk; Tasks 1 and 2 (bench measurements) and 4 (firmware) are not.
+Designed, routed, checked, with order files, firmware and CI; **not built**.
+The rev 2.0 work follows the [production plan](superpowers/plans/2026-11-14-atelier-rev2-production.md)
+(issues #1–#11). Assembly and acceptance: [`rev2-bringup.md`](rev2-bringup.md).
+Ordering: [`build/ordering.md`](build/ordering.md).
 
 ```sh
 scripts/he.sh          # circuit tests, schematic, place + route, ERC, netlist, DRC,
                        # layout tests, renders, case, 3D model
 scripts/he.sh check    # checks only, on the files as they are
+scripts/fab.sh         # production package in build/fab/rev2.0 (after he.sh)
+firmware/he/build.sh   # libhmk firmware in build/fw
 ```
 
 ## Results
 
 | Check | Result |
 |---|---|
-| Circuit tests (`hardware/he/tests/test_circuit.py`) | 19 pass |
-| Layout tests on the routed board (`tests/test_layout.py`) | 7 pass |
+| Circuit, layout and package tests (`hardware/he/tests/`) | 40 pass (with the package built) |
 | ERC | 0 |
 | Netlist against `circuit.py` | 34 nets, 178 pins, identical |
 | DRC | 0 errors, 0 unconnected, schematic parity 0; 8 silkscreen warnings |
-| Routing | 648 track segments, 330 vias (about 260 of them stitch the two ground pours) |
+| Routing | 635 track segments, 328 vias (most of them stitch the two ground pours) |
 | USB pair, connector to MCU | under 15 mm each, matched within 3 mm |
-| Case tests (`case/tests/test_case_he.py`) | 14 pass (50 with rev 0 and rev 1) |
+| Case tests (`case/tests/test_case_he.py`) | 15 pass (51 with rev 0 and rev 1) |
+| Firmware config (`firmware/he/tests/`) | 6 pass; build 30.7 kB |
 
 ![Rev 2 top](images/rev2-pcb-top.png)
 
@@ -59,6 +62,12 @@ Each of these came from a failed check, not from the plan:
   the switch bodies, where the bottom was too crowded.
 - **Ground vias placed before routing under the MCU,** where the fan-out
   otherwise cuts off a ground island.
+- **Rev 2.0: the Hall sensors moved to the bottom of a 1.2 mm board.** Gateron
+  measures its switch flux through a 1.2 mm PCB; on top, the DRV5056A4 would
+  read flat over the last 1.2–1.4 mm of the stroke
+  ([field study](research/he-switch-field.md)). Filter 1 kΩ / 47 nF.
+- **Rev 2.0: crystal load caps 33 pF.** The 12 MHz crystal (C9002) wants 20 pF;
+  the first design's 18 pF gave about 13 pF.
 - **The art moved to the top, into a palm area,** under the clear cover. On the
   bottom it shared the space with the LED chain and the sensor filters.
 - **The 6° angle comes from the feet** (1.0 mm front, 7.5 mm rear) instead of a
@@ -66,11 +75,11 @@ Each of these came from a failed check, not from the plan:
 
 ## Before ordering
 
-- Bench Task 1: confirm the field curve and noise of the real switch and
-  sensor; the RT floor numbers are from the model.
+- Gate G1 (#8): find an AT32F405CCT7 listing. LCSC and JLCPCB have none
+  (14 Nov 2026).
+- Gate G2 (#9): a PCB quote at **1.2 mm**.
 - Check the magnetic switch's bottom: the footprint assumes no centre post
-  (the sensor is there).
+  (the board under the switch is bare; the sensor is on the other side).
 - Check pin 1 orientation of the SK6812MINI-E against the part bought (open
   since rev 1).
-- Confirm the AT32F405CCT7 price and stock; replace the estimate in `bom.csv`.
-- Export Gerbers and the position file (not done yet).
+- Production files: `scripts/fab.sh`, or the CI artifact `rev2.0-package`.

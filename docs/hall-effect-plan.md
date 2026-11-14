@@ -1,6 +1,6 @@
 # Atelier rev 2 (HE): design spec
 
-Status: **schematic, board and case designed and checked (ERC 0, DRC 0); nothing built.** See [`rev2-board.md`](rev2-board.md). Branch `plan/hall-effect`,
+Status: **rev 2.0: order files, firmware and CI ready; nothing built.** Superseded where they differ by the [rev 2.0 spec](superpowers/specs/2026-11-14-atelier-rev2-production.md) (sensors under a 1.2 mm board). See [`rev2-board.md`](rev2-board.md). Branch `plan/hall-effect`,
 November 2026. One unit, for one player, on a budget of **1,000,000 VND**
 (about 38 USD) all-in. Prices marked *estimate* in `hardware/he/bom.csv` were not found in a live listing.
 
