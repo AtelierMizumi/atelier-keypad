@@ -1,0 +1,38 @@
+{
+  "name": "Atelier rev 2.0",
+  "manufacturer": "AtelierMizumi",
+  "maintainer": "AtelierMizumi",
+  "usb": {
+    "vid": "0x1209",
+    "pid": "0x0001",
+    "port": "hs"
+  },
+  "keyboard": {
+    "num_profiles": 4,
+    "num_layers": 2,
+    "num_keys": 3,
+    "num_advanced_keys": 8
+  },
+  "hardware": {
+    "hse_value": 12000000,
+    "driver": "at32f405xx"
+  },
+  "analog": {
+    "invert_adc": false,
+    "raw": {
+      "input": ["A2", "A1", "A0"],
+      "vector": [1, 2, 3]
+    }
+  },
+  "calibration": {
+    "initial_rest_value": 740,
+    "initial_bottom_out_threshold": 700
+  },
+  "layout": {
+    "keymap": [[{ "key": 0 }, { "key": 1 }, { "key": 2 }]]
+  },
+  "keymap": [
+    ["KC_Z", "KC_X", "KC_C"],
+    ["_______", "_______", "_______"]
+  ]
+}
