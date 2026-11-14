@@ -4,11 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Atelier6K case — exploded view</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;600&display=swap">
 <style>
-  :root { --bg: #0e1411; --panel: #151d19; --line: #26332c; --text: #e6ece8; --muted: #9aa8a0; --accent: #e8c547; }
+  :root { --bg: #030b26; --panel: #061541; --line: #0d2f8f; --text: #d8f4ff; --muted: #8fb2d9; --accent: #38d6ff; }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
-    font: 14px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; overflow: hidden; }
+    font: 15px/1.4 "Barlow Semi Condensed", system-ui, sans-serif; overflow: hidden; }
   body.light { --bg: #ffffff; --panel: #f3f5f4; --line: #d5dbd8; --text: #17211c; --muted: #55635c; --accent: #8a6d00; }
   #stage { position: absolute; inset: 0; }
   canvas { display: block; width: 100%; height: 100%; touch-action: none; }
@@ -20,7 +21,7 @@
   .label span { color: var(--muted); font-size: 12px; }
   .label.on { opacity: 1; }
   #ui { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; gap: 14px; align-items: center;
-    flex-wrap: wrap; padding: 10px 14px; border: 1px solid var(--line); border-radius: 12px;
+    flex-wrap: wrap; padding: 10px 14px; border: 1px solid var(--line); border-radius: 0; border-left: 3px solid var(--accent);
     background: color-mix(in srgb, var(--panel) 88%, transparent); backdrop-filter: blur(8px); }
   #ui label { display: flex; gap: 8px; align-items: center; color: var(--muted); }
   #explode { width: min(46vw, 320px); accent-color: var(--accent); }

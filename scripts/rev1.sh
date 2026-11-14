@@ -56,5 +56,5 @@ if [[ "$mode" == all ]]; then
     --include-silkscreen --include-soldermask --user-origin "$origin" \
     -o site/assets/atelier6k-rev1.glb "$DIR/atelier6k-rev1.kicad_pcb" >/dev/null
   cp docs/images/rev1-pcb-top.png docs/images/rev1-pcb-bottom.png docs/images/case-rev1-layers.svg \
-     docs/images/case-rev1-exploded.png site/assets/
+     docs/images/case-rev1-exploded.png docs/images/rev1-schematic.svg site/assets/
 fi

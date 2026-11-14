@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 520" font-family="Barlow Semi Condensed, sans-serif">
+  <title>Cross-section of a magnetic switch: the magnet in the stem moves 4 mm toward a Hall sensor on the PCB</title>
+  <defs>
+    <linearGradient id="mag" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff5f87"/><stop offset=".5" stop-color="#ff5f87"/>
+      <stop offset=".5" stop-color="#38d6ff"/><stop offset="1" stop-color="#38d6ff"/>
+    </linearGradient>
+  </defs>
+  <g transform="skewX(-6) translate(40 0)">
+    <!-- keycap -->
+    <path d="M190 40 h220 l20 70 h-260 z" fill="#ffffff"/>
+    <!-- housing -->
+    <path d="M160 120 h280 v150 h-280 z" fill="none" stroke="#d8f4ff" stroke-width="4"/>
+    <rect x="140" y="268" width="320" height="10" fill="#d8f4ff"/>
+    <text x="470" y="278" fill="#8fb2d9" font-size="18" font-weight="600">plate</text>
+    <!-- stem with magnet -->
+    <rect x="275" y="110" width="50" height="120" fill="#0d2f8f" stroke="#d8f4ff" stroke-width="3"/>
+    <rect x="285" y="170" width="30" height="52" fill="url(#mag)"/>
+    <text x="300" y="192" fill="#030b26" font-size="18" font-weight="700" text-anchor="middle">S</text>
+    <text x="300" y="217" fill="#030b26" font-size="18" font-weight="700" text-anchor="middle">N</text>
+    <!-- field lines -->
+    <g fill="none" stroke="#38d6ff" stroke-width="2" stroke-opacity=".7">
+      <path d="M300 222 C 300 300, 240 330, 220 300 C 200 250, 260 180, 286 180"/>
+      <path d="M300 222 C 300 300, 360 330, 380 300 C 400 250, 340 180, 314 180"/>
+      <path d="M300 222 C 300 340, 190 360, 175 300 C 165 230, 250 165, 288 172" stroke-opacity=".4"/>
+      <path d="M300 222 C 300 340, 410 360, 425 300 C 435 230, 350 165, 312 172" stroke-opacity=".4"/>
+    </g>
+    <!-- pcb and sensor -->
+    <rect x="100" y="380" width="400" height="22" fill="#0d2f8f" stroke="#38d6ff" stroke-width="2"/>
+    <rect x="285" y="366" width="30" height="14" fill="#ffffff"/>
+    <text x="330" y="360" fill="#ffffff" font-size="20" font-weight="700">Hall sensor</text>
+    <text x="510" y="398" fill="#8fb2d9" font-size="18" font-weight="600">PCB</text>
+    <!-- gap dimension -->
+    <g stroke="#ffd65a" stroke-width="2">
+      <line x1="250" y1="222" x2="250" y2="366"/><line x1="240" y1="222" x2="260" y2="222"/><line x1="240" y1="366" x2="260" y2="366"/>
+    </g>
+    <text x="92" y="300" fill="#ffd65a" font-size="22" font-weight="700">6.1 mm up</text>
+    <text x="92" y="326" fill="#ffd65a" font-size="22" font-weight="700">2.1 mm down</text>
+    <!-- travel arrow -->
+    <g stroke="#ffffff" stroke-width="3" fill="#ffffff">
+      <line x1="470" y1="60" x2="470" y2="130"/><path d="M462 124 l8 14 l8 -14 z"/>
+    </g>
+    <text x="484" y="104" fill="#ffffff" font-size="22" font-weight="700">4.0 mm</text>
+    <!-- readout -->
+    <text x="100" y="460" fill="#d8f4ff" font-size="22" font-weight="600">9 mT at rest → 82 mT at bottom-out</text>
+    <text x="100" y="490" fill="#8fb2d9" font-size="20">read 16× per key, 8000 times a second</text>
+  </g>
+</svg>

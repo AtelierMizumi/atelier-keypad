@@ -3,138 +3,189 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Atelier6K — 6-key osu! keypad</title>
-<meta name="description" content="Atelier6K: an open-hardware 6-key mechanical keypad with ATmega32U4, USB-C, hot-swap sockets and RGB. Explore the PCB in 3D and browse the KiCad schematic.">
-<meta property="og:title" content="Atelier6K — 6-key osu! keypad">
-<meta property="og:description" content="Open-hardware 6-key keypad. Explore the PCB in 3D and browse the schematic in your browser.">
+<title>Atelier6K</title>
+<meta name="description" content="Atelier6K: an open-hardware osu! keypad. Rev 0 from 2022, a generated rev 1 on an RP2040, and a planned Hall-effect rapid-trigger rev 2. Browse each board in 3D.">
+<meta property="og:title" content="Atelier6K">
+<meta property="og:description" content="An osu! keypad in three revisions. Explore the boards and cases in 3D.">
 <meta property="og:image" content="assets/pcb-iso.png">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%232f6b4f%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%276%27 fill=%27%23e8c547%27/%3E%3C/svg%3E">
+<meta name="theme-color" content="#061541">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%23061541%27/%3E%3Cpath d=%27M6 26 20 4h6L12 26z%27 fill=%27%2338d6ff%27/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@500;700;900&family=Barlow+Semi+Condensed:ital,wght@0,400;0,600;1,400&display=swap">
 <link rel="stylesheet" href="style.css">
 <script type="module" src="vendor/model-viewer.min.js"></script>
 <script type="module" src="vendor/kicanvas.js"></script>
+<script type="module" src="app.js"></script>
 </head>
-<body>
+<body data-rev="0">
+<div class="sea" aria-hidden="true"></div>
+
 <header class="top">
-  <a class="brand" href="#">Atelier<span>6K</span></a>
-  <nav>
-    <a href="#model">3D</a>
-    <a href="#case">Case</a>
-    <a href="#viewer">Schematic &amp; PCB</a>
-    <a href="#renders">Renders</a>
-    <a href="#review">Review</a>
-    <a class="gh" href="https://github.com/AtelierMizumi/atelier-keypad">GitHub</a>
-  </nav>
+  <a class="brand" href="#rev0">Atelier<b>6K</b></a>
+  <a class="gh" href="https://github.com/AtelierMizumi/atelier-keypad">Source on GitHub</a>
 </header>
 
 <main>
-<section class="hero">
-  <div class="hero-text">
-    <p class="eyebrow">Open hardware · rev 0 · 2022</p>
-    <h1>A six-key keypad built for osu!</h1>
-    <p class="lede">Six hot-swap mechanical switches and three extra buttons on an ATmega32U4 board with USB-C, per-key RGB and underglow, running QMK with VIA.</p>
-    <p class="actions">
-      <a class="btn primary" href="#model">Explore the board</a>
-      <a class="btn" href="https://github.com/AtelierMizumi/atelier-keypad">Source files</a>
-    </p>
+<section class="stage" aria-label="Revisions">
+  <nav class="menu" aria-label="Choose a revision">
+    <a href="#rev0" data-rev="0"><span class="tag">REV 0</span><span class="note">2022 · ATmega32U4 · the original</span></a>
+    <a href="#rev1" data-rev="1"><span class="tag">REV 1</span><span class="note">2026 · RP2040 · generated from code</span></a>
+    <a href="#rev2" data-rev="2"><span class="tag">REV 2</span><span class="note">Planned · Hall effect · rapid trigger</span></a>
+  </nav>
+
+  <div class="show">
+    <span class="numeral" aria-hidden="true">0</span>
+    <model-viewer id="model" src="assets/atelier6k.glb" poster="assets/pcb-iso.png"
+      alt="Interactive 3D model of the selected Atelier6K board"
+      camera-controls auto-rotate auto-rotate-delay="1200" rotation-per-second="16deg"
+      shadow-intensity="0.7" exposure="0.6" tone-mapping="neutral"
+      camera-orbit="30deg 55deg auto" interaction-prompt="none" reveal="auto"></model-viewer>
+    <img id="concept" class="concept" src="assets/he-concept.svg" alt="Concept drawing of the planned Hall-effect board: six magnetic switches over sensors" hidden>
+  </div>
+</section>
+
+<!-- ======================================================== REV 0 -->
+<article class="rev" id="page-rev0" data-rev="0">
+  <header class="rev-head">
+    <h1>The one I taught myself on</h1>
+    <p class="lede">Six hot-swap switches and three buttons on an ATmega32U4, drawn by hand in KiCad 6 in 2022. It is kept here exactly as it was: the files below are the originals.</p>
     <dl class="specs">
-      <div><dt>MCU</dt><dd>ATmega32U4</dd></div>
-      <div><dt>Keys</dt><dd>6 + 3</dd></div>
-      <div><dt>LEDs</dt><dd>10 RGB</dd></div>
-      <div><dt>Board</dt><dd>81 × 74 mm</dd></div>
+      <div><dt>MCU</dt><dd>ATmega32U4, 16 MHz</dd></div>
+      <div><dt>Keys</dt><dd>6 + 3 in a diode matrix</dd></div>
+      <div><dt>Light</dt><dd>10 RGB LEDs</dd></div>
+      <div><dt>Board</dt><dd>81 × 74 mm, 2 layers</dd></div>
     </dl>
-  </div>
-  <img class="hero-img" src="assets/pcb-iso.png" alt="3D render of the Atelier6K PCB seen from above" width="2000" height="1500">
-</section>
+  </header>
 
-<aside class="notice" role="note">
-  <strong>Unverified prototype.</strong>
-  Rev 0 was a first PCB and has no recorded bring-up. A design review found issues to fix before ordering it.
-  <a href="#review">See the findings</a>
-</aside>
+  <section>
+    <h2>Acrylic case, exploded</h2>
+    <p class="sub">Five layers clamp the board with four M3 screws. Drag the slider to pull the stack apart.</p>
+    <iframe class="case-view" data-src="case.html" title="Exploded view of the rev 0 case" loading="lazy"></iframe>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/tree/revamp/case/dxf">DXF cut files</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/revamp/docs/case.md">Case notes</a></p>
+  </section>
 
-<section id="model">
-  <h2>The board in 3D</h2>
-  <p class="sub">Drag to rotate, scroll to zoom. Exported straight from the KiCad PCB file.</p>
-  <model-viewer src="assets/atelier6k.glb" alt="Interactive 3D model of the Atelier6K PCB"
-    poster="assets/pcb-iso.png" camera-controls auto-rotate auto-rotate-delay="1500"
-    rotation-per-second="18deg" shadow-intensity="0.8" exposure="0.55" tone-mapping="neutral"
-    camera-orbit="30deg 55deg auto" interaction-prompt="none" loading="lazy" reveal="auto"></model-viewer>
-</section>
+  <section>
+    <h2>Schematic and board</h2>
+    <p class="sub">The original KiCad 6 files in KiCanvas. Click a part or a net to inspect it.</p>
+    <div class="kicanvas" data-sources="kicad/atelier6k.kicad_sch kicad/atelier6k.kicad_pcb"></div>
+  </section>
 
-<section id="case">
-  <h2>Acrylic case, exploded</h2>
-  <p class="sub">Four laser-cut layers follow the PCB outline and clamp the board between them with four M3 screws. Drag the slider to pull the stack apart; drag the model to rotate it.</p>
-  <iframe class="case-view" src="case.html" title="Interactive exploded view of the Atelier6K case" loading="lazy"></iframe>
-  <div class="stack">
-    <table>
-      <thead><tr><th>Layer</th><th>Acrylic</th><th>Job</th></tr></thead>
-      <tbody>
-        <tr><td>Switch plate</td><td>3 mm clear</td><td>Holds the switches; top face 5.0 mm above the PCB</td></tr>
-        <tr><td>Top frame</td><td>2 mm clear</td><td>Spacer that sets the switch height</td></tr>
-        <tr><td>PCB</td><td>—</td><td>Clamped as a layer of the stack</td></tr>
-        <tr><td>Bottom frame</td><td>5 mm frosted</td><td>Clears the sockets and spreads the underglow</td></tr>
-        <tr><td>Base</td><td>3 mm clear</td><td>Hex pockets hold the M3 nuts; reset hole</td></tr>
-      </tbody>
-    </table>
-    <a href="assets/case-layers.svg"><img loading="lazy" src="assets/case-layers.svg" alt="Top-view drawing of the four acrylic layers" width="1484" height="423"></a>
-  </div>
-  <p class="links">
-    <a href="https://github.com/AtelierMizumi/atelier-keypad/tree/main/case/dxf">DXF cut files</a>
-    <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/main/docs/case.md">Case design notes</a>
-  </p>
-</section>
+  <section>
+    <h2>Renders</h2>
+    <div class="gallery">
+      <figure><a href="assets/pcb-top.png"><img loading="lazy" src="assets/pcb-top.png" alt="Rev 0 PCB, top" width="2000" height="1500"></a><figcaption>Top, with the silkscreen art</figcaption></figure>
+      <figure><a href="assets/pcb-bottom.png"><img loading="lazy" src="assets/pcb-bottom.png" alt="Rev 0 PCB, bottom" width="2000" height="1500"></a><figcaption>Bottom: MCU, sockets, diodes</figcaption></figure>
+      <figure><a href="assets/case-exploded.png"><img loading="lazy" src="assets/case-exploded.png" alt="Rev 0 case exploded" width="1600" height="1300"></a><figcaption>The full stack</figcaption></figure>
+    </div>
+  </section>
 
-<section id="viewer">
-  <h2>Schematic and PCB</h2>
-  <p class="sub">The original KiCad 6 files, rendered in the browser by KiCanvas. Click a part or a net to inspect it; switch between schematic and board with the file list.</p>
-  <kicanvas-embed controls="full" theme="kicad">
-    <kicanvas-source src="kicad/atelier6k.kicad_sch"></kicanvas-source>
-    <kicanvas-source src="kicad/atelier6k.kicad_pcb"></kicanvas-source>
-  </kicanvas-embed>
-  <p class="links">
-    <a href="assets/schematic.svg">Schematic SVG</a>
-    <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/main/hardware/bom.csv">Bill of materials</a>
-  </p>
-</section>
+  <section>
+    <h2>How it turned out</h2>
+    <p class="sub">A desk review in 2026, against the netlist, KiCad 10 checks and the firmware. Nothing in the files was changed.</p>
+    <ul class="findings">
+      <li><b class="good">Right</b>USB-C done properly: 5.1 kΩ on each CC pin, 22 Ω series resistors, ESD diodes, a crystal with its load caps.</li>
+      <li><b class="good">Right</b>A full 3 × 3 matrix with a diode per key, so any combination of keys registers.</li>
+      <li><b class="good">Right</b>Hot-swap sockets and reverse-mount LEDs under the switches, which is what good keypads do.</li>
+      <li><b class="bad">Fix</b>No fuse on VBUS, and ten LEDs at full white can pull more than USB's 500 mA.</li>
+      <li><b class="bad">Fix</b>The underglow chain sits on a pin the firmware drives as a PWM backlight.</li>
+      <li><b class="warn">Watch</b>No decoupling at the LEDs; the MCU capacitors are far from its supply pins.</li>
+    </ul>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/revamp/docs/rev0-review.md">Read the full rev 0 review</a></p>
+  </section>
+</article>
 
-<section id="renders">
-  <h2>Renders</h2>
-  <div class="gallery">
-    <figure><a href="assets/pcb-top.png"><img loading="lazy" src="assets/pcb-top.png" alt="PCB top side" width="2000" height="1500"></a><figcaption>Top: switch side, with the silkscreen art</figcaption></figure>
-    <figure><a href="assets/pcb-bottom.png"><img loading="lazy" src="assets/pcb-bottom.png" alt="PCB bottom side" width="2000" height="1500"></a><figcaption>Bottom: MCU, hot-swap sockets, diodes, underglow LEDs</figcaption></figure>
-    <figure><a href="assets/pcb-iso-bottom.png"><img loading="lazy" src="assets/pcb-iso-bottom.png" alt="PCB bottom side in perspective" width="2000" height="1500"></a><figcaption>Bottom, perspective</figcaption></figure>
-    <figure><a href="assets/case-assembled.png"><img loading="lazy" src="assets/case-assembled.png" alt="Assembled keypad in its acrylic case" width="1600" height="1300"></a><figcaption>Assembled in the acrylic case</figcaption></figure>
-    <figure><a href="assets/case-exploded.png"><img loading="lazy" src="assets/case-exploded.png" alt="Exploded view of the case with every part labelled" width="1600" height="1300"></a><figcaption>Exploded view of the full stack</figcaption></figure>
-  </div>
-</section>
+<!-- ======================================================== REV 1 -->
+<article class="rev" id="page-rev1" data-rev="1" hidden>
+  <header class="rev-head">
+    <h1>A board written as code</h1>
+    <p class="lede">Same outline, holes and key layout as rev 0. The circuit is a Python file; the schematic, placement and every track are generated from it, then checked by KiCad. Designed, not yet built.</p>
+    <dl class="specs">
+      <div><dt>MCU</dt><dd>RP2040-Zero module</dd></div>
+      <div><dt>Keys</dt><dd>9 on direct pins</dd></div>
+      <div><dt>Polling</dt><dd>1000 Hz, debounce set in VIA</dd></div>
+      <div><dt>Checks</dt><dd>ERC 0, DRC 0, 0 unrouted</dd></div>
+    </dl>
+  </header>
 
-<section id="how">
-  <h2>How it works</h2>
-  <div class="cards">
-    <article><h3>Key matrix</h3><p>Nine switches in a 3 × 3 matrix with one diode each, scanned on PD1–PD3 and PD5–PD7.</p></article>
-    <article><h3>USB-C</h3><p>5.1 kΩ pull-downs on both CC pins, 22 Ω series resistors and a PRTR5V0U2X for ESD protection.</p></article>
-    <article><h3>Lighting</h3><p>Six reverse-mount LEDs shine up through the switches; four more light the frosted case frame from below.</p></article>
-    <article><h3>Firmware</h3><p>QMK with VIA, so keys and lighting can be remapped without reflashing. 1000 Hz polling.</p></article>
-  </div>
-</section>
+  <section>
+    <h2>Case for rev 1</h2>
+    <p class="sub">The switch plate is 1.6 mm FR4. The module hangs under the board, so the bottom frame opens for it and the base has holes for BOOT and RESET.</p>
+    <iframe class="case-view" data-src="case.html?rev=1" title="Exploded view of the rev 1 case" loading="lazy"></iframe>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/tree/revamp/case/dxf-rev1">DXF cut files</a></p>
+  </section>
 
-<section id="review">
-  <h2>Design review</h2>
-  <p class="sub">A desk check of rev 0 against the netlist, KiCad 10 ERC/DRC and the firmware. Nothing was measured on hardware.</p>
-  <ul class="findings">
-    <li><span class="sev blocker">Blocker</span>No fuse between USB VBUS and the 5 V rail.</li>
-    <li><span class="sev blocker">Blocker</span>Ten LEDs at full white can draw about 600 mA, above the 500 mA USB budget.</li>
-    <li><span class="sev blocker">Blocker</span>The underglow chain is wired to a pin the firmware drives as a PWM backlight.</li>
-    <li><span class="sev blocker">Blocker</span>The per-key LED footprint is named after a non-addressable part; the pinout needs checking.</li>
-    <li><span class="sev high">High</span>No decoupling capacitors at the LEDs, and the MCU's sit far from its supply pins.</li>
-    <li><span class="sev ok">OK</span>USB-C wiring, ESD protection, reset, bootloader strap and the key matrix check out.</li>
-  </ul>
-  <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/main/docs/design-review.md">Read the full review</a></p>
-</section>
+  <section>
+    <h2>Board and schematic</h2>
+    <div class="gallery">
+      <figure><a href="assets/rev1-pcb-top.png"><img loading="lazy" src="assets/rev1-pcb-top.png" alt="Rev 1 PCB, top" width="2000" height="1500"></a><figcaption>Top: switch side, south-facing LEDs</figcaption></figure>
+      <figure><a href="assets/rev1-pcb-bottom.png"><img loading="lazy" src="assets/rev1-pcb-bottom.png" alt="Rev 1 PCB, bottom" width="2000" height="1500"></a><figcaption>Bottom: module notch, sockets, fuse</figcaption></figure>
+      <figure><a href="assets/rev1-schematic.svg"><img loading="lazy" src="assets/rev1-schematic.svg" alt="Rev 1 schematic" width="1600" height="1130"></a><figcaption>Generated schematic</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>Is it any good?</h2>
+    <p class="sub">An honest grade of the board as a test of PCB work.</p>
+    <ul class="findings">
+      <li><b class="good">Strong</b>Every net, footprint and track is reproducible from one script, with tests that tie the pin map to the firmware.</li>
+      <li><b class="good">Strong</b>Fixes all of rev 0's power faults: polyfuse, 3.3 → 5 V data buffer, a capacitor at every LED.</li>
+      <li><b class="warn">Plain</b>Electrically it is a simple board: nine switches to ground and one LED chain on a ready-made module.</li>
+      <li><b class="warn">Plain</b>The home-made router's tracks are correct but not pretty; a person would tidy them.</li>
+      <li><b class="bad">Open</b>The LED footprint pinout differs between datasheet revisions and must be checked against the part bought.</li>
+    </ul>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/revamp/docs/rev1-assessment.md">Read the assessment</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/revamp/docs/rev1-board.md">How rev 1 is made</a></p>
+  </section>
+</article>
+
+<!-- ======================================================== REV 2 -->
+<article class="rev" id="page-rev2" data-rev="2" hidden>
+  <header class="rev-head">
+    <h1>Magnets, measured every 125 µs</h1>
+    <p class="lede">A budget Hall-effect keypad: every key's travel is read as a distance, so a key can reset the moment it starts to rise. Nothing is built yet; this is the plan, with prices.</p>
+    <dl class="specs" id="he-specs">
+      <div><dt>Sensing</dt><dd>Analog Hall, 6 keys</dd></div>
+      <div><dt>Scan</dt><dd>8 kHz target</dd></div>
+      <div><dt>Report</dt><dd>USB High Speed, 8 kHz</dd></div>
+      <div><dt>Parts cost</dt><dd id="he-cost">≈ 18 USD, estimated</dd></div>
+    </dl>
+  </header>
+
+  <section>
+    <h2>How rapid trigger works</h2>
+    <p class="sub">Drag the key down and let it rise. A normal switch waits for the fixed reset point; rapid trigger releases as soon as the key moves up by the sensitivity you set.</p>
+    <div class="rt" id="rt">
+      <svg viewBox="0 0 640 220" role="img" aria-labelledby="rt-title">
+        <title id="rt-title">Key travel over time with the press and release events of a fixed-point switch and a rapid-trigger switch</title>
+        <g class="rt-grid"></g>
+        <path class="rt-travel" d=""/>
+        <g class="rt-marks"></g>
+      </svg>
+      <div class="rt-ui">
+        <label>Key travel <input id="rt-depth" type="range" min="0" max="4" step="0.05" value="0" aria-describedby="rt-read"></label>
+        <label>Sensitivity <select id="rt-sens"><option value="0.1">0.1 mm</option><option value="0.2" selected>0.2 mm</option><option value="0.5">0.5 mm</option></select></label>
+        <output id="rt-read"></output>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The plan</h2>
+    <ul class="findings" id="he-points">
+      <li><b class="good">MCU</b>AT32F405: USB High Speed built in for 8 kHz reports, and 16 ADC inputs, so each sensor gets its own pin with no multiplexer.</li>
+      <li><b class="good">Scan</b>Six keys, 16 samples each, in 48 µs of every 125 µs. Device-side delay 250 µs worst case, against 1125 µs on a 1 kHz board.</li>
+      <li><b class="good">Sense</b>Linear Hall sensor under each key. The model gives a rapid-trigger floor of 0.056 mm for a 0.23 USD sensor and 0.023 mm for a better one; the bench will measure both.</li>
+      <li><b class="warn">Firmware</b>A fork of the open libhmk firmware, which already has rapid trigger and 8 kHz on this chip; LED support gets added so it never interrupts a scan.</li>
+      <li><b class="warn">Feel</b>Rev 0 key positions, a 6° case wedge, per-key actuation and sensitivity. Blue translucent acrylic and a performance mode that turns every LED off.</li>
+      <li><b class="bad">Honest</b>A mass-made 3-key Hall pad sells for about what our parts cost. This one wins on six analog keys, openness and published measurements, not on price alone.</li>
+    </ul>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/hall-effect-plan.md">Read the full Hall-effect plan</a></p>
+  </section>
+</article>
 </main>
 
 <footer>
-  <p>Hardware under CERN-OHL-P v2, firmware under GPL-2.0-or-later. Designed by thuanc177, 2022.</p>
+  <p>Hardware under CERN-OHL-P v2, firmware under GPL-2.0-or-later. Rev 0 designed by thuanc177 in 2022.</p>
 </footer>
 </body>
 </html>

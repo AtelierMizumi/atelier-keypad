@@ -6,8 +6,15 @@ RGB, QMK firmware with VIA.
 
 ![Atelier6K PCB, top side](docs/images/pcb-iso.png)
 
-**[Live demo](https://ateliermizumi.github.io/atelier-keypad/)** — rotate the
-board in 3D and browse the schematic and PCB in the browser.
+**[Live demo](https://blog.minhthuan.dev/atelier-keypad/)**: switch between
+rev 0, rev 1 and the planned rev 2, rotate each board in 3D, pull the case
+apart, and try rapid trigger in the browser.
+
+| Revision | State | Read |
+|---|---|---|
+| Rev 0 (2022, ATmega32U4) | Original files, unchanged | [Looking back at rev 0](docs/rev0-review.md), [defect review](docs/design-review.md) |
+| Rev 1 (2026, RP2040) | Generated and checked, not built | [How it is made](docs/rev1-board.md), [honest grade](docs/rev1-assessment.md) |
+| Rev 2 (Hall effect, 8 kHz) | Planned, branch `plan/hall-effect` | [Design spec](https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/hall-effect-plan.md) |
 
 > [!WARNING]
 > **Rev 0 is an unverified prototype.** It was designed in 2022 as a first PCB
@@ -74,7 +81,7 @@ KiCad's ERC and DRC. It has not been fabricated; see
 
 | Path | Contents |
 |------|----------|
-| `hardware/atelier6k/` | KiCad 10 project (schematic and PCB) |
+| `hardware/atelier6k/` | Rev 0 KiCad 6 project (schematic and PCB), unchanged since 2022 |
 | `hardware/libs/` | Footprint and symbol libraries (git submodules) and local footprints |
 | `hardware/gerbers/rev0/` | Gerbers and drill files exported in 2022 |
 | `hardware/bom.csv` | Bill of materials generated from the schematic |
@@ -119,8 +126,9 @@ nine direct-pin keys, one chain of ten RGB LEDs, VIA.
 - Brightness capped at 120 of 255 to stay inside the USB current budget.
 
 It has been compiled and its debounce logic is unit-tested, but it has **not
-run on hardware**: rev 1 of the board does not exist yet, and the pin
-assignment in `keyboard.json` is provisional until the PCB is routed.
+run on hardware**: rev 1 of the board does not exist yet. The pin assignment
+in `keyboard.json` matches the routed rev 1 PCB, and a test in
+`hardware/rev1/tests/` fails if the two ever disagree.
 
 ```sh
 ./scripts/firmware.sh        # unit tests, lint, build firmware/build/atelier6k_default.uf2
