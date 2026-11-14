@@ -122,19 +122,74 @@ def test_drv5056_variants_are_ratiometric_with_datasheet_sensitivity():
 
 
 def test_drv5056a3_saturates_before_bottom_out_but_a4_does_not():
-    geo, mag, adc = m.REFERENCE.geometry, m.REFERENCE.magnet, m.REFERENCE.adc
-    a3 = m.Design(geo, mag, m.SENSORS["DRV5056A3"], adc, 3.3)
-    a4 = m.Design(geo, mag, m.SENSORS["DRV5056A4"], adc, 3.3)
-    # 82 mT at bottom-out against a 79 mT range: the last few hundredths of a mm are lost,
-    # and with an N52-grade magnet (1450 mT) more than 0.2 mm is lost. A4 keeps the full stroke.
-    assert a3.usable_travel_mm() < 4.0
-    n52 = m.Magnet(2.8, 3.4, 1450)
-    assert m.Design(geo, n52, m.SENSORS["DRV5056A3"], adc, 3.3).usable_travel_mm() < 3.8
-    assert m.Design(geo, n52, m.SENSORS["DRV5056A4"], adc, 3.3).usable_travel_mm() == pytest.approx(4.0)
-    assert a4.usable_travel_mm() == pytest.approx(4.0)
+    # Fitted Jade through a 1.2 mm PCB: 80 mT at bottom-out against the A3's 79 mT range,
+    # and 88 mT with a +10 % magnet. The A4 (158 mT) keeps the full stroke either way.
+    ref = m.REFERENCE
+    a3 = m.Design(ref.geometry, ref.magnet, m.SENSORS["DRV5056A3"], ref.adc, 3.3)
+    assert a3.usable_travel_mm() < ref.geometry.travel_mm
+    strong = m.Magnet(ref.magnet.diameter_mm, ref.magnet.length_mm, ref.magnet.br_mT * 1.1)
+    assert m.Design(ref.geometry, strong, m.SENSORS["DRV5056A3"], ref.adc, 3.3).usable_travel_mm() < ref.geometry.travel_mm
+    assert m.Design(ref.geometry, strong, m.SENSORS["DRV5056A4"], ref.adc, 3.3).usable_travel_mm() == pytest.approx(ref.geometry.travel_mm)
+    assert ref.usable_travel_mm() == pytest.approx(ref.geometry.travel_mm)
 
 
 def test_pinouts_are_recorded_and_differ():
     # Ouzhuo OH49E datasheet: 1 VCC, 2 GND, 3 OUT. TI DRV5056 SOT-23: 1 VCC, 2 OUT, 3 GND.
     assert m.SENSORS["OH49E"].pinout == ("VCC", "GND", "OUT")
     assert m.SENSORS["DRV5056A4"].pinout == ("VCC", "OUT", "GND")
+
+
+# ------------------------------------- fitted to Gateron Jade (docs/research/he-switch-field.md)
+
+SHAPES = [(1.5, 3.5), (2.0, 3.0)]   # magnet radius, length (mm): the Jade's is not published
+
+
+@pytest.mark.parametrize("r,l", SHAPES)
+def test_fit_reproduces_the_published_rest_and_bottom_flux(r, l):
+    rest, bottom, travel = m.JADE
+    mag, gap = m.fit_to_flux(rest, bottom, travel, r, l)
+    assert m.field_mT(gap, mag) == pytest.approx(bottom, abs=0.1)
+    assert m.field_mT(gap + travel, mag) == pytest.approx(rest, abs=0.1)
+
+
+@pytest.mark.parametrize("r,l", SHAPES)
+def test_thicker_pcb_drops_bottom_flux_like_durock(r, l):
+    # Durock Rock HE: 640 G on 1.2 mm, 480 G on 1.6 mm (-25 %).
+    mag, gap = m.fit_to_flux(*m.JADE, r, l)
+    shift = m.Placement("bottom", 1.6).offset_from(m.REF_PLACEMENT)
+    assert shift == pytest.approx(0.4)
+    drop = 1 - m.field_mT(gap + shift, mag) / m.field_mT(gap, mag)
+    assert 0.20 <= drop <= 0.28
+
+
+@pytest.mark.parametrize("r,l", SHAPES)
+def test_top_placement_saturates_drv5056a4(r, l):
+    # More than a millimetre of the 3.5 mm stroke reads flat at the top of the sensor's range.
+    d = m.jade_design(m.Placement("top", 1.2), m.SENSORS["DRV5056A4"], r, l)
+    assert d.usable_travel_mm() < 2.5
+
+
+@pytest.mark.parametrize("r,l", SHAPES)
+def test_bottom_1p2_uses_half_the_a4_range(r, l):
+    mag, gap = m.fit_to_flux(*m.JADE, r, l)
+    assert 0.45 <= m.field_mT(gap, mag) / 158.0 <= 0.60
+
+
+def test_rc_noise_follows_the_noise_bandwidth():
+    fc = 1 / (2 * math.pi * 1e3 * 47e-9)
+    assert m.rc_noise_mT(1e3, 47e-9) == pytest.approx(215e-6 * math.sqrt(fc * math.pi / 2), rel=1e-9)
+    assert m.rc_noise_mT(1e3, 10e-9) > m.rc_noise_mT(1e3, 47e-9)
+
+
+def test_47nF_filter_gives_rt_floor_under_30_um():
+    d = m.REFERENCE
+    noise = d.noise_counts(m.rc_noise_mT(1e3, 47e-9), adc_rms_counts=1.5, oversample=32)
+    assert d.rt_floor_mm(noise_rms_counts=noise, oversample=1) < 0.030
+    noise_10n = d.noise_counts(m.rc_noise_mT(1e3, 10e-9), adc_rms_counts=1.5, oversample=32)
+    assert d.rt_floor_mm(noise_rms_counts=noise_10n, oversample=1) > 0.035
+
+
+def test_reference_is_the_fitted_jade_on_the_bottom_of_a_1p2_mm_board():
+    assert m.REF_PLACEMENT == m.Placement("bottom", 1.2)
+    assert m.REFERENCE.sensor.name == "DRV5056A4"
+    assert m.REFERENCE.geometry.travel_mm == 3.5

@@ -18,7 +18,7 @@ possible later.
 | # | Decision | Why |
 |---|---|---|
 | D1 | Keep the routed rev 2 as the base; change only what a check forces | ERC/DRC and layout tests already pass |
-| D2 | Hall sensors move to the **bottom** side, under each switch, on a **1.2 mm** PCB, still **DRV5056A4** | Gateron's flux figures are measured through a 1.2 mm PCB; on top the A4 saturates over 2.2 mm of the stroke |
+| D2 | Hall sensors move to the **bottom** side, under each switch, on a **1.2 mm** PCB, still **DRV5056A4** | Gateron's flux figures are measured through a 1.2 mm PCB; on top the A4 reads flat over the last 1.2–1.4 mm of the stroke |
 | D3 | Sensor filter **1 kΩ / 47 nF** (fc ≈ 3.4 kHz) | RT floor ≈ 25 µm instead of 45 µm, for ≈ 47 µs of delay |
 | D4 | No bench: the first JLCPCB batch (5 boards) is the prototype, marked `rev 2.0` | Acceptance compares measured curves with the model; a miss becomes rev 2.1 |
 | D5 | MCU stays AT32F405 (8 kHz) behind a gate: confirm AT32F405CCT7 stock before ordering, else Plan B (RP2040, 1 kHz) | No price or stock found on 14 Nov |

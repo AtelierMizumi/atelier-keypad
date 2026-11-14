@@ -47,7 +47,7 @@
 - [ ] **Step 1: Write failing tests**
   - `test_fit_reproduces_the_published_rest_and_bottom_flux`: the fitted design gives 12.0 ± 0.1 mT at rest and 80.0 ± 0.1 mT at bottom.
   - `test_thicker_pcb_drops_bottom_flux_like_durock`: moving from a 1.2 to a 1.6 mm bottom placement drops the bottom flux by 20–28 %. Durock measured 25 %.
-  - `test_top_placement_saturates_drv5056a4`: `usable_travel_mm() < 2.0` at `Placement("top", 1.2)`, for both magnet shapes (1.5, 3.5) and (2.0, 3.0).
+  - `test_top_placement_saturates_drv5056a4`: `usable_travel_mm() < 2.5` at `Placement("top", 1.2)` (was 2.0 before the research sign error was found; see ledger), for both magnet shapes (1.5, 3.5) and (2.0, 3.0).
   - `test_bottom_1p2_uses_half_the_a4_range`: peak / 158 mT is between 0.45 and 0.60.
   - `test_47nF_filter_gives_rt_floor_under_30_um`: with sensor noise `rc_noise_mT(1e3, 47e-9)` and 1.5 counts ADC noise at 32× oversampling, `rt_floor_mm` < 0.030.
   - Also update `test_drv5056a3_saturates_before_bottom_out_but_a4_does_not` to the fitted reference: it must still hold at 88 mT (the +10 % magnet).

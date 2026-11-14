@@ -28,23 +28,32 @@ figures above come from cached product pages and resellers.
    reading, yet Durock's 1.2 → 1.6 mm drop is 25 %.
 2. **A sensor on the top side sees far more than the published figure.** Fitting
    an on-axis cylinder model to 12 mT at rest and 80 mT at bottom-out, then
-   moving the sensor 1.7–2.2 mm closer (PCB thickness plus package depth),
-   predicts 430–475 mT at bottom-out: about three times the DRV5056A4 range.
-   The A4 then saturates over the last 2.2–2.3 mm of a 3.5 mm stroke.
+   moving the sensor 2.2 mm closer (1.2 mm of PCB plus 0.5 mm package depth on
+   each side), predicts 290–525 mT at bottom-out: two to three times the
+   DRV5056A4's 158 mT range. The A4 then reads flat over the last 1.2–1.4 mm
+   of the 3.5 mm stroke. (An earlier version of this file said 2.2–2.3 mm; that
+   came from a sign error in a scratch script, fixed when the model got tests.)
 3. **The fitted model predicts the thickness effect on its own.** Moved 0.4 mm
    further away, it drops 22–25 %, against Durock's measured 25 %. This is the
    check that makes the fit worth using.
 
 ## Options (DRV5056 at 3.3 V, 12-bit ADC, 1.5 counts ADC noise, 32× oversample)
 
-| Placement | Peak field | Share of range | RT floor (6σ), 1 k/10 nF | 1 k/47 nF |
-|---|---|---|---|---|
-| Top side, A4 (rev 2 as routed on 14 Nov) | 430–475 mT | 270–300 % | saturates | saturates |
-| **Bottom, 1.2 mm PCB, A4 (chosen)** | 80–88 mT | 51–56 % | 40–45 µm | ≈ 25 µm |
-| Bottom, 1.6 mm PCB, A3 | 60–67 mT | 76–85 % | 47–53 µm | ≈ 30 µm |
+Output of `python3 tools/he_model/he_model.py`, for both assumed magnet shapes:
 
-Two magnet sizes (r 1.5 / l 3.5 mm and r 2.0 / l 3.0 mm) give the same rows to
-within a few per cent, so the unknown magnet size does not change the choice.
+| Placement | Peak field | Usable travel of 3.5 mm | RT floor (6σ), 1 k/10 nF | 1 k/47 nF |
+|---|---|---|---|---|
+| Top side, A4 (rev 2 as routed on 14 Nov) | 290–525 mT | 2.1–2.3 mm | saturates | saturates |
+| **Bottom, 1.2 mm PCB, A4 (chosen)** | 80 mT (51 % of range) | 3.5 mm | 43–45 µm | 24–25 µm |
+| Bottom, 1.6 mm PCB, A3 | 60–61 mT (76–77 % of range) | 3.5 mm | 51–53 µm | 25–26 µm |
+
+With the +10 % magnet tolerance the bottom 1.2 mm / A4 peak is 88 mT (56 %),
+and the 1.6 mm / A3 option creeps to 85 % of its range. That thin margin is
+why A4 on 1.2 mm is the choice, even though the A3 floor is about the same.
+
+Two magnet sizes (r 1.5 / l 3.5 mm and r 2.0 / l 3.0 mm) agree closely wherever
+the sensor sits through the PCB; they differ only on the top side, where both
+saturate. The unknown magnet size does not change the choice.
 
 The floors are far below the 0.1 mm most boards advertise. What limits the
 real board is mechanical: ±0.2 mm travel and ±10 % flux from switch to switch,
