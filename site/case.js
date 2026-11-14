@@ -14,6 +14,8 @@ import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 const q = new URLSearchParams(location.search);
 // ?rev=1 shows the rev 1 board and its case (FR4 plate, MCU module under the PCB).
 const TAG = q.get('rev') === '1' ? '-rev1' : '';
+// Bump when the GLB files change, so browsers do not keep the old ones.
+const MODEL_VERSION = 'merged-1';
 const num = (k, d) => (q.has(k) ? parseFloat(q.get(k)) : d);
 const flag = (k, d) => (q.has(k) ? q.get(k) !== '0' : d);
 if (q.get('theme') === 'light') document.body.classList.add('light');
@@ -209,7 +211,7 @@ async function build() {
   }
 
   // KiCad exports the board in metres, y-up, with its bottom face on the origin plane.
-  const gltf = await new GLTFLoader().loadAsync(`assets/atelier6k${TAG}.glb`);
+  const gltf = await new GLTFLoader().loadAsync(`assets/atelier6k${TAG}.glb?v=${MODEL_VERSION}`);
   const board = gltf.scene;
   board.scale.setScalar(1000);
   const holder = new THREE.Group();
@@ -295,18 +297,28 @@ build().then((data) => {
   resize();
   update(true);
 
-  slider.addEventListener('input', () => update(true));
-  capsBox.addEventListener('change', () => { setVisible(); update(true); });
-  window.addEventListener('resize', resize);
-
-  let frames = 0;
-  renderer.setAnimationLoop(() => {
-    controls.update();
+  // Draw only when something changed: an idle view costs nothing, which
+  // matters when this page sits in an iframe next to another 3D view.
+  let frames = 0, pending = false;
+  const tick = () => {
+    pending = false;
+    const moving = controls.update(); // true while damping is still settling
     world.updateMatrixWorld(true);
     renderer.render(scene, camera);
     placeLabels(parseFloat(slider.value));
     if (++frames === 5) window.__ready = true;
-  });
+    if (moving || frames < 5) requestRender();
+  };
+  const requestRender = () => {
+    if (!pending) { pending = true; requestAnimationFrame(tick); }
+  };
+
+  controls.addEventListener('change', requestRender);
+  slider.addEventListener('input', () => { update(true); requestRender(); });
+  capsBox.addEventListener('change', () => { setVisible(); update(true); requestRender(); });
+  tagsBox.addEventListener('change', requestRender);
+  window.addEventListener('resize', () => { resize(); requestRender(); });
+  requestRender();
 }).catch((err) => {
   statusEl.textContent = `Could not load the model: ${err.message}`;
   console.error(err);

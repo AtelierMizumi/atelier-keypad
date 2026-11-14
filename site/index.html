@@ -23,6 +23,10 @@
 
 <header class="top">
   <a class="brand" href="#rev0">Atelier<b>6K</b></a>
+  <div class="hud" aria-label="Today">
+    <svg class="moon" viewBox="-12 -12 24 24" aria-hidden="true"><circle r="11" class="moon-dark"/><path class="moon-lit" d=""/></svg>
+    <p><b class="hud-date"></b><span class="hud-day"></span><span class="hud-phase"></span></p>
+  </div>
   <a class="gh" href="https://github.com/AtelierMizumi/atelier-keypad">Source on GitHub</a>
 </header>
 
@@ -31,12 +35,12 @@
   <nav class="menu" aria-label="Choose a revision">
     <a href="#rev0" data-rev="0"><span class="tag">REV 0</span><span class="note">2022 · ATmega32U4 · the original</span></a>
     <a href="#rev1" data-rev="1"><span class="tag">REV 1</span><span class="note">2026 · RP2040 · generated from code</span></a>
-    <a href="#rev2" data-rev="2"><span class="tag">REV 2</span><span class="note">Planned · Hall effect · rapid trigger</span></a>
+    <a href="#rev2" data-rev="2"><span class="tag">REV 2</span><span class="note">Planned · 3 Hall keys · rapid trigger</span></a>
   </nav>
 
   <div class="show">
     <span class="numeral" aria-hidden="true">0</span>
-    <model-viewer id="model" src="assets/atelier6k.glb" poster="assets/pcb-iso.png"
+    <model-viewer id="model" src="assets/atelier6k.glb?v=merged-1" poster="assets/pcb-iso.png"
       alt="Interactive 3D model of the selected Atelier6K board"
       camera-controls auto-rotate auto-rotate-delay="1200" rotation-per-second="16deg"
       shadow-intensity="0.7" exposure="0.6" tone-mapping="neutral"
@@ -142,12 +146,12 @@
 <article class="rev" id="page-rev2" data-rev="2" hidden>
   <header class="rev-head">
     <h1>Magnets, measured every 125 µs</h1>
-    <p class="lede">A budget Hall-effect keypad: every key's travel is read as a distance, so a key can reset the moment it starts to rise. Nothing is built yet; this is the plan, with prices.</p>
+    <p class="lede">Three magnetic keys on an arc that follows the fingers, in a sealed case. Every key's travel is read as a distance, so a key releases the moment it starts to rise. One unit, one player, one million đồng. Nothing is built yet.</p>
     <dl class="specs" id="he-specs">
-      <div><dt>Sensing</dt><dd>Analog Hall, 6 keys</dd></div>
+      <div><dt>Keys</dt><dd>3 Hall + 2 buttons</dd></div>
       <div><dt>Scan</dt><dd>8 kHz target</dd></div>
       <div><dt>Report</dt><dd>USB High Speed, 8 kHz</dd></div>
-      <div><dt>Parts cost</dt><dd id="he-cost">≈ 18 USD, estimated</dd></div>
+      <div><dt>Budget</dt><dd id="he-cost">≤ 1,000,000 VND</dd></div>
     </dl>
   </header>
 
@@ -172,14 +176,21 @@
   <section>
     <h2>The plan</h2>
     <ul class="findings" id="he-points">
-      <li><b class="good">MCU</b>AT32F405: USB High Speed built in for 8 kHz reports, and 16 ADC inputs, so each sensor gets its own pin with no multiplexer.</li>
-      <li><b class="good">Scan</b>Six keys, 16 samples each, in 48 µs of every 125 µs. Device-side delay 250 µs worst case, against 1125 µs on a 1 kHz board.</li>
-      <li><b class="good">Sense</b>Linear Hall sensor under each key. The model gives a rapid-trigger floor of 0.056 mm for a 0.23 USD sensor and 0.023 mm for a better one; the bench will measure both.</li>
+      <li><b class="good">MCU</b>AT32F405: USB High Speed built in for 8 kHz reports, and an ADC input for every sensor, so there is no multiplexer.</li>
+      <li><b class="good">Scan</b>Three keys, 32 samples each, in 48 µs of every 125 µs. Device-side delay 250 µs worst case, against 1125 µs on a 1 kHz board.</li>
+      <li><b class="good">Sense</b>A TI DRV5056A4 under each key. The model gives a 0.015 mm rapid-trigger floor; the A3 variant was rejected because this magnet saturates it at the bottom of the stroke.</li>
       <li><b class="warn">Firmware</b>A fork of the open libhmk firmware, which already has rapid trigger and 8 kHz on this chip; LED support gets added so it never interrupts a scan.</li>
-      <li><b class="warn">Feel</b>Rev 0 key positions, a 6° case wedge, per-key actuation and sensitivity. Blue translucent acrylic and a performance mode that turns every LED off.</li>
-      <li><b class="bad">Honest</b>A mass-made 3-key Hall pad sells for about what our parts cost. This one wins on six analog keys, openness and published measurements, not on price alone.</li>
+      <li><b class="good">Hand</b>Three keys 19.05 mm apart, the middle one 4.76 mm further out for the longest finger. Symmetric, so it suits either hand. A 6° wedge, Esc and retry out of the tapping path.</li>
+      <li><b class="good">Sweat</b>The board sits inside closed walls under a gasketed cover and is lacquered all over; magnetic switches have no contacts, so nothing needs to stay bare. Nylon screws. USB's 5 V cannot shock you; the case is there for static and salt.</li>
+      <li><b class="bad">Honest</b>A mass-made 3-key Hall pad costs about what this single unit costs. This one wins on a finer measured floor, a layout fitted to one hand, a sealed case and openness, not on price.</li>
     </ul>
-    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/hall-effect-plan.md">Read the full Hall-effect plan</a></p>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/hall-effect-plan.md">Read the full Hall-effect plan</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/hall-effect-task0.md">Task 0: prices and parts</a></p>
+  </section>
+
+  <section>
+    <h2>Art under the board</h2>
+    <p class="sub">Four tones from the four things a PCB is made of: mask over laminate, mask over copper, bare gold copper and white ink. A moon over the night sea, and the field lines of the three magnets. Seen through the clear base, lit by the underglow.</p>
+    <figure class="art"><img loading="lazy" src="assets/rev2-art-preview.png" alt="Preview of the rev 2 bottom art: a gold crescent moon over a blue sea, with gold and blue field-line arcs rising from three white magnets on the horizon" width="1200" height="681"></figure>
   </section>
 </article>
 </main>

@@ -1,7 +1,7 @@
 // Revision switcher and the rapid-trigger demo.
 const REVS = {
-  0: { model: 'assets/atelier6k.glb', poster: 'assets/pcb-iso.png' },
-  1: { model: 'assets/atelier6k-rev1.glb', poster: 'assets/rev1-pcb-top.png' },
+  0: { model: 'assets/atelier6k.glb?v=merged-1', poster: 'assets/pcb-iso.png' },
+  1: { model: 'assets/atelier6k-rev1.glb?v=merged-1', poster: 'assets/rev1-pcb-top.png' },
   2: { model: null },
 };
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -57,6 +57,25 @@ function select(rev, animate) {
 const fromHash = () => (location.hash.match(/^#rev([0-2])$/) || [])[1] || '0';
 addEventListener('hashchange', () => select(fromHash(), true));
 select(fromHash(), false);
+
+// ------------------------------------------------------------ date and moon
+// Moon age from a known new moon (2000-01-06 18:14 UTC) and the synodic month.
+(() => {
+  const now = new Date();
+  const f = ((((now - Date.UTC(2000, 0, 6, 18, 14)) / 864e5) / 29.530588853) % 1 + 1) % 1;
+  const names = ['New moon', 'Waxing crescent', 'First quarter', 'Waxing gibbous',
+                 'Full moon', 'Waning gibbous', 'Last quarter', 'Waning crescent'];
+  const r = 11, rx = Math.abs(Math.cos(2 * Math.PI * f)) * r;
+  const waxing = f < 0.5, crescent = f < 0.25 || f > 0.75;
+  // Lit limb on the right while waxing; the terminator is an ellipse of width rx.
+  const d = `M0,${-r} A${r},${r} 0 0 1 0,${r} A${rx},${r} 0 0 ${crescent ? 0 : 1} 0,${-r}Z`;
+  const lit = document.querySelector('.moon-lit');
+  lit.setAttribute('d', d);
+  if (!waxing) lit.setAttribute('transform', 'scale(-1,1)');
+  document.querySelector('.hud-date').textContent = `${now.getMonth() + 1}/${now.getDate()}`;
+  document.querySelector('.hud-day').textContent = now.toLocaleDateString('en', { weekday: 'short' });
+  document.querySelector('.hud-phase').textContent = names[Math.round(f * 8) % 8];
+})();
 
 // ------------------------------------------------------------ rapid trigger
 // Two ways to decide when a key is pressed, replayed over the same travel trace:
