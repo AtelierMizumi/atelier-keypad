@@ -53,8 +53,8 @@ up for a while.
 The reading jitters by a count or two even when nothing moves. Two tools
 reduce that:
 
-- **Oversampling**: take 16 readings and average them. Random noise falls by
-  √16 = 4; on this MCU the 6 keys × 16 samples take 48 µs.
+- **Oversampling**: take 32 readings and average them. Random noise falls by
+  √32 ≈ 5.7; on this MCU the 3 keys × 32 samples take 48 µs.
 - **Filtering**: a light exponential filter. Every filter adds delay, so its
   strength is a setting with its cost shown in microseconds.
 
@@ -62,8 +62,8 @@ What matters is how many counts one millimetre is worth **at the worst point
 of the stroke**, which is the top, where the magnet is far away. The model
 gives 40 counts/mm there for a 49E-type sensor. Six standard deviations of
 the remaining noise must fit inside the smallest movement we want to detect,
-which gives the **rapid-trigger floor**: about 0.06 mm for the 49E and
-0.02 mm for the DRV5056, on paper. Phase 1 replaces both with measurements.
+which gives the **rapid-trigger floor**: about 0.040 mm for the 49E and
+0.015 mm for the DRV5056A4, on paper. Phase 1 replaces both with measurements.
 
 ## 4. Actuation and rapid trigger
 
@@ -118,7 +118,8 @@ a scan, and the performance profile turns the LEDs off.
 | Symptom | Likely cause | Check |
 |---|---|---|
 | A key presses by itself | Bottom calibration too shallow, or noise above the RT setting | Raise sensitivity; log raw readings |
-| A key never reaches full depth | Sensor saturating close to the magnet | Usable travel in the model; try a less sensitive sensor variant |
+| A key never reaches full depth | Sensor saturating close to the magnet (the DRV5056A3 does with this magnet) | Usable travel in the model; use the A4 |
 | Neighbour keys move together | Magnetic crosstalk between switches | Press one key, log its neighbours; compensate in calibration |
 | Readings drift over an hour | Temperature | Rest re-learning interval |
+| Readings wander on a humid day or after long play | Sweat or moisture film on the board (leakage on the analog outputs) | Coating intact? Gasket seated? Open and dry the case |
 | Keys twitch when LEDs change | Shared ground or supply | Performance profile on; compare logs |

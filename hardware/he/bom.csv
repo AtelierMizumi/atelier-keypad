@@ -1,22 +1,22 @@
-group,ref,qty,part,package,source,unit_usd_low_qty,confidence,note
-mcu,U1,1,ARTERY AT32F405CCT7,LQFP-48,LCSC (search AT32F405),2.00,estimate,"HS USB with internal PHY, 12-bit 2 Msps ADC; no listing price found, AT32F407RCT7 is 2.95 at 1 pc on LCSC"
-mcu,Y1,1,12 MHz crystal 3225,SMD3225,LCSC,0.10,estimate,HS USB needs a crystal; check the AT32F405 clock tree for the required frequency
-mcu,C,2,"20 pF load caps",0402,LCSC,0.01,estimate,
-power,U2,1,"LP5907-3.3 low-noise LDO",SOT-23-5,LCSC,0.20,estimate,"Analog rail for sensors and ADC; separate from LED 5 V"
-power,F1,1,"Polyfuse 500 mA hold",1206,LCSC,0.05,estimate,As rev 1
-power,D1,1,USBLC6-2SC6 ESD,SOT-23-6,LCSC,0.10,estimate,
-power,J1,1,USB-C 16-pin receptacle,SMD,LCSC,0.15,estimate,
-power,R,2,5.1 kOhm CC pull-downs,0402,LCSC,0.01,estimate,
-sense,U10-U15,6,Nanjing Ouzhuo OH49E-S linear Hall,SOT-23,LCSC C85573,0.23,found,"0.2349 at 5+, 0.1232 at 3000+; pinout to check"
-sense,U10-U15 alt,6,TI DRV5056A3 linear Hall (unipolar),SOT-23,TI / LCSC,0.60,estimate,"Option: 1.6x the span of the 49E in the model; same footprint only if pinouts agree"
-sense,C,6,100 nF per sensor,0402,LCSC,0.005,estimate,
-light,D20-D29,10,SK6812MINI-E,3228 reverse,LCSC C5149201,0.08,estimate,As rev 1; pinout check carried over
-light,U3,1,74AHCT1G125,SOT-23-5,LCSC,0.10,estimate,
-input,SW1-SW3,3,Tact switch 6x6,SMD,LCSC,0.03,estimate,The three side buttons stay digital
-passives,misc,1,"Decoupling, pull-ups, LED caps",0402,LCSC,0.40,estimate,
-switches,SW10-SW15,6,Gateron Magnetic Jade (KS-20 family),plate mount,mechanicalkeyboards.com,0.46,found,"0.46 to 0.80 depending on vendor"
-pcb,PCB,1,"2-layer FR4 1.6 mm, 81 x 74 mm",,JLCPCB,0.40,estimate,"5 boards for about 2 USD plus shipping"
-plate,PLATE,1,"FR4 1.6 mm switch plate",,JLCPCB,0.40,estimate,Ordered as a second PCB design
-case,CASE,1,"Laser-cut cast acrylic (base, two frames)",,local laser shop,6.00,estimate,"Translucent blue for the look; price varies most by shop"
-keycaps,KC,6,"1u keycaps",,any,0.35,estimate,
-hardware,M3,4,"M3 x 14 screws, nuts, washers",,any,0.10,estimate,
+group,item,qty,unit_vnd_low,unit_vnd_high,plan_vnd,where,confidence,note
+lcsc,ARTERY AT32F405CCT7 (LQFP-48),1,45000,80000,55000,LCSC,estimate,"No listing price found; AT32F407RCT7 is 2.95 USD at 1 pc on LCSC"
+lcsc,TI DRV5056A4QDBZR linear Hall (SOT-23),4,12000,25000,16000,LCSC,estimate,"3 + 1 spare; pinout 1 VCC 2 OUT 3 GND (TI SBAS644)"
+lcsc,LP5907MFX-3.3 LDO (SOT-23-5),2,4000,8000,5000,LCSC,estimate,
+lcsc,USB-C 16-pin receptacle,2,3000,6000,4000,LCSC,estimate,
+lcsc,USBLC6-2SC6 ESD,2,2000,5000,3000,LCSC,estimate,
+lcsc,Polyfuse 500 mA 1206,2,1000,3000,2000,LCSC,estimate,
+lcsc,Crystal for HS USB (3225),2,2500,6000,3000,LCSC,estimate,Frequency per the AT32F405 clock tree
+lcsc,SK6812MINI-E,10,2000,3000,2200,LCSC C5149201,estimate,7 used; pinout check carried over from rev 1
+lcsc,74AHCT1G125 (SOT-23-5),2,2000,4000,2500,LCSC,estimate,
+lcsc,Tact switch 6x6 SMD,5,500,1500,800,LCSC,estimate,
+lcsc,"Passives: 0402 R/C, 1 MOhm, 4.7 nF, 10 uF",1,25000,45000,30000,LCSC,estimate,Minimum quantities dominate
+ship,LCSC shipping to Vietnam,1,0,400000,0,LCSC,unknown,"Plan: merge into the JLCPCB parcel; if LCSC ships alone, budget breaks (see Plan B)"
+jlc,"PCB 2-layer 1.6 mm, about 80 x 50 mm, 5 pcs",1,53000,60000,53000,JLCPCB,found,"2 USD for 5 boards under 100 x 100 mm"
+ship,JLCPCB shipping to Vietnam (PCB + LCSC parts),1,130000,320000,200000,JLCPCB,unknown,Check on the quote page with your address
+local,Gateron Magnetic Jade PCB-mount,4,12000,25000,18000,Shopee / local keyboard shop,estimate,"3 + 1 spare; 0.46-0.80 USD abroad"
+local,Keycaps 1u,4,8000,15000,10000,Shopee,estimate,
+local,"Acrylic laser cut: base, walls, top cover (3 mm)",1,100000,200000,140000,Local laser shop,estimate,Send DXF; price by sheet area and cut length
+local,EVA / silicone foam gasket tape 1 mm,1,15000,30000,20000,Shopee,estimate,
+local,"Nylon M3 screws, nuts, rubber feet",1,20000,40000,30000,Shopee / hardware store,estimate,
+local,Conformal coating (acrylic),1,60000,150000,90000,Shopee / electronics shop,estimate,"e.g. CRC Plastik 70 or a PCB coating bottle"
+local,Flux for LQFP soldering,1,0,40000,25000,Electronics shop,estimate,Skip if you have it

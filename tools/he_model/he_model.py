@@ -43,6 +43,7 @@ class Sensor:
     noise_rms_counts: float = 1.5  # at the ADC, before oversampling; to be measured
     price_usd: float = 0.0
     note: str = ""
+    pinout: tuple[str, str, str] = ("VCC", "OUT", "GND")  # SOT-23 pins 1, 2, 3
 
     def volts(self, b_mT: float, vcc: float) -> float:
         sens = self.mV_per_mT_at_5V / 1000 * (vcc / 5.0 if self.ratiometric else 1.0)
@@ -145,27 +146,33 @@ def finger_time_ms(distance_mm: float, speed_mm_s: float) -> float:
 
 SENSORS = {
     # 49E family: cheap, ratiometric, bipolar, so half the range is unused.
-    "OH49E": Sensor("OH49E", 14.0, 0.5, True, "bipolar", price_usd=0.24,
-                    note="LCSC C85573, SOT-23; 1.4 mV/G at 5 V"),
-    # Unipolar: zero field sits near the bottom rail, so the whole range is usable.
-    "DRV5056A3": Sensor("DRV5056A3", 15.0, 0.6 / 3.3, False, "unipolar", rail_frac_low=0.6 / 3.3,
-                        rail_frac_high=0.9, noise_rms_counts=1.0, price_usd=0.60,
-                        note="TI, 3.3 V figures; price from memory, confirm"),
+    "OH49E": Sensor("OH49E", 14.0, 0.5, True, "bipolar", price_usd=0.23,
+                    note="LCSC C85573, SOT-23; 1.4 mV/G at 5 V; 2.3 V minimum supply",
+                    pinout=("VCC", "GND", "OUT")),
+    # TI DRV5056 (SBAS644): unipolar and ratiometric. Zero field sits at 0.6 V of 5 V,
+    # so nearly the whole output range follows the magnet. Range = 79 mT (A3), 158 mT (A4).
+    "DRV5056A3": Sensor("DRV5056A3", 50.0, 0.12, True, "unipolar", rail_frac_low=0.12, rail_frac_high=0.91,
+                        noise_rms_counts=1.0, price_usd=0.60, note="saturates near bottom-out with this magnet"),
+    "DRV5056A4": Sensor("DRV5056A4", 25.0, 0.12, True, "unipolar", rail_frac_low=0.12, rail_frac_high=0.91,
+                        noise_rms_counts=1.0, price_usd=0.60, note="price from memory, confirm on LCSC"),
 }
+
+KEYS = 3          # analog keys on rev 2 (three-key layout)
+OVERSAMPLE = 32   # 3 keys x 32 samples fit the same 48 us as 6 x 16
 
 REFERENCE = Design(Geometry(6.1, 4.0), Magnet(2.8, 3.4, 1200), SENSORS["OH49E"], Adc(12, 3.3, 2.0), 3.3)
 
 
 def report() -> str:
-    lines = ["| Sensor | Span (counts) | Worst slope (counts/mm) | RT floor, 16x oversample (mm) | Usable travel (mm) |",
+    lines = [f"| Sensor | Span (counts) | Worst slope (counts/mm) | RT floor, {OVERSAMPLE}x oversample (mm) | Usable travel (mm) |",
              "|---|---|---|---|---|"]
     for s in SENSORS.values():
         d = Design(REFERENCE.geometry, REFERENCE.magnet, s, REFERENCE.adc, REFERENCE.vcc)
         live = [x for x in d.slopes() if x > 0]
-        lines.append(f"| {s.name} | {d.span_counts()} | {min(live):.0f} | {d.rt_floor_mm():.3f} | {d.usable_travel_mm():.2f} |")
-    t = check_scan_fits(6, 16, 2.0, 8000)
+        lines.append(f"| {s.name} | {d.span_counts()} | {min(live):.0f} | {d.rt_floor_mm(oversample=OVERSAMPLE):.3f} | {d.usable_travel_mm():.2f} |")
+    t = check_scan_fits(KEYS, OVERSAMPLE, 2.0, 8000)
     lines.append("")
-    lines.append(f"Scan of 6 keys x 16 samples at 2 Msps: {t:.0f} us of a 125 us period.")
+    lines.append(f"Scan of {KEYS} keys x {OVERSAMPLE} samples at 2 Msps: {t:.0f} us of a 125 us period.")
     for name, poll in (("Full speed, 1 kHz", 1000), ("High speed, 8 kHz", 8000)):
         b = latency_budget_us(8000, poll)
         lines.append(f"{name}: worst {b['worst']:.0f} us, mean {b['mean']:.0f} us (device side).")

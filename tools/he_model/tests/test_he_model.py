@@ -110,3 +110,31 @@ def test_finger_travel_dwarfs_usb_polling():
     # a fixed reset point takes ten times as long, far more than one USB frame.
     assert m.finger_time_ms(0.1, 150) == pytest.approx(0.6667, rel=1e-3)
     assert m.finger_time_ms(1.0, 150) / m.finger_time_ms(0.1, 150) == pytest.approx(10)
+
+
+# ------------------------------------------------- catalogue vs. datasheets
+
+def test_drv5056_variants_are_ratiometric_with_datasheet_sensitivity():
+    # TI SBAS644, at VCC = 5 V: A3 50 mV/mT (79 mT range), A4 25 mV/mT (158 mT range).
+    a3, a4 = m.SENSORS["DRV5056A3"], m.SENSORS["DRV5056A4"]
+    assert a3.ratiometric and a4.ratiometric
+    assert a3.mV_per_mT_at_5V == 50.0 and a4.mV_per_mT_at_5V == 25.0
+
+
+def test_drv5056a3_saturates_before_bottom_out_but_a4_does_not():
+    geo, mag, adc = m.REFERENCE.geometry, m.REFERENCE.magnet, m.REFERENCE.adc
+    a3 = m.Design(geo, mag, m.SENSORS["DRV5056A3"], adc, 3.3)
+    a4 = m.Design(geo, mag, m.SENSORS["DRV5056A4"], adc, 3.3)
+    # 82 mT at bottom-out against a 79 mT range: the last few hundredths of a mm are lost,
+    # and with an N52-grade magnet (1450 mT) more than 0.2 mm is lost. A4 keeps the full stroke.
+    assert a3.usable_travel_mm() < 4.0
+    n52 = m.Magnet(2.8, 3.4, 1450)
+    assert m.Design(geo, n52, m.SENSORS["DRV5056A3"], adc, 3.3).usable_travel_mm() < 3.8
+    assert m.Design(geo, n52, m.SENSORS["DRV5056A4"], adc, 3.3).usable_travel_mm() == pytest.approx(4.0)
+    assert a4.usable_travel_mm() == pytest.approx(4.0)
+
+
+def test_pinouts_are_recorded_and_differ():
+    # Ouzhuo OH49E datasheet: 1 VCC, 2 GND, 3 OUT. TI DRV5056 SOT-23: 1 VCC, 2 OUT, 3 GND.
+    assert m.SENSORS["OH49E"].pinout == ("VCC", "GND", "OUT")
+    assert m.SENSORS["DRV5056A4"].pinout == ("VCC", "OUT", "GND")

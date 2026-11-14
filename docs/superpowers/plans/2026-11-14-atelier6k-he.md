@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** A six-key Hall-effect osu! keypad with 8 kHz USB, rapid trigger with a measured floor of 0.05 mm or better on every key, for under 20 USD in parts per unit at 5 units.
+**Goal:** One three-key Hall-effect osu! keypad with 8 kHz USB, rapid trigger with a measured floor of 0.05 mm or better on every key, in a sealed case, for at most 1,000,000 VND including shipping.
 
-**Architecture:** AT32F405 reads six linear Hall sensors on six ADC pins (no multiplexer) and runs a fork of libhmk over USB High Speed. Circuit, PCB and case are generated from code like rev 1 (`hardware/rev1/`), so tests check the design before anything is ordered. Bench measurements replace the model's assumptions before the PCB is drawn.
+**Architecture:** AT32F405 reads three linear Hall sensors (DRV5056A4) on three ADC pins (no multiplexer) and runs a fork of libhmk over USB High Speed. Circuit, PCB and case are generated from code like rev 1 (`hardware/rev1/`), so tests check the design before anything is ordered. Bench measurements replace the model's assumptions before the PCB is drawn.
 
 **Tech Stack:** Python 3 + pytest (model, circuit, case), KiCad 10 via Docker (`kicad/kicad:10.0.8-full`), libhmk (C, PlatformIO, GPL-3.0), hmkconf web configurator.
 
@@ -12,13 +12,14 @@
 
 ## Global Constraints
 
-- Key positions, outline (81.28 × 73.66 mm) and M3 holes identical to rev 0/rev 1 (`hardware/rev1/circuit.py: OUTLINE, HOLES`).
+- Three analog keys at x = −19.05, 0, +19.05 mm; middle key 4.76 mm further from the wrist; two tact buttons (Esc, retry) at the far corners.
+- The PCB sits inside the case walls (never a layer of the sandwich); nylon M3 screws; NPTH holes with 1 mm copper keep-out.
+- Planned total in `hardware/he/bom.csv` ≤ 1,000,000 VND (`tools/he_model/tests/test_budget.py`).
 - One sensor per ADC pin; no analog multiplexer.
 - Sensors and ADC share one LP5907 3.3 V rail; LEDs on fused 5 V; polyfuse 500 mA hold.
-- Scan 8000 Hz, 16× oversampling, scan time ≤ 125 µs including settling (`he_model.check_scan_fits`).
+- Scan 8000 Hz, 32× oversampling, scan time ≤ 125 µs including settling (`he_model.check_scan_fits`).
 - Rapid-trigger floor ≤ 0.05 mm on every key, measured, not modelled.
 - LED frames start only after a scan completes; a "performance" profile turns LEDs off.
-- Parts per unit ≤ 20 USD at 5 units (`hardware/he/bom.csv`).
 - No external code runs unread: pin libhmk and every tool to a commit; build in Docker with `--network none` after fetching.
 
 ## Review Focus
@@ -26,22 +27,23 @@
 1. A key resting for an hour while the board warms up must not press itself (temperature drift) → test in Task 4 replays a slow ramp.
 2. A key bottomed out hard (deeper than calibration has seen) must still release with rapid trigger → test in Task 4.
 3. Pressing one key must not move its neighbours past the RT floor (magnetic crosstalk) → measured gate in Task 2.
+6. Sweat on the case must not reach copper: a drop of salt water at the switch hole and at every seam → check in Task 7.
 4. LED animation at full brightness must not move any key reading by more than 1 count → measured gate in Task 7.
 5. USB host that only supports Full Speed must still get a working 1 kHz keyboard → check in Task 7.
 
 ---
 
-### Task 0: Confirm prices and order bench parts
+### Task 0: Confirm prices and buy the bench parts
 
-**Files:**
-- Modify: `hardware/he/bom.csv`
+Details and results: `docs/hall-effect-task0.md`.
 
-- [ ] **Step 1:** For every row marked `estimate`, find a live listing; set `unit_usd_low_qty`, `source` and `confidence=found`, or replace the part.
-- [ ] **Step 2:** Check pinouts of OH49E-S and DRV5056A3 (SOT-23). Record in the `note` column whether one footprint fits both.
-- [ ] **Step 3:** Order for the bench: AT32F405 dev board (or the bare chip on an adapter), 10 × OH49E-S, 10 × DRV5056A3, 10 × Gateron Magnetic Jade, scrap 1.6 mm FR4 plate with three cut-outs at 19.05 mm.
-- [ ] **Step 4:** Commit: `git commit -m "docs(he): confirm part prices"`
+- [x] **Step 1:** Pinouts and sensitivities from datasheets; choose DRV5056A4 (model test proves A3 saturates).
+- [x] **Step 2:** One-unit BOM in VND with low/high/plan columns; budget test (`tools/he_model/tests/test_budget.py`).
+- [ ] **Step 3 (you):** JLCPCB and LCSC shipping to Vietnam, Shopee switch price, laser-shop quote → `plan_vnd`.
+- [ ] **Step 4:** `cd tools/he_model && uv run --no-project --with pytest pytest -q` → PASS (plan ≤ 1,000,000 VND), or switch to Plan B.
+- [ ] **Step 5 (you):** Buy the bench parts listed in the Task 0 doc.
 
-Gate: sum of `unit_usd_low_qty × qty` ≤ 20.
+Gate: budget test passes with real quotes.
 
 ### Task 1: Bench curve of one key
 
@@ -57,9 +59,9 @@ Gate: sum of `unit_usd_low_qty × qty` ≤ 20.
   `test_load_sorts_by_travel`, `test_noise_rms_of_constant_column_is_zero`,
   `test_rt_floor_matches_model_for_synthetic_data` (build a CSV from `he_model.REFERENCE.curve()` with added Gaussian noise of σ = 1.5, seed 1; assert `fit.rt_floor_mm(..., 16)` is within 20 % of `REFERENCE.rt_floor_mm()`).
 - [ ] **Step 2:** `cd tools/he_bench && uv run --no-project --with pytest pytest -q` → FAIL (module missing).
-- [ ] **Step 3:** Implement `fit.py`. CSV columns: `travel_mm,count` with ≥ 200 samples per travel step. `capture.py` reads lines `count\n` from the dev board's serial port at each travel step set by a micrometer stage (0.1 mm steps, 0 → 4.0 mm).
+- [ ] **Step 3:** Implement `fit.py`. CSV columns: `travel_mm,count` with ≥ 200 samples per travel step. `capture.py` reads lines `count\n` from any ADC board you own over USB serial (sketch in `tools/he_bench/firmware/`), one batch per depth set with a digital caliper (0.25 mm steps, 0 → 3.5 mm; the Jade's travel is 3.5 mm).
 - [ ] **Step 4:** Tests PASS.
-- [ ] **Step 5:** Measure 3 switches × 2 sensors. Copy measured noise into `he_model.SENSORS`; regenerate the plan's sensor table with `python3 tools/he_model/he_model.py`.
+- [ ] **Step 5:** Measure one switch with the TO-92 49E at three sensor heights; scale to the DRV5056 by datasheet sensitivity. Copy measured noise into `he_model.SENSORS`; regenerate the plan's sensor table with `python3 tools/he_model/he_model.py`.
 - [ ] **Step 6:** Commit: `feat(he): bench capture and curve fit, measured sensor data`
 
 Gate: chosen sensor's measured RT floor ≤ 0.05 mm at the top of the stroke. If neither passes: shorten `rest_gap_mm` (taller sensor pad, thinner PCB) and re-measure before anything else.
@@ -71,7 +73,7 @@ Gate: chosen sensor's measured RT floor ≤ 0.05 mm at the top of the stroke. If
 
 - [ ] **Step 1: Failing test** `test_crosstalk_is_neighbour_shift_in_mm`: two synthetic CSVs (victim at rest while aggressor sweeps); assert reported shift equals the injected offset divided by the victim's slope.
 - [ ] **Step 2:** Run → FAIL. **Step 3:** Implement `crosstalk.shift_mm(victim_csv, aggressor_csv) -> float`. **Step 4:** PASS.
-- [ ] **Step 5:** Measure with keys at 19.05 mm and at 9.525 mm diagonal (the stagger).
+- [ ] **Step 5:** Measure with the neighbour at 19.05 mm across and 4.76 mm forward (the arc).
 - [ ] **Step 6:** Commit.
 
 Gate: shift ≤ 0.05 mm, or a per-key linear compensation (victim −= k × aggressor travel) that brings it under 0.05 mm in the data.
@@ -86,13 +88,14 @@ Gate: shift ≤ 0.05 mm, or a per-key linear compensation (victim −= k × aggr
 - Produces: `circuit.parts() -> list[Part]` with the same `Part` dataclass as rev 1; `circuit.ADC_PINS: dict[str, str]` (key → MCU pin).
 
 - [ ] **Step 1: Failing tests:**
-  `test_each_key_has_one_sensor_on_its_own_adc_pin` (six distinct pins, all ADC-capable per the AT32F405 datasheet table copied into the test),
+  `test_each_key_has_one_sensor_on_its_own_adc_pin` (three distinct pins, all ADC-capable per the AT32F405 datasheet table copied into the test),
   `test_no_multiplexer`,
   `test_sensors_and_vdda_share_the_analog_rail_only` (net `+3V3A` touches only sensors, their caps, VDDA/VREF and the LDO),
   `test_led_rail_is_fused_and_buffered` (as rev 1),
   `test_usb_has_cc_pulldowns_and_esd`,
   `test_hs_usb_pins_are_the_hs_phy` (D+/D− on the HS OTG pins),
-  `test_key_positions_match_rev1`.
+  `test_keys_follow_the_arc` (x = −19.05, 0, 19.05; middle 4.76 mm forward),
+  `test_usb_shell_to_ground_through_1M_and_4n7`.
 - [ ] **Step 2:** Run → FAIL. **Step 3:** Write `circuit.py`. **Step 4:** PASS, then ERC 0 through the generated schematic.
 - [ ] **Step 5:** Commit: `feat(he): circuit as code`
 
@@ -124,20 +127,26 @@ Gate: shift ≤ 0.05 mm, or a per-key linear compensation (victim −= k × aggr
 - [ ] **Step 2:** Run → FAIL. **Step 3:** Place and route. **Step 4:** PASS; DRC 0 errors, 0 unconnected.
 - [ ] **Step 5:** Commit.
 
-### Task 6: Case with a 6° wedge
+### Task 6: Sealed case with a 6° wedge
 
 **Files:**
-- Modify: `case/generate.py` (`Params.wedge_deg`, translucent material names)
-- Create: `case/tests/test_case_he.py`
+- Create: `case/generate_he.py` (reuses `case/generate.py` geometry helpers), `case/tests/test_case_he.py`
 
-- [ ] **Step 1: Failing tests:** `test_wedge_angle_is_6_degrees`, `test_front_edge_height_under_12mm`, `test_layers_are_stock_thicknesses`, plus the rev 1 plate and frame tests re-run against the HE board.
+- [ ] **Step 1: Failing tests:**
+  `test_pcb_is_inside_the_walls` (PCB outline buffered by 1.0 mm lies inside every wall layer's inner opening, and the walls are closed rings),
+  `test_top_cover_has_only_switch_holes` (holes = 3 × 14.0 mm squares + USB opening; nothing else),
+  `test_gasket_ring_overlaps_the_wall_seam_by_2mm`,
+  `test_wedge_angle_is_6_degrees_and_front_edge_under_12mm`,
+  `test_layers_are_stock_thicknesses` (2, 3, 5 mm),
+  `test_screws_are_nylon_and_holes_clear_copper_by_1mm`.
 - [ ] **Step 2:** FAIL. **Step 3:** Implement. **Step 4:** PASS (all case tests). **Step 5:** Commit.
 
 ### Task 7: Bring-up and measurement
 
 - [ ] **Step 1:** Assemble one board; flash; calibrate.
-- [ ] **Step 2:** Log all six keys for 60 s idle with LEDs at full brightness animating, then 60 s with LEDs off. Gate: difference ≤ 1 count per key.
-- [ ] **Step 3:** Per-key RT floor with the Task 1 rig. Gate: ≤ 0.05 mm on all six; publish the table in `docs/hall-effect-results.md`.
+- [ ] **Step 2:** Log all three keys for 60 s idle with LEDs at full brightness animating, then 60 s with LEDs off. Gate: difference ≤ 1 count per key.
+- [ ] **Step 3:** Per-key RT floor with the Task 1 rig. Gate: ≤ 0.05 mm on all three; publish the table in `docs/hall-effect-results.md`.
 - [ ] **Step 4:** Plug into a Full-Speed-only hub; gate: works at 1 kHz.
-- [ ] **Step 5:** One hour of osu! play; note any phantom or missed inputs.
-- [ ] **Step 6:** Commit results; update the site's rev 2 page with measured numbers.
+- [ ] **Step 5:** One hour of osu! play; note any phantom or missed inputs. A/B the 0° and 6° wedge.
+- [ ] **Step 6:** Sweat test: a drop of salt water (1 % NaCl) at each switch hole and seam, wipe after 10 min, open the case; gate: no liquid on the PCB, no change in readings.
+- [ ] **Step 7:** Commit results; update the site's rev 2 page with measured numbers.

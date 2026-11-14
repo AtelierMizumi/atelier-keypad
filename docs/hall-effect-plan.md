@@ -1,200 +1,196 @@
-# Atelier6K rev 2 (HE): design spec
+# Atelier rev 2 (HE): design spec
 
 Status: **designed on paper, nothing built.** Branch `plan/hall-effect`,
-November 2026. Prices marked *estimate* in `hardware/he/bom.csv` were not
-found in a live listing and must be confirmed before ordering.
+November 2026. One unit, for one player, on a budget of **1,000,000 VND**
+(about 38 USD) all-in. Prices marked *estimate* in `hardware/he/bom.csv` were not found in a live listing.
 
-How Hall sensing and rapid trigger work is explained separately in
-[`hall-effect-how-it-works.md`](hall-effect-how-it-works.md). The task-by-task
-build plan is
-[`superpowers/plans/2026-11-14-atelier6k-he.md`](superpowers/plans/2026-11-14-atelier6k-he.md).
-Numbers below marked *model* come from `tools/he_model/he_model.py`
-(13 tests; `python3 tools/he_model/he_model.py` prints them).
+How Hall sensing and rapid trigger work: [`hall-effect-how-it-works.md`](hall-effect-how-it-works.md).
+Build plan: [`superpowers/plans/2026-11-14-atelier6k-he.md`](superpowers/plans/2026-11-14-atelier6k-he.md).
+Task 0 (prices, pinouts, what to order): [`hall-effect-task0.md`](hall-effect-task0.md).
+PCB art and easter eggs: [`pcb-art.md`](pcb-art.md).
+Numbers marked *model* come from `tools/he_model/he_model.py` (20 tests with the budget).
+
+## What changed after the first review
+
+| Before | Now | Why |
+|---|---|---|
+| 6 analog keys in the rev 0 3 + 3 stagger | **3 analog keys on a finger arc**, 2 small buttons | osu! standard needs two or three keys; six keys put the hand off-centre |
+| Rev 0 outline and holes | New, smaller outline, centred on the keys | Ergonomics first; also a cheaper PCB and case |
+| PCB edge exposed between acrylic layers | **Closed tub**: the PCB sits inside the case, coated, behind a gasket | Sweaty hands: no touchable copper, no path for sweat |
+| 5 units, ~18 USD each | **1 unit, ≤ 1,000,000 VND including shipping** | Your budget |
+| OH49E baseline | **DRV5056A4** primary | With three keys the better sensor costs ~1.1 USD more in total; the A3 variant saturates (see *Sensor*) |
 
 ## What it has to beat
 
-| | Wooting UwU RGB | SayoDevice O3C | Wooting 80HE | **Atelier6K HE target** |
-|---|---|---|---|---|
-| Analog keys | 3 (+3 digital) | 3 | full board | **6** (+3 digital) |
-| USB polling | 1 kHz | 8 kHz | 8 kHz (Tachyon mode) | **8 kHz** |
-| Actuation / RT step | 0.1–4.0 mm, 0.05 mm steps (retailer) | down to 0.05 mm (retailer) | 0.1 mm | **0.05 mm worst case, measured** |
-| Price | 69.69 USD at launch, ~50 later | ~27–40 USD | keyboard | **~18 USD parts per unit at 5 units** |
-| Open hardware / firmware | no | no | no | **yes** |
+| | Wooting UwU RGB | SayoDevice O3C | **Atelier rev 2 target** |
+|---|---|---|---|
+| Analog keys | 3 (+3 digital) | 3 | **3** (+2 digital) |
+| USB polling | 1 kHz | 8 kHz | **8 kHz** |
+| Actuation / RT step | 0.1–4.0 mm, 0.05 mm steps (retailer) | down to 0.05 mm (retailer) | **≤ 0.02 mm floor on the model; measured per key** |
+| Price | 69.69 USD at launch | ~27–40 USD | **≤ 38 USD for one unit, shipping included** |
+| Open | no | no | **yes** |
 
 Sources: [Wooting UwU launch](https://wooting.io/post/uwu-founders-campaign-sneak-peak),
 [UwU product page](https://library.wooting.io/Wooting-UwU-8918becd3be045bc95e9d79c8df26628),
 [Wooting 80HE polling](https://wooting.io/post/wooting-80he-the-true-polling-rate),
 [O3C at CNX Software](https://www.cnx-software.com/2026/03/09/sayodevice-o3c-3-key-hall-effect-keypad-boasts-8000hz-polling-rate-for-playing-rhythm-games/),
-[O3C at Notebookcheck](https://www.notebookcheck.net/SayoDevice-O3C-mini-A-Hall-effect-keypad-for-rhythm-games-like-osu-and-Geometry-Dash.1239375.0.html).
+[RTINGS 80HE](https://www.rtings.com/keyboard/reviews/wooting/80he).
 
-Where we can honestly win: six analog keys for less than a three-key UwU,
-8 kHz like the expensive boards, a rapid-trigger floor that is **measured and
-published per key** rather than claimed, and everything open.
+Honest position: a mass-made O3C costs about what our single unit costs. This
+board wins on a finer measured rapid-trigger floor, a layout fitted to one
+hand, a sealed case, and being open; not on price.
 
-Where we cannot, and should say so: the O3C is mass-produced and costs about
-the same as our parts alone; Wooting's software, calibration and build
-quality come from years of work. RTINGS reportedly found no measurable
-benefit from 8 kHz on the 80HE ([RTINGS review](https://www.rtings.com/keyboard/reviews/wooting/80he)),
-and the model agrees that polling is the small term (see *Where the time goes*).
+## Layout and ergonomics
 
-## Decisions
+```
+        ┌──────────────────────────────────────────┐
+        │  (esc)                           (retry) │   small buttons, far edge,
+        │              ┌──────┐                    │   out of the tapping path
+        │   ┌──────┐   │  K2  │   ┌──────┐         │
+        │   │  K1  │   │middle│   │  K3  │         │   middle key 4.76 mm further
+        │   │      │   └──────┘   │      │         │   away: the middle finger is
+        │   └──────┘              └──────┘         │   the longest
+        │                                          │
+        └──────────────── wrist side ──────────────┘   6° wedge, front edge low
+```
 
-Each one was a grill question; the recommended answer is taken unless
-you overrule it. The questions are repeated at the end so they can be
-answered in one go.
+- **Three keys, 19.05 mm apart, middle key 4.76 mm (¼ u) forward.** The arc
+  follows the fingertips of index, middle and ring when the hand rests flat.
+  It is symmetric, so it works for either hand and the board is not lopsided.
+- **Centred.** The board outline is centred on the middle key; the cable exits
+  at the far edge, behind the middle key.
+- **6° wedge**, front edge as low as the stack allows. Evidence for any exact
+  angle is weak (vendor blogs, forum reports), so the case generator takes the
+  angle as a parameter and Task 7 A/B-tests 0° and 6°.
+- **Esc and retry** on two 6 × 6 mm tact buttons at the far corners, where a
+  tapping finger never lands.
+- **Per-finger settings**: actuation and RT sensitivity per key.
+
+## Case: a sealed tub for sweaty hands
+
+What the risks really are:
+
+- **Electric shock: none.** USB supplies 5 V; a person cannot feel 5 V. What
+  you can feel, and what can reset or damage a board, is **static discharge**
+  from your own body into exposed copper.
+- **Sweat** is salty water. On bare pads and traces it corrodes copper and
+  forms leakage paths. On this board leakage matters twice: the sensor outputs
+  are analog, so a damp film shifts the reading and looks like key movement.
+
+How the case answers them:
+
+1. **The PCB is inside, not a layer of the sandwich.** The acrylic walls are
+   continuous from base to top cover; the PCB rests on a ledge inside them, so
+   its edge is never on the outside.
+2. **Top cover over the whole board.** A 3 mm acrylic cover with 14.0 mm holes
+   for the switches is the only top surface. Gateron Magnetic Jade come in a
+   PCB-mount version, so the switches are held by the PCB and the cover does
+   not need a clip-thickness plate (no FR4 plate to order).
+3. **Gasket.** A 1 mm EVA or silicone foam strip between the cover and the
+   wall ring closes the seam. The only openings left are the switch holes and
+   the USB port.
+4. **Conformal coating.** Magnetic switches have no electrical contacts, so the
+   **whole** PCB can be coated, sensors included, except the USB-C receptacle
+   and the programming pads (masked with tape). Sweat that runs down a switch
+   lands on lacquer, not copper.
+5. **Nylon M3 screws.** No metal path from the outside to anything, and they do
+   not rust. Screw holes are non-plated with a 1 mm copper keep-out.
+6. **ESD at the only metal you can touch.** The USB-C shell goes to ground
+   through 1 MΩ in parallel with 4.7 nF; a USBLC6 array protects the data and
+   supply lines.
+
+## Decisions (answered "OK" on 14 Nov 2026)
 
 ### MCU: ARTERY AT32F405 (LQFP-48)
 
 | Option | USB | ADC | Firmware | Verdict |
 |---|---|---|---|---|
-| RP2040 (rev 1's MCU) | Full speed: 1 kHz max | 4 external channels, ~9 effective bits | QMK, minipad | Cannot do 8 kHz; needs a mux for 6 keys |
-| WCH CH32V307 | HS PHY built in | 12-bit, 1 Msps | No HE firmware found | Cheap, but we would write everything |
-| **AT32F405** | **HS + FS OTG, both PHYs built in** | **12-bit, 2 Msps, 16 external channels** | **libhmk supports it, with 8 kHz** | Chosen |
-| STM32F446 | FS only (HS needs an external ULPI PHY) | 3 ADCs | libhmk | No 8 kHz without extra chips |
+| RP2040 (rev 1) | Full speed: 1 kHz max | 4 external channels | QMK, minipad | No 8 kHz |
+| WCH CH32V307 | HS PHY built in | 12-bit, 1 Msps | No HE firmware found | We would write everything |
+| **AT32F405** | **HS + FS OTG, both PHYs built in** | **12-bit, 2 Msps, 16 channels** | **libhmk, with 8 kHz** | Chosen |
 
 Sources: [ARTERY AT32F405](https://www.arterychip.com/en/product/AT32F405.jsp),
-[AT32F402/405 launch](https://www.prnewswire.com/apac/news-releases/artery-launches-at32f402f405-mcus-designed-with-hs-usb2-0-otg-301917473.html),
-[libhmk](https://github.com/peppapighs/libhmk) (`hardware/at32f405xx`, README: "8kHz Polling Rate ... on some microcontrollers (e.g., AT32F405xx)").
+[libhmk](https://github.com/peppapighs/libhmk) (`hardware/at32f405xx`; README: "8kHz Polling Rate ... (e.g., AT32F405xx)").
+With three keys, each sensor has its own ADC pin and the scan reads each key
+32 times in 48 µs of the 125 µs budget (*model*).
 
-Sixteen ADC inputs means **one sensor per pin, no multiplexer**: no mux
-settling time, no switching noise, and a scan of six keys with 16×
-oversampling takes 48 µs of the 125 µs budget (*model*). LQFP-48 rather than
-QFN-32 so it can be soldered by hand.
+### Firmware: libhmk fork, LED support added
 
-### Firmware: libhmk, forked, with LED support added
+Rapid trigger, continuous rapid trigger, null bind, dynamic keystroke,
+automatic calibration and the hmkconf web configurator already exist in
+libhmk; it has no RGB. The fork adds WS2812 output by DMA, started right after
+a scan, and a performance profile with all LEDs off. Licence GPL-3.0.
 
-libhmk already has the features that matter for osu!: rapid trigger,
-continuous rapid trigger, null bind (SOCD), dynamic keystroke, automatic
-calibration, flash storage, 8 kHz on AT32F405 and a web configurator
-(hmkconf). It does **not** drive RGB. The fork adds a WS2812 driver that:
+### Sensor: DRV5056A4
 
-- sends LED data by DMA (timer PWM or SPI), so the CPU never waits on it;
-- starts a frame only right after a scan, so LED interrupts never land in the
-  middle of ADC sampling;
-- turns off entirely in a "performance" profile, the same idea as Wooting's
-  Tachyon mode.
+*Model*, TI reference geometry ([SLYA093](https://www.ti.com/document-viewer/lit/html/SLYA093/GUID-D139CB2F-A4D9-4F90-891B-C05F7BC0CDF2)),
+3 keys × 32 samples:
 
-QMK was the alternative: it has RGB and VIA, but rapid trigger lives in
-forks, and its AT32F405 support is an open pull request
-([qmk_firmware#25040](https://github.com/qmk/qmk_firmware/pull/25040)).
-Licence: libhmk is GPL-3.0, so the fork is too.
-
-### Sensor: OH49E-S as baseline, DRV5056A3 measured alongside
-
-*Model*, TI reference geometry (2.8 × 3.4 mm magnet, 6.1 → 2.1 mm gap,
-[TI SLYA093](https://www.ti.com/document-viewer/lit/html/SLYA093/GUID-D139CB2F-A4D9-4F90-891B-C05F7BC0CDF2)),
-1.5 counts RMS noise assumed for the 49E and 1.0 for the DRV5056:
-
-| Sensor | Span (counts) | Worst slope (counts/mm) | RT floor, 16× oversample | Price |
+| Sensor | Span (counts) | Worst slope (counts/mm) | RT floor | Usable travel |
 |---|---|---|---|---|
-| OH49E-S ([LCSC C85573](https://lcsc.com/product-detail/Linear-Hall-Sensors_Nanjing-Ouzhuo-Tech-OH49E-S_C85573.html)) | 843 | 40 | 0.056 mm | 0.23 USD |
-| DRV5056A3 ([TI](https://www.ti.com/lit/gpn/drv5056)) | 1367 | 65 | 0.023 mm | ~0.60 USD (estimate) |
+| OH49E-S | 843 | 40 | 0.040 mm | 4.00 mm |
+| DRV5056A3 | 2876 | 94 | 0.011 mm | **3.96 mm (saturates)** |
+| **DRV5056A4** | 1504 | 71 | **0.015 mm** | 4.00 mm |
 
-Both beat 0.1 mm everywhere in the stroke on paper. The worst point is the
-top of the stroke, where the magnet is far away and the field changes
-slowly; that is exactly where an osu! player's rapid trigger operates
-during streams. The 49E is bipolar, so half its output range is never used;
-the unipolar DRV5056 uses all of it. Phase 1 measures both on the real
-switch before the PCB is drawn. The noise figures are assumptions until then.
+The DRV5056 is unipolar and ratiometric: 25 mV/mT at 5 V for the A4, 50 mV/mT
+for the A3 ([TI DRV5056](https://www.ti.com/lit/gpn/drv5056)). The A3's 79 mT
+range ends just below the 82 mT this magnet gives at bottom-out, and an
+N52-grade magnet would lose more than 0.2 mm; the A4 (158 mT) keeps the full
+stroke. **Pinouts differ**: OH49E is 1 VCC, 2 GND, 3 OUT
+([Ouzhuo datasheet](https://datasheetspdf.com/datasheet/OH49E.html)); DRV5056
+is 1 VCC, 2 OUT, 3 GND. The PCB uses the DRV5056 pinout. Noise figures are
+assumptions until the bench measures them.
 
-### Switch: Gateron Magnetic Jade
+### Switch: Gateron Magnetic Jade, PCB-mount
 
-Widely stocked at 0.46–0.80 USD each
-([mechanicalkeyboards.com](https://mechanicalkeyboards.com/products/gateron-jade-magnetic-he-30g-linear-plate-mount-switch),
-[Milktooth](https://milktooth.com/products/magnetic-jade)), 30 g linear,
-plate mount. Magnet polarity and strength differ between HE switch families,
-so the sensor orientation is fixed to this switch; other switches are
-supported only after their curve is measured.
+30 g linear, 3.5 mm travel, widely stocked
+([mechanicalkeyboards.com](https://mechanicalkeyboards.com/products/gateron-jade-magnetic-he-30g-linear-plate-mount-switch)).
+PCB-mount so no switch plate is needed. Sensor orientation is fixed to this
+switch's magnet polarity.
 
-### Layout and ergonomics
+### Look
 
-- **Same key positions as rev 0 and rev 1** (3 + 3 stagger, 19.05 mm pitch),
-  so muscle memory carries over and `case/generate.py` keeps working.
-- **6° typing angle** built into the case: a wedge base layer, inside the
-  0–6° range commonly recommended for fast, light taps. Evidence for any
-  particular angle is weak (vendor blogs, forum reports), so the plan
-  includes a short A/B test instead of trusting a number.
-- **Low profile**: switch plate top at 5.0 mm, base 3 mm, so the wrist sits
-  low without a rest; an optional detachable palm rest is a later item.
-- **Per-finger tuning, not one setting**: actuation and RT sensitivity per key,
-  because index and ring fingers press with different force and travel.
-
-### Look: blue, translucent, slanted
-
-The site's palette carried into the object: translucent blue cast acrylic
-frames, cyan underglow that lights the frosted bottom frame, white keycaps,
-slanted silkscreen lettering. A boot animation and idle effects run only in
-the default profile; the performance profile switches every LED off.
-Nothing is copied from any game's artwork or logos; the reference is the
-mood.
+Translucent blue acrylic walls, a clear base that shows the art on the bottom
+of the PCB, cyan underglow, white keycaps. LEDs: one under each key and four
+underglow (7 in total). Details and easter eggs in [`pcb-art.md`](pcb-art.md).
 
 ## Electrical architecture
 
 ```
-USB-C ─ ESD ─ polyfuse ─ 5 V ──────────────► 74AHCT1G125 ─► 10 × SK6812MINI-E
-                 │
-                 └─ LP5907 3.3 V (analog) ─► 6 × linear Hall ─► 6 ADC pins ┐
-                 └─ 3.3 V (digital)  ─────► AT32F405 (HS USB, 12 MHz xtal) ◄┘
+USB-C ─ USBLC6 ─ polyfuse ─ 5 V ───────────► 74AHCT1G125 ─► 7 × SK6812MINI-E
+  shell ─ 1 MΩ ∥ 4.7 nF ─ GND
+                 └─ LP5907 3.3 V (analog) ─► 3 × DRV5056A4 ─► 3 ADC pins ┐
+                 └─ 3.3 V (digital) ───────► AT32F405 (HS USB, crystal) ◄┘
                                               ▲
-                                3 tact buttons┘
+                                 2 tact buttons┘ + BOOT pad underneath
 ```
 
-- **Quiet analog rail.** The sensors and the ADC reference share one LDO. The
-  49E is ratiometric and the ADC measures against the same rail, so supply
-  ripple cancels instead of showing up as key movement.
-- **LED current stays away.** 5 V LED return current gets its own path to the
-  USB ground; nothing analog shares it.
-- **One RC per sensor output** (e.g. 1 kΩ / 10 nF, 16 kHz) as an anti-alias
-  filter; its delay (~10 µs) is part of the latency budget.
-- **Sensor placement** on the top layer, centred on the switch's magnet axis,
-  within 0.1 mm; the footprint carries the switch outline so this is checked
-  by DRC.
+- Sensors and the ADC share one quiet LDO; the sensors are ratiometric, so
+  supply ripple cancels.
+- LED current returns to the USB ground on its own path.
+- One RC (1 kΩ / 10 nF) per sensor output; ~10 µs, inside the budget.
+- Sensors on the top layer, centred on each switch's magnet axis within 0.1 mm.
 
 ## Where the time goes
 
-*Model*, device side, threshold crossing to report sent:
+*Model*, device side, threshold crossing to report sent: 1125 µs worst at
+1 kHz (rev 1, UwU), 250 µs worst at 8 kHz (this board). The finger is slower:
+releasing 0.1 mm at 150 mm/s takes 0.67 ms, climbing 1 mm back to a fixed reset
+point takes 6.7 ms. Rapid trigger saves milliseconds; 8 kHz saves about 0.4 ms
+on average.
 
-| | Worst | Mean |
-|---|---|---|
-| Full speed, 1 kHz (rev 1, UwU) | 1125 µs | 562 µs |
-| High speed, 8 kHz (this board) | 250 µs | 125 µs |
+## Budget
 
-The finger is slower than either: releasing 0.1 mm at 150 mm/s takes
-0.67 ms, and climbing back 1.0 mm to a fixed reset point takes 6.7 ms. Rapid
-trigger saves several milliseconds per release; 8 kHz saves about 0.4 ms on
-average. Both are worth having, in that order of importance.
+`hardware/he/bom.csv`, totals by `python3 tools/he_model/budget.py hardware/he/bom.csv`
+(a test fails if the planned total passes 1,000,000 VND):
 
-## Cost
-
-Per unit, at 5 units, parts only, from `hardware/he/bom.csv`:
-
-| Group | USD |
+| | VND |
 |---|---|
-| Electronics (MCU, sensors, power, LEDs, passives) | ~5.4 |
-| Six switches | ~2.8 |
-| PCB and FR4 plate | ~0.8 |
-| Acrylic case, screws | ~6.4 |
-| Keycaps | ~2.1 |
-| **Total** | **~17.5** |
+| Planned | **884,000** |
+| Best case | 627,500 |
+| Worst case (LCSC and JLCPCB ship separately, high local prices) | 1,726,500 |
 
-Not included: shipping, LCSC minimum quantities, a stencil, and any PCBA fee
-if the MCU is machine-placed. With DRV5056 sensors add ~2.2 USD.
-
-## Open questions for you
-
-Each has a recommended answer that the plan already follows.
-
-❓ **Q1 — MCU**: AT32F405 (8 kHz, libhmk, a new toolchain) or stay on RP2040 (cheaper module, 1 kHz, shared with rev 1)?
-➡️ **Recommendation**: AT32F405. 8 kHz is the point of a performance board, and there is no multiplexer.
-
-❓ **Q2 — Firmware**: libhmk fork with RGB added, or QMK with a rapid-trigger fork?
-➡️ **Recommendation**: libhmk. Rapid trigger and calibration already work there; RGB is the smaller job.
-
-❓ **Q3 — Sensor**: commit to the 0.23 USD OH49E, or pay ~2 USD more per board for DRV5056?
-➡️ **Recommendation**: buy both, decide after phase 1 measures them on the real switch.
-
-❓ **Q4 — Layout**: keep the rev 0 key positions, or redesign for ergonomics (splayed columns)?
-➡️ **Recommendation**: keep them; add the 6° wedge and per-key tuning; revisit only if play-testing finds a problem.
-
-❓ **Q5 — Price target**: under 20 USD in parts at 5 units, or allow more for nicer materials?
-➡️ **Recommendation**: under 20 USD; the look comes from colour and light, not expensive materials.
+It fits only if the LCSC parts travel in the JLCPCB parcel and the case is cut
+locally. Shipping is the largest unknown, so Task 0 checks it before anything
+is bought. If it cannot fit, Plan B in [`hall-effect-task0.md`](hall-effect-task0.md)
+drops LCSC entirely.
