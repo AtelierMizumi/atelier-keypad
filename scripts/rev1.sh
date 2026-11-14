@@ -55,6 +55,7 @@ if [[ "$mode" == all ]]; then
   kicad kicad-cli pcb export glb --force --subst-models --include-tracks --include-pads --include-zones \
     --include-silkscreen --include-soldermask --user-origin "$origin" \
     -o site/assets/atelier6k-rev1.glb "$DIR/atelier6k-rev1.kicad_pcb" >/dev/null
+  python3 tools/glb/merge.py site/assets/atelier6k-rev1.glb site/assets/atelier6k-rev1.glb
   cp docs/images/rev1-pcb-top.png docs/images/rev1-pcb-bottom.png docs/images/case-rev1-layers.svg \
      docs/images/case-rev1-exploded.png docs/images/rev1-schematic.svg site/assets/
 fi

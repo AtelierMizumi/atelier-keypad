@@ -12,7 +12,7 @@
     <!-- housing -->
     <path d="M160 120 h280 v150 h-280 z" fill="none" stroke="#d8f4ff" stroke-width="4"/>
     <rect x="140" y="268" width="320" height="10" fill="#d8f4ff"/>
-    <text x="470" y="278" fill="#8fb2d9" font-size="18" font-weight="600">plate</text>
+    <text x="470" y="278" fill="#8fb2d9" font-size="18" font-weight="600">cover</text>
     <!-- stem with magnet -->
     <rect x="275" y="110" width="50" height="120" fill="#0d2f8f" stroke="#d8f4ff" stroke-width="3"/>
     <rect x="285" y="170" width="30" height="52" fill="url(#mag)"/>
@@ -43,6 +43,6 @@
     <text x="484" y="104" fill="#ffffff" font-size="22" font-weight="700">4.0 mm</text>
     <!-- readout -->
     <text x="100" y="460" fill="#d8f4ff" font-size="22" font-weight="600">9 mT at rest → 82 mT at bottom-out</text>
-    <text x="100" y="490" fill="#8fb2d9" font-size="20">read 16× per key, 8000 times a second</text>
+    <text x="100" y="490" fill="#8fb2d9" font-size="20">read 32× per key, 8000 times a second</text>
   </g>
 </svg>
