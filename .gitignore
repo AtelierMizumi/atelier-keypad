@@ -25,3 +25,5 @@ __pycache__/
 # Generated documents are never committed
 *.pdf
 .pytest_cache/
+# Production package and firmware builds (CI artifacts, never committed)
+/build/

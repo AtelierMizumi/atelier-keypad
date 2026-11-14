@@ -47,7 +47,7 @@ to ask about is **1.2 mm**, since the default is 1.6 mm. Decision D2 needs
 - **No Vietnamese distributor for Artery was found.** A Chinese distributor
   table ([Manduic](https://www.manduic.com/cpzx/4911/AT32F405RCT7-7)) lists the
   AT32F405CCT7 with stock "暂无" (none yet). szlcsc (LCSC's Chinese site)
-  turned up no page for it. **This is gate G1:** search "AT32F405CCT7" on
+  turned up no page for it, and JLCPCB's part search returns "0 Found". **This is gate G1:** search "AT32F405CCT7" on
   Taobao and szlcsc, and only order if a shop has it. If no shop has it, see
   Plan B in `docs/hall-effect-task0.md`.
 - **The DRV5056A4QDBZR is LCSC C2152902**
@@ -103,3 +103,11 @@ cost more than the cutting. Ask whether they stock **translucent blue** in
 | SK6812MINI-E, LP5907, USBLC6-2SC6, 74AHCT1G125, 12 MHz 3225 crystal | Same order, unless a local shop happens to stock them |
 
 Everything else is in Vietnam.
+
+## LCSC numbers
+
+Every other part's LCSC number is in `hardware/he/circuit.py` (`LCSC`), and
+from there in `bom-jlcpcb.csv`. Each number was checked against its
+jlcpcb.com/lcsc.com product page on 14 Nov 2026. Stock was not visible there,
+so check it in the cart. Two were noted as possibly low or out of stock: the
+74AHCT1G125 (C12494) and the TL3342 (C2886898).

@@ -41,7 +41,7 @@ are cheap, and easy to lose under hot air.
 | USBLC6-2SC6 | 2 | SOT-23-6 |
 | 74AHCT1G125 | 2 | SOT-23-5 |
 | SK6812MINI-E | 10 | 3.2 × 2.8 mm reverse-mount |
-| Crystal 12 MHz, 3225, 18 pF load | 2 | 3.2 × 2.5 mm, 4 pads |
+| Crystal 12 MHz, 3225, 20 pF load (LCSC C9002) | 2 | 3.2 × 2.5 mm, 4 pads |
 | USB-C 16-pin receptacle HRO TYPE-C-31-M-12 | 2 | |
 | Polyfuse 500 mA | 2 | 1206 |
 | Ferrite 600 Ω @ 100 MHz | 2 | 0603 |
@@ -59,7 +59,7 @@ All 0603 unless noted. Quantities include about 50 % spares.
 | 1 µF | 3 | 5 |
 | 4.7 µF (0805) | 2 | 5 |
 | 47 nF | 3 | 5 |
-| 18 pF | 2 | 5 |
+| 33 pF (C0G) | 2 | 5 |
 | 4.7 nF | 1 | 5 |
 | 1 kΩ | 3 | 5 |
 | 5.1 kΩ (one 0603, one **0402**) | 2 | 5 + 5 |

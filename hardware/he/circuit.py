@@ -15,6 +15,7 @@ OUTLINE = (62.0, 82.0, 138.0, 152.0)
 OUTLINE_RADIUS = 2.0
 HOLES = [(66.0, 86.0), (134.0, 86.0), (66.0, 148.0), (134.0, 148.0)]
 HOLE_FOOTPRINT = "MountingHole:MountingHole_3.2mm_M3"
+CRYSTAL_LOAD_PF = 20   # LCSC C9002 (YXC X322512MSB4SI); C28/C29 = 2 x (20 - 4 pF stray)
 THICKNESS = 1.2   # rev 2.0: Gateron's flux figures are measured through a 1.2 mm PCB
 ART_ZONE = (69.0, 129.0, 131.0, 147.0)  # x0, y0, x1, y1: nothing but art in here
 
@@ -100,8 +101,8 @@ def parts() -> list[Part]:
     # ------------------------------------------------------- 12 MHz crystal
     out.append(Part("Y1", "12MHz", "Device:Crystal_GND24", "Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm",
                     108.6, 105.0, 90, B, {"1": "HEXT_IN", "2": "GND", "3": "HEXT_OUT", "4": "GND"}))
-    cap("C28", "18pF", 112.0, 103.9, "HEXT_IN")
-    cap("C29", "18pF", 107.75, 108.9, "HEXT_OUT", rot=90)
+    cap("C28", "33pF", 112.0, 103.9, "HEXT_IN")
+    cap("C29", "33pF", 107.75, 108.9, "HEXT_OUT", rot=90)
 
     # --------------------------------------------------------------- USB-C
     out.append(Part("J1", "USB-C", "Connector:USB_C_Receptacle_USB2.0_16P",
@@ -183,3 +184,44 @@ NET_CLASSES = {
     "Default": {"track": 0.2, "clearance": 0.15, "nets": []},
     "Power": {"track": 0.3, "clearance": 0.15, "nets": ["VBUS", "+5V", "GND", "+3V3", "+3V3A"]},
 }
+
+
+# ------------------------------------------------------------------ LCSC
+# LCSC numbers for the BOM (JLCPCB format), keyed by value and footprint name.
+# Each one was checked against its LCSC product page; see docs/build/sourcing-vn.md.
+_C0603 = FP_C.split(":")[-1]
+_R0603 = FP_R.split(":")[-1]
+LCSC: dict[tuple[str, str], str] = {
+    ("DRV5056A4", "SOT-23"): "C2152902",
+    ("LP5907MFX-3.3", "SOT-23-5"): "C80670",
+    ("USBLC6-2SC6", "SOT-23-6"): "C7519",
+    ("74AHCT1G125", "SOT-23-5"): "C12494",
+    ("SK6812MINI-E", "LED_SK6812MINI-E_3.2x2.8mm_P1.5mm_ReverseMount"): "C5149201",
+    ("12MHz", "Crystal_SMD_3225-4Pin_3.2x2.5mm"): "C9002",
+    ("USB-C", "USB_C_Receptacle_HRO_TYPE-C-31-M-12"): "C165948",
+    ("500mA", "Fuse_1206_3216Metric_Pad1.42x1.75mm_HandSolder"): "C151162",
+    ("600R@100MHz", "L_0603_1608Metric"): "C1002",
+    ("1k", _R0603): "C21190",
+    ("10k", _R0603): "C25804",
+    ("5.1k", _R0603): "C23186",
+    ("330", _R0603): "C23138",
+    ("1M", _R0603): "C22935",
+    ("12k 1%", _R0603): "C22790",
+    ("5.1k", "R_0402_1005Metric"): "C25905",
+    ("100nF", _C0603): "C14663",
+    ("1uF", _C0603): "C15849",
+    ("33pF", _C0603): "C1663",
+    ("4.7nF", _C0603): "C53987",
+    ("47nF", _C0603): "C1622",
+    ("4.7uF", "C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"): "C1779",
+    ("BOOT", "SW_SPST_TL3342"): "C2886898",
+    ("Esc", "SW_PUSH_6mm_H7.3mm"): "C493231",
+    ("Retry", "SW_PUSH_6mm_H7.3mm"): "C493231",
+}
+
+# Parts whose LCSC number is still unknown. Gate G1: the MCU has no listing yet.
+LCSC_PENDING = ("AT32F405CCT7",)
+
+
+def lcsc(p: Part) -> str:
+    return LCSC.get((p.value, p.footprint.split(":")[-1]), "")

@@ -212,3 +212,15 @@ def test_sensor_filter_is_1k_47nF(parts, nets):
 
 def test_board_is_1p2_mm():
     assert circuit.THICKNESS == 1.2
+
+
+def test_crystal_load_capacitors_match_the_crystal(parts, nets):
+    # The 12 MHz crystal (LCSC C9002, YXC X322512MSB4SI) wants 20 pF of load. Two caps in series
+    # plus ~4 pF of pin and trace capacitance: CL = C/2 + 4. 18 pF gave 13 pF, pulling the clock
+    # the USB HS PHY runs from.
+    assert circuit.CRYSTAL_LOAD_PF == 20
+    for net in ("HEXT_IN", "HEXT_OUT"):
+        caps = [parts[r] for r, _ in nets[net] if r.startswith("C")]
+        assert len(caps) == 1
+        c = float(caps[0].value.removesuffix("pF"))
+        assert c / 2 + 4 == pytest.approx(circuit.CRYSTAL_LOAD_PF, abs=1.0)

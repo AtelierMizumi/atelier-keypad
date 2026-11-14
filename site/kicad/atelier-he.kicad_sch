@@ -2869,7 +2869,7 @@
 		(dnp no)
 		(uuid "4e34c707-1707-5a1f-a466-7fd8e992f822")
 		(property "Reference" "C28" (at 343.535 138.43 0) (effects (font (size 1.27 1.27))))
-		(property "Value" "18pF" (at 343.535 143.51 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "33pF" (at 343.535 143.51 0) (effects (font (size 1.27 1.27))))
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
 			(at 343.8652 144.78 0)
 			(hide yes)
@@ -2927,7 +2927,7 @@
 		(dnp no)
 		(uuid "f4c4b064-f0d5-5d9e-b65b-af986a47fc5f")
 		(property "Reference" "C29" (at 368.935 138.43 0) (effects (font (size 1.27 1.27))))
-		(property "Value" "18pF" (at 368.935 143.51 0) (effects (font (size 1.27 1.27))))
+		(property "Value" "33pF" (at 368.935 143.51 0) (effects (font (size 1.27 1.27))))
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
 			(at 369.2652 144.78 0)
 			(hide yes)
