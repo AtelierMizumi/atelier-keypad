@@ -27,6 +27,8 @@ jobs:
         run: cd tools/glb && uv run --no-project --with pytest pytest -q
       - name: Circuit, layout and BOM
         run: cd hardware/he && uv run --no-project --with pytest pytest -q tests
+      - name: Rev 1 circuit and BOM
+        run: cd hardware/rev1 && uv run --no-project --with pytest pytest -q tests
       - name: Cases
         run: cd case && uv run --no-project --with pytest --with shapely --with ezdxf pytest -q tests
       - name: Firmware config
@@ -68,6 +70,16 @@ jobs:
         with:
           name: rev2.0-package
           path: build/fab/rev2.0
+      - name: Rev 1 ERC, netlist and DRC on the committed board
+        run: scripts/rev1.sh check
+      - name: Rev 1 production package
+        run: scripts/fab.sh rev1
+      - name: Rev 1 package tests
+        run: cd hardware/rev1 && FAB_REQUIRED=1 uv run --no-project --with pytest pytest -q tests/test_fab.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rev1-package
+          path: build/fab/rev1
 
   release:
     if: startsWith(github.ref, 'refs/tags/rev')
