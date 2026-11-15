@@ -113,3 +113,31 @@ NET_CLASSES = {
     "Default": {"track": 0.25, "clearance": 0.2, "nets": []},
     "Power": {"track": 0.5, "clearance": 0.2, "nets": ["VBUS", "+5V", "GND"]},
 }
+
+
+# --- production --------------------------------------------------------------
+
+# LCSC numbers for the JLCPCB BOM, keyed by value and footprint name. Each one is
+# the rev 2.0 number for the same part (hardware/he/circuit.py), which was checked
+# against its LCSC product page; see docs/build/sourcing-vn.md.
+LCSC: dict[tuple[str, str], str] = {
+    ("SK6812MINI-E", FP_LED.split(":")[-1]): "C5149201",
+    ("74AHCT1G125", "SOT-23-5_HandSoldering"): "C12494",
+    ("500mA", "Fuse_1206_3216Metric_Pad1.42x1.75mm_HandSolder"): "C151162",
+    ("100nF", FP_C0603.split(":")[-1]): "C14663",
+    ("4.7uF", FP_C0805.split(":")[-1]): "C1779",
+    ("330", FP_R0603.split(":")[-1]): "C23138",
+}
+
+# Soldered by hand, not by the assembly house: the MCU module, the hot-swap
+# sockets and the through-hole buttons.
+HAND_PLACED = frozenset({"U1", *KEYS, *BUTTONS})
+
+
+def lcsc(p: Part) -> str:
+    return LCSC.get((p.value, p.footprint.split(":")[-1]), "")
+
+
+def machine_parts(parts: list[Part]) -> list[Part]:
+    """Parts the assembly house places: everything not in HAND_PLACED."""
+    return [p for p in parts if p.ref not in HAND_PLACED]
