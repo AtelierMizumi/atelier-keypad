@@ -1,8 +1,11 @@
 // Revision switcher and the rapid-trigger demo.
+// The page opens on rev 2, the board being built; each model loads only when its revision is opened.
+const DEFAULT_REV = '2';
 const REVS = {
-  0: { model: 'assets/atelier6k.glb?v=merged-2', poster: 'assets/pcb-iso.png' },
-  1: { model: 'assets/atelier6k-rev1.glb?v=merged-2', poster: 'assets/rev1-pcb-top.png' },
-  2: { model: 'assets/atelier6k-he.glb?v=merged-2', poster: 'assets/rev2-pcb-top.png' },
+  0: { model: 'assets/atelier6k.glb?v=q1', poster: 'assets/pcb-iso.png', orbit: '30deg 55deg auto' },
+  1: { model: 'assets/atelier6k-rev1.glb?v=q1', poster: 'assets/rev1-pcb-top.png', orbit: '30deg 55deg auto' },
+  // Seen from the palm edge, so the silkscreen reads the right way up.
+  2: { model: 'assets/atelier6k-he.glb?v=q1', poster: 'assets/rev2-pcb-top.png', orbit: '330deg 55deg auto' },
 };
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const show = document.querySelector('.show');
@@ -30,7 +33,7 @@ function wake(article) {
 }
 
 function select(rev, animate) {
-  if (!(rev in REVS)) rev = '0';
+  if (!(rev in REVS)) rev = DEFAULT_REV;
   document.body.dataset.rev = rev;
   numeral.textContent = rev;
   for (const a of document.querySelectorAll('.menu a')) a.setAttribute('aria-current', String(a.dataset.rev === rev));
@@ -42,6 +45,7 @@ function select(rev, animate) {
   const r = REVS[rev];
   if (model.getAttribute('src') !== r.model) {
     model.setAttribute('poster', r.poster);
+    model.setAttribute('camera-orbit', r.orbit);
     model.setAttribute('src', r.model);
   }
   if (animate && !reduced) {
@@ -51,7 +55,7 @@ function select(rev, animate) {
   }
 }
 
-const fromHash = () => (location.hash.match(/^#rev([0-2])$/) || [])[1] || '0';
+const fromHash = () => (location.hash.match(/^#rev([0-2])$/) || [])[1] || DEFAULT_REV;
 addEventListener('hashchange', () => select(fromHash(), true));
 select(fromHash(), false);
 

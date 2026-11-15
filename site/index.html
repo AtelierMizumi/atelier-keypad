@@ -7,7 +7,7 @@
 <meta name="description" content="Atelier6K: an open-hardware osu! keypad. Rev 0 from 2022, a generated rev 1 on an RP2040, and a planned Hall-effect rapid-trigger rev 2. Browse each board in 3D.">
 <meta property="og:title" content="Atelier6K">
 <meta property="og:description" content="An osu! keypad in three revisions. Explore the boards and cases in 3D.">
-<meta property="og:image" content="assets/pcb-iso.png">
+<meta property="og:image" content="assets/rev2-pcb-top.png">
 <meta name="theme-color" content="#061541">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%23061541%27/%3E%3Cpath d=%27M6 26 20 4h6L12 26z%27 fill=%27%2338d6ff%27/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,11 +18,11 @@
 <script type="module" src="vendor/kicanvas.js"></script>
 <script type="module" src="app.js"></script>
 </head>
-<body data-rev="0">
+<body data-rev="2">
 <div class="sea" aria-hidden="true"></div>
 
 <header class="top">
-  <a class="brand" href="#rev0">Atelier<b>6K</b></a>
+  <a class="brand" href="#rev2">Atelier<b>6K</b></a>
   <div class="hud" aria-label="Today">
     <svg class="moon" viewBox="-12 -12 24 24" aria-hidden="true"><circle r="11" class="moon-dark"/><path class="moon-lit" d=""/></svg>
     <p><b class="hud-date"></b><span class="hud-day"></span><span class="hud-phase"></span></p>
@@ -39,17 +39,17 @@
   </nav>
 
   <div class="show">
-    <span class="numeral" aria-hidden="true">0</span>
-    <model-viewer id="model" src="assets/atelier6k.glb?v=merged-2" poster="assets/pcb-iso.png"
+    <span class="numeral" aria-hidden="true">2</span>
+    <model-viewer id="model" poster="assets/rev2-pcb-top.png"
       alt="Interactive 3D model of the selected Atelier6K board"
       camera-controls auto-rotate auto-rotate-delay="1200" rotation-per-second="16deg"
       shadow-intensity="0.7" exposure="0.6" tone-mapping="neutral"
-      camera-orbit="30deg 55deg auto" interaction-prompt="none" reveal="auto"></model-viewer>
+      camera-orbit="330deg 55deg auto" interaction-prompt="none" reveal="auto"></model-viewer>
   </div>
 </section>
 
 <!-- ======================================================== REV 0 -->
-<article class="rev" id="page-rev0" data-rev="0">
+<article class="rev" id="page-rev0" data-rev="0" hidden>
   <header class="rev-head">
     <h1>The one I taught myself on</h1>
     <p class="lede">Six hot-swap switches and three buttons on an ATmega32U4, drawn by hand in KiCad 6 in 2022. It is kept here exactly as it was: the files below are the originals.</p>
@@ -153,7 +153,7 @@
 </article>
 
 <!-- ======================================================== REV 2 -->
-<article class="rev" id="page-rev2" data-rev="2" hidden>
+<article class="rev" id="page-rev2" data-rev="2">
   <header class="rev-head">
     <h1>Magnets, measured every 125 µs</h1>
     <p class="lede">Three magnetic keys on an arc that follows the fingers, in a sealed case. Every key's travel is read as a distance, so a key releases the moment it starts to rise. One unit, one player, one million đồng. Rev 2.0 has its order files, firmware and a CI that checks them; nothing is built yet.</p>
@@ -198,32 +198,6 @@
   </section>
 
   <section>
-    <h2>Before ordering</h2>
-    <p class="sub">Three questions that ERC and DRC cannot answer, checked against makers' pages and datasheets on 16 Nov 2026.</p>
-    <ul class="findings" id="he-gates">
-      <li><b class="good">Magnet</b>Gateron's own pages say the Magnetic Jade's north pole faces down to the PCB. That is what the unipolar DRV5056A4 and the firmware assume, so the sensor stays. A compass check on one switch is still step 0 of bring-up.</li>
-      <li><b class="good">LED</b>The SK6812MINI-E datasheets number the pins 1 VDD, 2 DOUT, 3 GND, 4 DIN, and KiCad numbers them differently. Each signal still sits on the same corner: the reverse-mount footprint matches the datasheet's bottom view exactly, so 5 V cannot land on the data pin.</li>
-      <li><b class="warn">MCU</b>No distributor stocks the bare AT32F405CCT7 (LQFP-48): not LCSC, JLCPCB, Mouser or Digi-Key. The genuine chip does sell on WeAct's AT32F405CCT7 core board on AliExpress, about 72,000 đồng. The plan: buy two or three, bring up the firmware on one, and move the chips from the others onto this board with hot air. Samples from Artery and a Taobao search run alongside. Only if all of that fails does rev 2.1 move to the AT32F405RCT7-7 (LQFP-64), which LCSC stocks.</li>
-      <li><b class="warn">Board</b>Labels on the underside were moved off pads and holes: the BOOT hint now sits under its button, and the test-point names stand upright. DRC: 0 errors.</li>
-    </ul>
-    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/research/order-gates-2026-11.md">Sources and details</a></p>
-  </section>
-
-  <section>
-    <h2>Order plan</h2>
-    <p class="sub">Six orders, each paid only after the gate before it passes. Planned cost of one unit: 990,500 đồng, under the one-million budget.</p>
-    <ul class="findings" id="he-orders">
-      <li><b class="good">1 · MCU</b>Two WeAct AT32F405CCT7 boards: one gives up its chip, one runs the firmware early. Gate: the board enumerates at 480M.</li>
-      <li><b class="good">2 · Keys</b>Four Gateron Magnetic Jade and four keycaps. Gate: a compass shows the north pole faces down.</li>
-      <li><b class="good">3 · Chips</b>One China cart through an order agency: Hall sensors, regulator, ESD, LEDs, crystal, USB-C.</li>
-      <li><b class="good">4 · PCB</b>Two layers, 1.2 mm, five boards. Gate: the quote says 1.2 mm.</li>
-      <li><b class="good">5 · Case</b>Five acrylic layers and the silicone pad. Gate: the 50 mm bar in the file measures 50 mm.</li>
-      <li><b class="good">6 · Build</b>Assemble in stages, measure each against its expected value, then write the real prices back into the BOM.</li>
-    </ul>
-    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/build/order-plan.md">Order plan for all three revisions</a></p>
-  </section>
-
-  <section>
     <h2>Sealed case</h2>
     <p class="sub">The board sits inside the walls: a ledge with a gasket carries its edge, another clamps it from above, and a gasketed cover is the only top surface. It sits flat on one 1.5 mm silicone pad cut to the outline: the whole underside grips the desk, nothing rocks, and the nuts stay in.</p>
     <iframe class="case-view" data-src="case.html?rev=2" title="Exploded view of the sealed rev 2 case" loading="lazy"></iframe>
@@ -263,6 +237,17 @@
   <section>
     <h2>Inside one key</h2>
     <figure class="art"><img loading="lazy" src="assets/he-concept.svg" alt="Cross-section of a magnetic switch: the magnet in the stem moves 3.5 mm toward a Hall sensor under the 1.2 mm PCB" width="700" height="520"></figure>
+  </section>
+  <section>
+    <h2>Build status</h2>
+    <p class="sub">Not built yet. The files are ready and checked; what stands between them and a board on the desk:</p>
+    <ul class="findings" id="he-status">
+      <li><b class="warn">MCU</b>No shop stocks the bare AT32F405CCT7. The genuine chip sells on WeAct's core board, so two of those are the first order: one gives up its chip, one runs the firmware early.</li>
+      <li><b class="good">Magnet</b>Gateron's pages say the north pole faces the board, which the sensors assume. A compass confirms it when the switches arrive.</li>
+      <li><b class="good">LEDs</b>The footprint matches the SK6812MINI-E datasheet's bottom view, corner by corner.</li>
+      <li><b class="good">Budget</b>990,500 đồng planned for one unit, under the one-million cap, in six orders that each wait for the check before them.</li>
+    </ul>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/build/order-plan.md">Order plan</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/research/order-gates-2026-11.md">Checks and sources</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/build/sourcing-vn.md">Where to buy in Vietnam</a></p>
   </section>
 </article>
 </main>
