@@ -13,7 +13,7 @@ apart, and try rapid trigger in the browser.
 | Revision | State | Read |
 |---|---|---|
 | Rev 0 (2022, ATmega32U4) | Original files, unchanged | [Looking back at rev 0](docs/rev0-review.md), [defect review](docs/design-review.md) |
-| Rev 1 (2026, RP2040) | Generated and checked, not built | [How it is made](docs/rev1-board.md), [honest grade](docs/rev1-assessment.md) |
+| Rev 1 (2026, RP2040) | Order files ready (ERC 0, DRC 0); not built | [How it is made](docs/rev1-board.md), [honest grade](docs/rev1-assessment.md) |
 | Rev 2.0 (Hall effect, 8 kHz) | Order files, firmware and CI ready (ERC 0, DRC 0); not built; branch `plan/hall-effect` | [How to order](https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/build/ordering.md), [the board](https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/rev2-board.md), [bring-up](https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/rev2-bringup.md) |
 
 > [!WARNING]

@@ -44,7 +44,7 @@ result, not a sales page. It has not been built.
   part bought.
 - **Module dimensions.** The notch and the BOOT/RESET holes come from the
   Waveshare drawing, not from a measured module.
-- **No fabrication package yet** (Gerbers, drill, position file, plate).
+- **Fabrication package: done.** `scripts/fab.sh rev1` builds Gerbers, drill, JLCPCB BOM and CPL, the plate Gerbers and the case DXF (see [How to order](rev1-board.md#how-to-order)).
 
 ## Grade
 

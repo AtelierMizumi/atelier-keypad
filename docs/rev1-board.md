@@ -134,6 +134,23 @@ These are not covered by ERC or DRC.
 7. **BOOT and RESET holes in the base** are placed from Waveshare's drawing
    (5.0 mm either side of the centre line, 16.2 mm from the USB end), not
    from a measured module.
-8. **The FR4 plate has no Gerber files yet.** Its outline is
+8. **Done: the FR4 plate has Gerbers.** They are `plate-gerbers/` in the rev 1
+   package, made from the same outline as
    `case/dxf-rev1/atelier6k-case-plate-1.6mm.dxf`.
 9. **Fab house rules.** Run the manufacturer's own DFM check.
+
+## How to order
+
+1. Build the package with `scripts/fab.sh rev1` (after `scripts/rev1.sh`), or
+   download the `rev1-package` artifact from the latest CI run. It holds the
+   same files.
+2. **Board:** upload `gerbers/` to JLCPCB as 2 layers, FR-4, 1.6 mm. Choose SMT
+   assembly on both sides, and upload `bom-jlcpcb.csv` and `cpl-jlcpcb.csv`.
+   Check every bottom part in the placement preview.
+3. **Plate:** order `plate-gerbers/` as a separate 1.6 mm FR-4 board, without
+   assembly.
+4. **Hand parts:** buy what `hand-parts.csv` lists: the RP2040-Zero, six Kailh
+   MX hot-swap sockets and three 6 × 6 mm tact switches.
+5. **Case:** laser-cut the three acrylic layers in `case-dxf/`.
+6. Before paying, go through items 1–3 above. `README.txt` in the package
+   repeats them as a checklist.
