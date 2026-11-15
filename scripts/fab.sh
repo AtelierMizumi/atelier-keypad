@@ -59,7 +59,11 @@ if [[ "$rev" == rev1 ]]; then
   echo "==> Switch plate (FR4, no copper)"
   mkdir -p "$OUT/plate-gerbers"
   uv run --quiet --no-project --with shapely --with ezdxf case/plate_pcb.py "$OUT/plate-src/atelier6k-plate.kicad_pcb" >/dev/null
-  kicad kicad-cli pcb export gerbers --layers F.Mask,B.Mask,Edge.Cuts \
+  # Empty copper layers and a drill file as well: the fab house reads the layer count
+  # from the copper Gerbers and expects a drill file in every order.
+  kicad kicad-cli pcb export gerbers --layers F.Cu,B.Cu,F.Mask,B.Mask,Edge.Cuts \
+    -o "$OUT/plate-gerbers/" "$OUT/plate-src/atelier6k-plate.kicad_pcb" >/dev/null
+  kicad kicad-cli pcb export drill --format excellon --excellon-units mm \
     -o "$OUT/plate-gerbers/" "$OUT/plate-src/atelier6k-plate.kicad_pcb" >/dev/null
   rm -rf -- "$OUT/plate-src"
 fi

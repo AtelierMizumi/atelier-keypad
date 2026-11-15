@@ -88,7 +88,9 @@ PCB (gerbers/)
 
 Switch plate (plate-gerbers/)
   A separate board: 1.6 mm FR-4, no copper, no assembly, same size, 5 pcs.
-  Mask on both sides is optional. The MX switches clip into it.
+  Mask on both sides is optional. The MX switches clip into it. The copper
+  layers and the drill file are empty on purpose; write "no copper, outline only"
+  in the order remark. All holes and cut-outs are milled from Edge.Cuts.
 
 Files
   gerbers/          Gerber X2 + Excellon drill (PTH and NPTH separate)

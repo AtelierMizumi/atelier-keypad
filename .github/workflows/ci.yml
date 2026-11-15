@@ -70,6 +70,15 @@ jobs:
         with:
           name: rev2.0-package
           path: build/fab/rev2.0
+
+  # Rev 1 on its own job: a rev 1 failure must not block the rev 2.0 release.
+  kicad-rev1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Pull KiCad
+        run: docker pull "$KICAD_IMAGE"
       - name: Rev 1 ERC, netlist and DRC on the committed board
         run: scripts/rev1.sh check
       - name: Rev 1 production package

@@ -108,8 +108,11 @@ def test_gerber_sets_are_complete():
         assert layer in names, layer
     assert "-PTH.drl" in names and "-NPTH.drl" in names
     plate = " ".join(f.name for f in (PKG / "plate-gerbers").iterdir())
-    for layer in ("Edge_Cuts", "F_Mask", "B_Mask"):
+    # Empty copper layers and a drill file too: the fab house reads the layer count
+    # from the copper Gerbers and expects a drill file in every order.
+    for layer in ("Edge_Cuts", "F_Mask", "B_Mask", "F_Cu", "B_Cu"):
         assert layer in plate, layer
+    assert ".drl" in plate
     assert not (PKG / "plate-src").exists()
 
 
@@ -123,7 +126,8 @@ def test_case_dxf_is_the_three_acrylic_layers():
 @needs_pkg
 def test_fab_readme_states_board_plate_and_open_checks():
     text = (PKG / "README.txt").read_text()
-    for needle in ("1.6 mm", "2 layers", "plate", "notch", "LED pinout", "module"):
+    for needle in ("1.6 mm", "2 layers", "plate", "notch", "LED pinout", "module",
+                   "no copper, outline only"):   # the order remark for the plate
         assert needle in text, needle
 
 
