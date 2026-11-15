@@ -22,7 +22,9 @@ from array import array
 from pathlib import Path
 
 GLB_MAGIC, JSON_CHUNK, BIN_CHUNK = 0x46546C67, 0x4E4F534A, 0x004E4942
-COMPONENT = {5121: "B", 5123: "H", 5125: "I", 5126: "f"}
+COMPONENT = {5120: "b", 5121: "B", 5122: "h", 5123: "H", 5125: "I", 5126: "f"}
+# Divisors for normalized integer attributes (glTF 2.0 3.11, KHR_mesh_quantization).
+NORMALIZE = {5120: 127.0, 5121: 255.0, 5122: 32767.0, 5123: 65535.0}
 
 
 # ------------------------------------------------------------------ file I/O
@@ -77,8 +79,23 @@ def _read_accessor(gltf: dict, blob: bytes, index: int) -> array:
     return out
 
 
-def read_vec3(gltf: dict, blob: bytes, index: int) -> list[tuple[float, float, float]]:
+def _read_floats(gltf: dict, blob: bytes, index: int) -> array:
+    """An attribute as floats: normalized integers (a quantized file) mapped back to [-1, 1]."""
+    acc = gltf["accessors"][index]
     a = _read_accessor(gltf, blob, index)
+    if not acc.get("normalized"):
+        return a
+    d = NORMALIZE[acc["componentType"]]
+    return array("f", (max(v / d, -1.0) for v in a))
+
+
+def read_vec3(gltf: dict, blob: bytes, index: int) -> list[tuple[float, float, float]]:
+    """Float triples; normalized integers (a quantized file) are mapped back to [-1, 1]."""
+    acc = gltf["accessors"][index]
+    a = _read_accessor(gltf, blob, index)
+    if acc.get("normalized"):
+        d = NORMALIZE[acc["componentType"]]
+        return [tuple(max(v / d, -1.0) for v in a[i: i + 3]) for i in range(0, len(a), 3)]
     return [tuple(a[i: i + 3]) for i in range(0, len(a), 3)]
 
 
@@ -146,8 +163,8 @@ def merge(gltf: dict, blob: bytes) -> tuple[dict, bytes]:
                 raise ValueError("only triangle lists are supported")
             g = groups.setdefault(prim.get("material", -1), {"pos": array("f"), "nrm": array("f"), "idx": array("I")})
             base = len(g["pos"]) // 3
-            pos = _read_accessor(gltf, blob, prim["attributes"]["POSITION"])
-            nrm = _read_accessor(gltf, blob, prim["attributes"]["NORMAL"]) if "NORMAL" in prim["attributes"] else None
+            pos = _read_floats(gltf, blob, prim["attributes"]["POSITION"])
+            nrm = _read_floats(gltf, blob, prim["attributes"]["NORMAL"]) if "NORMAL" in prim["attributes"] else None
             for i in range(0, len(pos), 3):
                 x, y, z = pos[i], pos[i + 1], pos[i + 2]
                 g["pos"].extend((world[0] * x + world[4] * y + world[8] * z + world[12],

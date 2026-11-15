@@ -71,6 +71,7 @@ kicad pcb export glb --force --subst-models --include-tracks --include-pads \
 # One primitive per material: KiCad writes ~18k, which stalls browsers.
 # Bump MODEL_VERSION in site/case.js and site/app.js when the model changes.
 python3 tools/glb/merge.py site/assets/atelier6k.glb site/assets/atelier6k.glb
+python3 tools/glb/quantize.py site/assets/atelier6k.glb site/assets/atelier6k.glb
 
 echo "==> Rev 0 KiCad 6 sources for the in-browser viewer"
 # KiCanvas reads the original KiCad 6 files, taken from the rev0 tag.

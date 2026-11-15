@@ -58,6 +58,7 @@ if [[ "$mode" == all ]]; then
     --include-silkscreen --include-soldermask --user-origin "$origin" \
     -o site/assets/atelier6k-he.glb "$DIR/atelier-he.kicad_pcb" >/dev/null
   python3 tools/glb/merge.py site/assets/atelier6k-he.glb site/assets/atelier6k-he.glb
+  python3 tools/glb/quantize.py site/assets/atelier6k-he.glb site/assets/atelier6k-he.glb
   cp "$DIR/atelier-he.kicad_pcb" "$DIR/atelier-he.kicad_sch" site/kicad/
   cp docs/images/rev2-pcb-top.png docs/images/rev2-pcb-bottom.png docs/images/rev2-schematic.svg \
      docs/images/rev2-art-preview.png site/assets/

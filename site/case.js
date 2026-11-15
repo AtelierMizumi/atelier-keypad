@@ -15,7 +15,7 @@ const q = new URLSearchParams(location.search);
 // ?rev=1 shows the rev 1 board and its case (FR4 plate, MCU module under the PCB).
 const TAG = { 1: '-rev1', 2: '-he' }[q.get('rev')] || '';
 // Bump when the GLB files change, so browsers do not keep the old ones.
-const MODEL_VERSION = 'merged-2';
+const MODEL_VERSION = 'q1';
 const num = (k, d) => (q.has(k) ? parseFloat(q.get(k)) : d);
 const flag = (k, d) => (q.has(k) ? q.get(k) !== '0' : d);
 if (q.get('theme') === 'light') document.body.classList.add('light');
