@@ -80,6 +80,7 @@ Each of these came from a failed check, not from the plan:
 - Gate G2 (#9): a PCB quote at **1.2 mm**.
 - Check the magnetic switch's bottom: the footprint assumes no centre post
   (the board under the switch is bare; the sensor is on the other side).
-- Check pin 1 orientation of the SK6812MINI-E against the part bought (open
-  since rev 1).
+- SK6812MINI-E pinout: the footprint matches the datasheet's bottom view
+  (checked 16 Nov 2026, [order gates](research/order-gates-2026-11.md)). On the
+  bench, compare the chamfer on the reel's parts with the silkscreen.
 - Production files: `scripts/fab.sh`, or the CI artifact `rev2.0-package`.

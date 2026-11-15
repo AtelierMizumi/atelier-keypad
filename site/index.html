@@ -102,7 +102,7 @@
 <article class="rev" id="page-rev1" data-rev="1" hidden>
   <header class="rev-head">
     <h1>A board written as code</h1>
-    <p class="lede">Same outline, holes and key layout as rev 0. The circuit is a Python file; the schematic, placement and every track are generated from it, then checked by KiCad. Designed, not yet built.</p>
+    <p class="lede">Same outline, holes and key layout as rev 0. The circuit is a Python file; the schematic, placement and every track are generated from it, then checked by KiCad. Order files ready, not yet built.</p>
     <dl class="specs">
       <div><dt>MCU</dt><dd>RP2040-Zero module</dd></div>
       <div><dt>Keys</dt><dd>9 on direct pins</dd></div>
@@ -141,8 +141,10 @@
       <li><b class="good">Strong</b>Fixes all of rev 0's power faults: polyfuse, 3.3 → 5 V data buffer, a capacitor at every LED.</li>
       <li><b class="warn">Plain</b>Electrically it is a simple board: nine switches to ground and one LED chain on a ready-made module.</li>
       <li><b class="warn">Plain</b>The home-made router's tracks are correct but not pretty; a person would tidy them.</li>
-      <li><b class="bad">Open</b>The LED footprint pinout differs between datasheet revisions and must be checked against the part bought.</li>
+      <li><b class="good">Checked</b>The LED footprint puts every signal on the corner the SK6812MINI-E datasheet's bottom view shows, even though the two number the pins differently.</li>
+      <li><b class="warn">Open</b>The module notch and the BOOT/RESET holes come from Waveshare's drawing, not from a measured RP2040-Zero.</li>
     </ul>
+    <p class="sub">The order files are ready: Gerbers, a JLCPCB BOM and placement file, the FR4 plate as its own board, a list of the parts to solder by hand, and the acrylic cut files, all built by CI.</p>
     <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/revamp/docs/rev1-assessment.md">Read the assessment</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/revamp/docs/rev1-board.md">How rev 1 is made</a></p>
   </section>
 </article>
@@ -190,6 +192,18 @@
       <li><b class="bad">Honest</b>A mass-made 3-key Hall pad costs about what this single unit costs. This one wins on a finer measured floor, a layout fitted to one hand, a sealed case and openness, not on price.</li>
     </ul>
     <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/build/ordering.md">How to order one</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/build/sourcing-vn.md">Where to buy in Vietnam</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/research/he-switch-field.md">Why the sensors are underneath</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/releases">Production files</a></p>
+  </section>
+
+  <section>
+    <h2>Before ordering</h2>
+    <p class="sub">Three questions that ERC and DRC cannot answer, checked against makers' pages and datasheets on 16 Nov 2026.</p>
+    <ul class="findings" id="he-gates">
+      <li><b class="good">Magnet</b>Gateron's own pages say the Magnetic Jade's north pole faces down to the PCB. That is what the unipolar DRV5056A4 and the firmware assume, so the sensor stays. A compass check on one switch is still step 0 of bring-up.</li>
+      <li><b class="good">LED</b>The SK6812MINI-E datasheets number the pins 1 VDD, 2 DOUT, 3 GND, 4 DIN, and KiCad numbers them differently. Each signal still sits on the same corner: the reverse-mount footprint matches the datasheet's bottom view exactly, so 5 V cannot land on the data pin.</li>
+      <li><b class="bad">MCU</b>Still open. The board's AT32F405CCT7 (LQFP-48) has no listing at LCSC or JLCPCB. LCSC does stock the AT32F405RCT7-7 (LQFP-64, same 7 × 7 mm body). If no Taobao shop has the 48-pin part, rev 2.1 moves to the 64-pin one: new footprint, pin map and routing around the MCU.</li>
+      <li><b class="warn">Board</b>Labels on the underside were moved off pads and holes: the BOOT hint now sits under its button, and the test-point names stand upright. DRC: 0 errors.</li>
+    </ul>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/research/order-gates-2026-11.md">Sources and details</a></p>
   </section>
 
   <section>

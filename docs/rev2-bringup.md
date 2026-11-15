@@ -12,7 +12,9 @@ LQFP.
 ## 0. Check the magnet's pole (before soldering any sensor)
 
 The firmware and the DRV5056 assume Gateron's magnet faces **north-down**,
-towards the board. No primary source for that was found. Check one switch:
+towards the board. Gateron's own product pages say the same ("N-pole faces down
+to the PCB board"; see `docs/research/order-gates-2026-11.md`). Check one switch
+anyway, since it costs nothing and catches a mislabelled batch:
 
 1. Hold a compass flat, and bring the **bottom** of the switch to it.
 2. The compass's **south** end (usually the unmarked or white end) swings to

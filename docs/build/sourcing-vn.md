@@ -49,7 +49,10 @@ to ask about is **1.2 mm**, since the default is 1.6 mm. Decision D2 needs
   AT32F405CCT7 with stock "暂无" (none yet). szlcsc (LCSC's Chinese site)
   turned up no page for it, and JLCPCB's part search returns "0 Found". **This is gate G1:** search "AT32F405CCT7" on
   Taobao and szlcsc, and only order if a shop has it. If no shop has it, see
-  Plan B in `docs/hall-effect-task0.md`.
+  Plan B in `docs/hall-effect-task0.md`. Checked again on 16 Nov 2026: there is
+  still no LQFP-48 listing, but LCSC stocks the LQFP-64 **AT32F405RCT7-7**
+  (C19674180), which would mean a rev 2.1 board
+  ([order gates](../research/order-gates-2026-11.md)).
 - **The DRV5056A4QDBZR is LCSC C2152902**
   ([LCSC](https://www.lcsc.com/product-image/C2152902.html)), about 0.60 USD,
   stock unclear. Arrow lists the reel suffix QDBZT as obsolete; **QDBZR** is

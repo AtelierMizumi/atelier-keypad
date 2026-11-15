@@ -115,13 +115,12 @@ These are not covered by ERC or DRC.
 1. **Notch size.** 11.2 mm wide is taken from the pad geometry, not from a
    measurement of the parts on the module's back. Measure a real module, or
    check Waveshare's STEP file.
-2. **LED pinout.** Pin numbers come from KiCad's `SK6812MINI-E` symbol and
-   footprint (1 VSS, 2 DIN, 3 VDD, 4 DOUT). A search on 2026-11-14 found
-   datasheet copies that number the pins differently (for example 1 VDD,
-   2 DOUT, 3 GND, 4 DIN), and a note that datasheet revisions disagree. What
-   matters is which corner each signal is on: compare the footprint with the
-   top-view drawing in the datasheet of the exact part bought, remembering
-   that the key LEDs are mounted from the bottom.
+2. **LED pinout: checked.** KiCad numbers the pins 1 VSS, 2 DIN, 3 VDD,
+   4 DOUT, and the OPSCO datasheets (the maker of LCSC C5149201) number them
+   1 VDD, 2 DOUT, 3 GND, 4 DIN. Each signal still sits on the same corner: the
+   reverse-mount footprint matches the datasheet's bottom view
+   ([order gates](research/order-gates-2026-11.md), 16 Nov 2026). On the
+   bench, compare the chamfer on the parts with the silkscreen.
 3. **Module pinout and dimensions** were read from Waveshare's two drawings.
    Clones can differ.
 4. **5 V path.** The polyfuse protects this board's LEDs and logic. It does
