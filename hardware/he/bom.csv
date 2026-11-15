@@ -1,5 +1,5 @@
 group,item,qty,unit_vnd_low,unit_vnd_high,plan_vnd,where,confidence,note
-china,ARTERY AT32F405CCT7 (LQFP-48),1,45000,80000,55000,"Taobao / szlcsc, one shop via an order agency",estimate,Gate G1: no listing found on 14 Nov 2026; no Vietnamese distributor found
+china,"ARTERY AT32F405CCT7 (LQFP-48), taken from a WeAct AT32F405CCT7 Core Board",1,72000,80000,72000,AliExpress (WeAct store),found,"No distributor stocks the bare chip (16 Nov 2026); the board sells at 71,686 VND. A second board for firmware bring-up is a tool, outside this budget"
 china,TI DRV5056A4QDBZR linear Hall (SOT-23),4,12000,25000,16000,LCSC C2152902 or the same Taobao shop,estimate,"Buy QDBZR (SOT-23); QDBZT is obsolete, TO-92 QLPG does not fit"
 china,LP5907MFX-3.3 LDO (SOT-23-5),2,4000,8000,5000,"Taobao / szlcsc, one shop via an order agency",estimate,1 used + 1 spare; a ferrite bead splits off the analog rail
 china,USB-C 16-pin receptacle,2,3000,6000,4000,"Taobao / szlcsc, one shop via an order agency",estimate,
@@ -17,6 +17,6 @@ local,Gateron Magnetic Jade PCB-mount,4,18000,27000,21000,TechSpace (original Ja
 local,Keycaps 1u,4,8000,15000,10000,Shopee,estimate,
 local,"Acrylic laser cut: 5 pieces about 84 x 78 mm (3, 5, 2, 2, 2 mm)",1,100000,220000,150000,"MicaTrong / Hy Huy (HCM), MTV Plastic / Mica Ha Noi (HN)",estimate,"DXF in case/dxf-he; blue translucent for walls and cover, clear base"
 local,EVA foam 0.5 mm and 1.0 mm sheets,1,15000,30000,20000,Shopee,estimate,0.5 mm cover gasket; 1.0 mm strips under the board edge
-local,"Nylon M3 x 14 screws and nuts, rubber feet 1 mm (front) and 7.5 mm (rear)",1,20000,40000,30000,Shopee / hardware store,estimate,
+local,"Nylon M3 x 14 screws and nuts, 1.5 mm self-adhesive silicone sheet (grip pad)",1,30000,60000,40000,Shopee / hardware store,estimate,The pad replaces the rubber feet (flat case)
 local,Conformal coating (acrylic),1,60000,150000,90000,Shopee / electronics shop,estimate,e.g. CRC Plastik 70 or a PCB coating bottle
 local,Flux for LQFP soldering,1,0,40000,25000,Electronics shop,estimate,Skip if you have it

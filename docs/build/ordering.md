@@ -6,14 +6,14 @@ Where to buy, and why: [sourcing-vn.md](sourcing-vn.md). Budget:
 Order in this sequence. Each step only spends money once the step before it
 has passed.
 
-## 0. Gate G1: is the MCU buyable? (no money)
+## 0. Gate G1: the MCU
 
-1. Search **AT32F405CCT7** on Taobao (an agency's app or website shows it) and
-   on szlcsc.com.
-2. Write the cheapest shop that also sells the other chips in step 2 into
-   `hardware/he/bom.csv`.
-3. **If no shop has it, stop.** Rev 2.0 then becomes Plan B (RP2040, 1 kHz),
-   which needs its own board.
+No distributor stocks the bare AT32F405CCT7 (checked 16 Nov 2026). Buy two
+**WeAct AT32F405CCT7 Core Boards** on AliExpress: one gives its chip to this
+board, the other runs the firmware while the PCB is on its way. Gate: the board
+enumerates at 480M (`lsusb -t`). Details and the fallback are in
+[order gates](../research/order-gates-2026-11.md); the plan across all three
+revisions is in [order-plan.md](order-plan.md).
 
 ## 1. Files
 

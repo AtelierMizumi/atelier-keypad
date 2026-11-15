@@ -93,7 +93,9 @@
       <li><b class="bad">Fix</b>No fuse on VBUS, and ten LEDs at full white can pull more than USB's 500 mA.</li>
       <li><b class="bad">Fix</b>The underglow chain sits on a pin the firmware drives as a PWM backlight.</li>
       <li><b class="warn">Watch</b>No decoupling at the LEDs; the MCU capacitors are far from its supply pins.</li>
+      <li><b class="bad">Order</b>Not ordered. The review's rev 0.2 fix list is exactly what rev 1 became, so rev 0 stays a record.</li>
     </ul>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/build/order-plan.md">Order plan for all three revisions</a></p>
     <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/revamp/docs/rev0-review.md">Read the full rev 0 review</a></p>
   </section>
 </article>
@@ -145,6 +147,7 @@
       <li><b class="warn">Open</b>The module notch and the BOOT/RESET holes come from Waveshare's drawing, not from a measured RP2040-Zero.</li>
     </ul>
     <p class="sub">The order files are ready: Gerbers, a JLCPCB BOM and placement file, the FR4 plate as its own board, a list of the parts to solder by hand, and the acrylic cut files, all built by CI.</p>
+    <p class="sub">Ordering it is optional: its chips go in rev 2.0's China cart, and its board and plate go in the same PCB order. It is all hand-soldered, because two-sided assembly at JLCPCB costs more than the parts. <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/build/order-plan.md">Order plan</a></p>
     <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/revamp/docs/rev1-assessment.md">Read the assessment</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/revamp/docs/rev1-board.md">How rev 1 is made</a></p>
   </section>
 </article>
@@ -204,6 +207,20 @@
       <li><b class="warn">Board</b>Labels on the underside were moved off pads and holes: the BOOT hint now sits under its button, and the test-point names stand upright. DRC: 0 errors.</li>
     </ul>
     <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/research/order-gates-2026-11.md">Sources and details</a></p>
+  </section>
+
+  <section>
+    <h2>Order plan</h2>
+    <p class="sub">Six orders, each paid only after the gate before it passes. Planned cost of one unit: 990,500 đồng, under the one-million budget.</p>
+    <ul class="findings" id="he-orders">
+      <li><b class="good">1 · MCU</b>Two WeAct AT32F405CCT7 boards: one gives up its chip, one runs the firmware early. Gate: the board enumerates at 480M.</li>
+      <li><b class="good">2 · Keys</b>Four Gateron Magnetic Jade and four keycaps. Gate: a compass shows the north pole faces down.</li>
+      <li><b class="good">3 · Chips</b>One China cart through an order agency: Hall sensors, regulator, ESD, LEDs, crystal, USB-C.</li>
+      <li><b class="good">4 · PCB</b>Two layers, 1.2 mm, five boards. Gate: the quote says 1.2 mm.</li>
+      <li><b class="good">5 · Case</b>Five acrylic layers and the silicone pad. Gate: the 50 mm bar in the file measures 50 mm.</li>
+      <li><b class="good">6 · Build</b>Assemble in stages, measure each against its expected value, then write the real prices back into the BOM.</li>
+    </ul>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/build/order-plan.md">Order plan for all three revisions</a></p>
   </section>
 
   <section>
