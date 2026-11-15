@@ -131,6 +131,26 @@ def test_bottom_parts_under_a_key_do_not_collide():
     assert not [v for v in report["violations"] if v["type"] == "courtyards_overlap"]
 
 
+def test_silkscreen_is_readable_and_clear_of_pads():
+    # Labels must not sit on pads or holes (the fab clips them), on each other, or below
+    # the 0.8 mm minimum text height. Clipping by the board edge (J1's outline) is allowed.
+    import json
+    report = json.loads((BOARD.parents[2] / "docs" / "reports" / "he-drc.json").read_text())
+    bad = [(v["type"], [i["description"] for i in v["items"]]) for v in report["violations"]
+           if v["type"] in ("silk_over_copper", "silk_overlap", "text_height")]
+    assert bad == []
+
+
+def test_boot_label_sits_under_the_boot_button(pcb):
+    # The BOOT hint belongs next to SW3 on the bottom, where a finger finds the button.
+    _, (sx, sy), _ = footprint(pcb, "SW3")
+    labels = [t for t in find_all(pcb, "gr_text") if "BOOT" in str(t[1])]
+    assert labels, "no BOOT label"
+    for t in labels:
+        x, y = xy(find(t, "at"))
+        assert abs(x - sx) < 3.0 and 0 < y - sy < 8.0, (x, y)
+
+
 def test_silkscreen_says_rev_2_0(pcb):
     texts = [str(t[2]) for t in find_all(pcb, "gr_text")] + [str(t[1]) for t in find_all(pcb, "gr_text")]
     assert any("rev 2.0" in t for t in texts)

@@ -197,12 +197,26 @@ def place() -> None:
     if art.exists():
         board_only(board, ART_FOOTPRINT, "ART1", "moon over the sea", (ax0 + ax1) / 2, (ay0 + ay1) / 2)
 
+    labels(board)
+    pcbnew.SaveBoard(str(BOARD), board)
+    print("wrote", BOARD, "with", len(board.GetFootprints()), "footprints and", len(nets), "nets")
+
+
+def labels(board) -> None:
+    """Board-level silkscreen, kept clear of pads and holes (DRC: silk_over_copper)."""
     silk_text(board, "ATELIER rev 2.0  ·  HE", 100.0, 125.6, pcbnew.F_SilkS, 1.6)
     silk_text(board, "00:00", circuit.KEYS["K2"][0] + 7.6, circuit.KEYS["K2"][1] - 7.9, pcbnew.F_SilkS, 0.8)  # under the keycap rim
     silk_text(board, "26.05.2022", 100.0, 150.2, pcbnew.B_SilkS, 0.8)
-    silk_text(board, "BOOT: hold while plugging in", 122.0, 91.5, pcbnew.B_SilkS, 0.7)
-    pcbnew.SaveBoard(str(BOARD), board)
-    print("wrote", BOARD, "with", len(board.GetFootprints()), "footprints and", len(nets), "nets")
+    # BOOT hint right under SW3, in the free strip between its pads and C28/Y1.
+    sw3 = next(p for p in circuit.parts() if p.ref == "SW3")
+    silk_text(board, "BOOT", sw3.x, sw3.y + 5.3, pcbnew.B_SilkS, 1.0)
+    silk_text(board, "hold while plugging in", sw3.x, sw3.y + 6.7, pcbnew.B_SilkS, 0.8)
+    # Test-point labels stand upright above their pads: side by side at 2.5 mm they overlap.
+    for fp in board.GetFootprints():
+        if fp.GetReference().startswith("TP"):
+            ref = fp.Reference()
+            ref.SetTextAngleDegrees(90)
+            ref.SetPosition(pt(pcbnew.ToMM(fp.GetPosition().x), pcbnew.ToMM(fp.GetPosition().y) - 2.4))
 
 
 def refill(board) -> None:

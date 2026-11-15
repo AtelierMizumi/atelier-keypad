@@ -18820,7 +18820,7 @@
 		(descr "SMD rectangular pad as test Point, square 1.0mm side length")
 		(tags "test point SMD pad rectangle square")
 		(property "Reference" "TP2"
-			(at 0 1.448 0)
+			(at 0 2.4 90)
 			(layer "B.SilkS")
 			(uuid "38ffb838-9d57-409c-bc0d-ec6de9279d53")
 			(effects
@@ -19752,7 +19752,7 @@
 		(descr "SMD rectangular pad as test Point, square 1.0mm side length")
 		(tags "test point SMD pad rectangle square")
 		(property "Reference" "TP3"
-			(at 0 1.448 0)
+			(at 0 2.4 90)
 			(layer "B.SilkS")
 			(uuid "9341eb63-6e9b-4176-8c5c-13d7a4b49082")
 			(effects
@@ -21232,7 +21232,7 @@
 		(descr "SMD rectangular pad as test Point, square 1.0mm side length")
 		(tags "test point SMD pad rectangle square")
 		(property "Reference" "TP1"
-			(at 0 1.448 0)
+			(at 0 2.4 90)
 			(layer "B.SilkS")
 			(uuid "42ed0a1b-f68f-4643-8165-968bd42df613")
 			(effects
@@ -23752,7 +23752,7 @@
 		(descr "SMD rectangular pad as test Point, square 1.0mm side length")
 		(tags "test point SMD pad rectangle square")
 		(property "Reference" "TP4"
-			(at 0 1.448 0)
+			(at 0 2.4 90)
 			(layer "B.SilkS")
 			(uuid "a36ff888-6edb-4768-a3c9-3c9446b7d264")
 			(effects
@@ -24950,7 +24950,7 @@
 	(gr_text "00:00"
 		(at 107.6 100.339999 0)
 		(layer "F.SilkS")
-		(uuid "10544719-9548-4002-a2f4-e30096b67a2e")
+		(uuid "64743646-b6c1-4631-ba36-74a876c12c87")
 		(effects
 			(font
 				(size 0.8 0.8)
@@ -24962,7 +24962,7 @@
 	(gr_text "ATELIER rev 2.0  ·  HE"
 		(at 100 125.6 0)
 		(layer "F.SilkS")
-		(uuid "c170563e-4c4e-43ae-9cc7-755f14bc5484")
+		(uuid "a8c3b05a-e03c-459a-a985-4bec7a5ea478")
 		(effects
 			(font
 				(size 1.6 1.6)
@@ -24971,27 +24971,40 @@
 			)
 		)
 	)
-	(gr_text "BOOT: hold while plugging in"
-		(at 122 91.5 0)
+	(gr_text "26.05.2022"
+		(at 100 150.2 0)
 		(layer "B.SilkS")
-		(uuid "4a4a5263-fa0f-4be3-8148-a3f9faec8359")
+		(uuid "37c3fce5-0cfe-4276-8f0e-fe5c985bf8dc")
 		(effects
 			(font
-				(size 0.7 0.7)
-				(thickness 0.105)
+				(size 0.8 0.8)
+				(thickness 0.12)
 				(italic yes)
 			)
 			(justify mirror)
 		)
 	)
-	(gr_text "26.05.2022"
-		(at 100 150.2 0)
+	(gr_text "hold while plugging in"
+		(at 116.5 102.2 0)
 		(layer "B.SilkS")
-		(uuid "741aab04-bafc-4011-a7b3-1f15e19bc1f2")
+		(uuid "542c33b2-9957-4010-aff7-0f0c207e5c2b")
 		(effects
 			(font
 				(size 0.8 0.8)
 				(thickness 0.12)
+				(italic yes)
+			)
+			(justify mirror)
+		)
+	)
+	(gr_text "BOOT"
+		(at 116.5 100.8 0)
+		(layer "B.SilkS")
+		(uuid "aa9577a3-bee9-479b-a917-f6869036b210")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
 				(italic yes)
 			)
 			(justify mirror)
