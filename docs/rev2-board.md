@@ -70,8 +70,11 @@ Each of these came from a failed check, not from the plan:
   the first design's 18 pF gave about 13 pF.
 - **The art moved to the top, into a palm area,** under the clear cover. On the
   bottom it shared the space with the LED chain and the sensor filters.
-- **The 6° angle comes from the feet** (1.0 mm front, 7.5 mm rear) instead of a
-  wedge layer: cheaper, and swapping feet gives the flat A/B test.
+- **Flat, on one silicone pad.** The first design tilted 6° on flat rubber
+  discs, which met the desk on one edge and left the case's front edge 0.58 mm
+  off the desk. The case now sits flat on a 1.5 mm silicone sheet cut to its
+  outline (`case/dxf-he/atelier-he-pad-1.5mm-silicone.dxf`); see
+  `docs/superpowers/specs/2026-11-16-rev2-flat-case-grip.md`.
 
 ## Before ordering
 

@@ -118,8 +118,10 @@ The file names say the thickness and colour of each layer.
 
 - **EVA foam**, 0.5 mm and 1.0 mm sheets. The cover gasket is cut from the
   spacer outline; the 1.0 mm strips go under the board edge.
-- **Hardware:** 4 × nylon M3 × 14 screws plus nuts. Rubber feet: 2 × 1 mm
-  (front), 2 × 7.5 mm (rear).
+- **Hardware:** 4 × nylon M3 × 14 screws plus nuts.
+- **Grip pad:** one self-adhesive silicone sheet, 1.5 mm, at least 85 × 80 mm.
+  Cut it to `atelier-he-pad-1.5mm-silicone.dxf` (laser or a sharp knife over a
+  print); it replaces the rubber feet.
 - **Soldering supplies:** acrylic conformal coating, flux, solder paste or
   0.5 mm solder, wick.
 

@@ -187,7 +187,7 @@
       <li><b class="good">Scan</b>Three keys, 32 samples each, in 48 µs of every 125 µs. Device-side delay 250 µs worst case, against 1125 µs on a 1 kHz board.</li>
       <li><b class="good">Sense</b>A TI DRV5056A4 under each key, reading the magnet through a 1.2 mm board: the condition Gateron measures its switch flux in. A model fitted to Gateron's figures gives about a 0.025 mm rapid-trigger floor. On top of the board, the first design, the sensor would read flat over the last 1.2 mm of the stroke.</li>
       <li><b class="warn">Firmware</b>The open libhmk firmware, pinned to v1.8.1: rapid trigger and 8 kHz on this chip, configured from the browser, with Esc and Retry added as keys. It does not drive the LEDs yet.</li>
-      <li><b class="good">Hand</b>Three keys 19.05 mm apart, the middle one 4.76 mm further out for the longest finger. Symmetric, so it suits either hand. A 6° wedge, Esc and retry out of the tapping path.</li>
+      <li><b class="good">Hand</b>Three keys 19.05 mm apart, the middle one 4.76 mm further out for the longest finger. Symmetric, so it suits either hand. Flat and low, with Esc and retry out of the tapping path.</li>
       <li><b class="good">Sweat</b>The board sits inside closed walls under a gasketed cover and is lacquered all over; magnetic switches have no contacts, so nothing needs to stay bare. Nylon screws. USB's 5 V cannot shock you; the case is there for static and salt.</li>
       <li><b class="bad">Honest</b>A mass-made 3-key Hall pad costs about what this single unit costs. This one wins on a finer measured floor, a layout fitted to one hand, a sealed case and openness, not on price.</li>
     </ul>
@@ -208,8 +208,22 @@
 
   <section>
     <h2>Sealed case</h2>
-    <p class="sub">The board sits inside the walls: a ledge with a gasket carries its edge, another clamps it from above, and a gasketed cover is the only top surface. Rear feet 6.5 mm taller than the front give the 6° angle; swap them to try it flat.</p>
+    <p class="sub">The board sits inside the walls: a ledge with a gasket carries its edge, another clamps it from above, and a gasketed cover is the only top surface. It sits flat on one 1.5 mm silicone pad cut to the outline: the whole underside grips the desk, nothing rocks, and the nuts stay in.</p>
     <iframe class="case-view" data-src="case.html?rev=2" title="Exploded view of the sealed rev 2 case" loading="lazy"></iframe>
+  </section>
+
+  <section>
+    <h2>Lessons from other keypads</h2>
+    <p class="sub">What players and other builders ran into, and what this board does about it.</p>
+    <ul class="findings" id="he-lessons">
+      <li><b class="good">Height</b>Hugofrost, a keypad player since 2017, taps fast maps faster on a low keypad than on a keyboard, though he says he cannot tell why. The first rev 2 case tilted 6° on stacked rubber discs, and the keycaps stood about 33 mm off the desk. It now sits flat: the PCB is 11.5 mm off the desk.</li>
+      <li><b class="good">Grip</b>BTMC tests a pad by pushing it sideways with his wrist. On the tilted case each rubber disc met the desk on one edge, and the front edge of the case hung 0.58 mm above it, so it would rock and then scrape. One 1.5 mm silicone sheet cut to the outline now covers the whole underside.</li>
+      <li><b class="good">Scale</b>tokaku's first case came back from the laser cutter tiny, because the drawing was exported at the wrong scale. Every cut file here is in millimetres and carries a 50 mm bar to measure before cutting, and a test checks both.</li>
+      <li><b class="good">LEDs</b>tokaku's per-key LEDs were wired wrong: SK6812MINI datasheets draw the pins mirrored from each other. This footprint was checked corner by corner against the bottom view.</li>
+      <li><b class="good">Rattle</b>A LotusPro keypad rattled in its case, and was blamed on tolerances. Here the board is clamped between two gasketed ledges, and a test checks a USB-C plug fits the slot without opening the clamp.</li>
+      <li><b class="warn">Build</b>LotusPro went through five failed 3-key prototypes while taking pre-orders. Among the causes: a ground-pour edge mistaken for a cut trace, a 5.1 kΩ resistor mistaken for the fuse, and hot-swap sockets soldered backwards. Here the bring-up goes in stages, with an expected value for every measurement.</li>
+    </ul>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/superpowers/specs/2026-11-16-rev2-flat-case-grip.md">Why the case changed</a></p>
   </section>
 
   <section>
