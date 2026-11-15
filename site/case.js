@@ -52,7 +52,7 @@ controls.dampingFactor = 0.08;
 const world = new THREE.Group();
 world.rotation.x = -Math.PI / 2;
 scene.add(world);
-const tiltGroup = new THREE.Group(); // rev 2 sits on taller rear feet
+const tiltGroup = new THREE.Group(); // tilts a case whose JSON asks for it (rev 2 is flat now)
 world.add(tiltGroup);
 
 const EXPLODE_STEP = 15; // mm between neighbouring parts at full explode
@@ -80,6 +80,7 @@ const ACRYLIC = {
   frosted: { color: 0xf4f7f9, opacity: 0.62, roughness: 0.75, edge: 0xffffff },
   blue: { color: 0x2f6fe0, opacity: 0.42, roughness: 0.1, edge: 0x9fd8ff },
   eva: { color: 0x15161a, opacity: 0.92, roughness: 0.95, edge: 0x3a3d44 },
+  silicone: { color: 0x0e0f12, opacity: 0.97, roughness: 1.0, edge: 0x4a4e57 },
   fr4: { color: 0x2f7d4a, opacity: 0.93, roughness: 0.55, edge: 0xbfe8c8 },
 };
 
@@ -168,8 +169,9 @@ async function buildGeneric(data) {
   const mm = (l) => l.sub;
   const base = data.layers[0];
   const top = data.layers.at(-1).z0 + data.layers.at(-1).thickness;
-  const feet = addPart('feet', -3, 'Rubber feet', 'taller at the back: 6° typing angle', base.z0 - 1);
-  for (const [x, y, h] of data.feet) {
+  const feetData = data.feet || [];
+  const feet = feetData.length ? addPart('feet', -4, 'Rubber feet', '', base.z0 - 1) : new THREE.Group();
+  for (const [x, y, h] of feetData) {
     const f = cyl(4, 4, h, 24, std(0x111111, 0.9));
     f.position.set(x, y, base.z0 - h);
     feet.add(f);

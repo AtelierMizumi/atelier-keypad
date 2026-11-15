@@ -11,12 +11,14 @@ The PCB is inside the case, not a layer of the sandwich:
     -2.0  lower-wall 5 mm ring; a 1.2 mm ledge carries the board on a 1.0 mm EVA strip
                      squeezed to 0.8 mm
     -7.0  base       3 mm clear acrylic: nut pockets, BOOT hole
-   -10.0
+   -10.0  pad        1.5 mm self-adhesive silicone, the base outline less 0.5 mm:
+                     the whole underside grips the desk and keeps the nuts in
+   -11.5  desk
 
 Magnetic switches have no contacts, so the board can be conformally coated all
 over; the only openings are the switch holes, the two buttons and the USB slot.
-A 6 degree typing angle comes from taller rear feet, so it can be undone by
-swapping feet.
+The case sits flat and low: tilted rubber discs met the desk on one edge and let
+the case's front edge touch it (docs/superpowers/specs/2026-11-16-rev2-flat-case-grip.md).
 
     uv run case/generate_he.py        # DXF in case/dxf-he/, model JSON for the site
 """
@@ -51,8 +53,9 @@ SWITCH_HOLE = 14.0
 BUTTON_HOLE = 6.8
 BOOT_HOLE = 4.0
 USB_SLOT = 13.0
-TILT_DEG = 6.0
-FRONT_FOOT = 1.0
+PAD_T = 1.5                     # silicone sheet under the whole base
+PAD_INSET = 0.5                 # stays inside the acrylic edge, so it does not peel
+PAD_BOOT_HOLE = 6.0             # wider than the base's BOOT hole: room for a toothpick
 SCREW_LENGTHS = (10, 12, 14, 16)
 UNDER_GASKET = 1.0              # EVA strip on the lower ledge, under the board edge
 UNDER_GASKET_COMPRESSED = 0.8   # squeezed 20 % when the screws are tight
@@ -86,7 +89,7 @@ class Case:
     buttons: list
     usb: tuple
     boot: tuple
-    feet: list                      # (x, y, height)
+    feet: list                      # none since the flat case: the pad is a layer
     screw: Screw
     bottom_parts: dict = field(default_factory=dict)
 
@@ -135,10 +138,12 @@ def design() -> Case:
         base = base.difference(Polygon([(x + r * math.cos(math.radians(a)), y + r * math.sin(math.radians(a)))
                                         for a in range(0, 360, 60)]))
     base = base.difference(Point(boot).buffer(BOOT_HOLE / 2, quad_segs=ARC))
+    pad = outer.buffer(-PAD_INSET, quad_segs=ARC).difference(Point(boot).buffer(PAD_BOOT_HOLE / 2, quad_segs=ARC))
 
     lower_top = -(circuit.THICKNESS + UNDER_GASKET_COMPRESSED)   # PCB top is z = 0
     ring_t = round(-lower_top, 3)                                # the ring fills board + strip
     stack = [
+        ("pad", PAD_T, pad, "silicone", "Grip pad", f"{PAD_T:g} mm silicone sheet, the whole underside"),
         ("base", 3.0, base, "clear", "Base", "3 mm clear acrylic; nut pockets, BOOT hole"),
         ("lower-wall", 5.0, lower_wall, "blue", "Lower wall", "5 mm blue acrylic; ledge carries the board"),
         ("pcb-ring", ring_t, pcb_ring, "blue", "Board ring", "2 mm blue acrylic around the board edge"),
@@ -146,14 +151,14 @@ def design() -> Case:
         ("gasket", 0.5, spacer, "eva", "Gasket", "0.5 mm EVA foam, seals the cover"),
         ("cover", 2.0, _single(cover), "blue", "Cover", "2 mm translucent blue; the only top surface"),
     ]
-    z = lower_top - 5.0 - 3.0
+    z = lower_top - 5.0 - 3.0 - PAD_T
     layers = []
     for name, t, shape, material, label, sub in stack:
         layers.append(Layer(name, t, z, shape, material, label, sub))
         z += t
 
     top = layers[-1].z0 + layers[-1].thickness
-    base_z0 = layers[0].z0
+    base_z0 = layers[1].z0                     # the base: nut pockets; layers[0] is the pad
     nut_top = base_z0 + NUT_THICKNESS
     best = None
     for length in SCREW_LENGTHS:
@@ -163,9 +168,7 @@ def design() -> Case:
     if best is None:
         raise ValueError("no screw length fits")
 
-    ys = sorted({y for _, y in screws})
-    rise = (ys[-1] - ys[0]) * math.tan(math.radians(TILT_DEG))
-    feet = [(x, y, FRONT_FOOT if y == ys[-1] else round(FRONT_FOOT + rise, 3)) for x, y in screws]
+    feet: list = []
 
     bottom = {p.ref: (p.x, p.y) for p in parts.values() if p.side == "B"}
     return Case(pcb, layers, screws, switches, buttons, usb, boot, feet, best, bottom)
@@ -188,7 +191,7 @@ def write_model(case: Case, path: Path) -> Path:
     for i, l in enumerate(case.layers):
         outer, holes = rings(l.shape)
         layers.append({"name": l.name, "thickness": l.thickness, "z0": round(l.z0, 3), "material": l.material,
-                       "label": l.label, "sub": l.sub, "order": i - 2 if i < 2 else i - 1,
+                       "label": l.label, "sub": l.sub, "order": i - 3 if i < 3 else i - 2,
                        "outer": outer, "holes": holes})
     data = {
         "generic": True, "units": "mm",
@@ -202,7 +205,7 @@ def write_model(case: Case, path: Path) -> Path:
         "screws": [pt(p) for p in case.screws],
         "usb": pt(case.usb),
         "feet": [pt((x, y)) + [h] for x, y, h in case.feet],
-        "tilt_deg": TILT_DEG,
+        "tilt_deg": 0,
         "screw": {"size": "M3 nylon", "length": case.screw.length, "nut_engagement": case.screw.nut_engagement,
                   "nut_thickness": NUT_THICKNESS},
     }
@@ -214,6 +217,8 @@ def write_model(case: Case, path: Path) -> Path:
 
 def write_dxf(case: Case, out_dir: Path) -> list[Path]:
     import ezdxf
+
+    from scale_bar import add_scale_bar
     out_dir.mkdir(parents=True, exist_ok=True)
     written = []
     for layer in case.layers:
@@ -227,6 +232,7 @@ def write_dxf(case: Case, out_dir: Path) -> list[Path]:
         for ring in layer.shape.interiors:
             msp.add_lwpolyline(conv(ring.coords), close=True)
         path = out_dir / f"atelier-he-{layer.name}-{layer.thickness:g}mm-{layer.material}.dxf"
+        add_scale_bar(doc, msp, origin=(0.0, -8.0))
         doc.saveas(path)
         written.append(path)
     return written
@@ -237,7 +243,7 @@ def main() -> None:
     files = write_dxf(case, ROOT / "case" / "dxf-he")
     write_model(case, ROOT / "site" / "assets" / "case-he.json")
     print(f"wrote {len(files)} DXF files and site/assets/case-he.json; "
-          f"M3 x {case.screw.length} nylon, feet {sorted({f[2] for f in case.feet})} mm")
+          f"M3 x {case.screw.length} nylon, flat on a {PAD_T:g} mm silicone pad")
 
 
 if __name__ == "__main__":

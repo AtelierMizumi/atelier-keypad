@@ -31,6 +31,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 import ezdxf
+
+from scale_bar import add_scale_bar
 from ezdxf import units
 from shapely import affinity
 from shapely.geometry import MultiPolygon, Point, Polygon, box
@@ -429,6 +431,7 @@ def write_dxf(case: Case, out_dir: Path) -> list:
         _emit(msp, _to_cad(layer.shape, board))
         msp.add_text(_label(layer), height=2.5, dxfattribs={"layer": "NOTES"}).set_placement((0, -6))
         path = out_dir / f"atelier6k-case-{layer.name}-{layer.thickness:g}mm.dxf"
+        add_scale_bar(doc, msp)
         doc.saveas(path)
         files.append(path)
 
@@ -442,6 +445,7 @@ def write_dxf(case: Case, out_dir: Path) -> list:
         _emit(msp, _to_cad(layer.shape, board, dx=dx), suffix=f"-{layer.thickness:g}mm")
         msp.add_text(_label(layer), height=2.5, dxfattribs={"layer": "NOTES"}).set_placement((dx, -6))
     path = out_dir / "atelier6k-case-all.dxf"
+    add_scale_bar(doc, msp)
     doc.saveas(path)
     files.append(path)
     return files

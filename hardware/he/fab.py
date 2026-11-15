@@ -68,7 +68,8 @@ Files
   gerbers/          Gerber X2 + Excellon drill (PTH and NPTH separate)
   bom-jlcpcb.csv    Comment, Designator, Footprint, LCSC
   cpl-jlcpcb.csv    Designator, Mid X, Mid Y, Layer, Rotation (KiCad origin, Y up)
-  case-dxf/         laser-cut acrylic, one file per layer (thickness and colour in the name)
+  case-dxf/         one file per layer (thickness and material in the name): five acrylic
+                    layers and the 1.5 mm silicone grip pad; each has a 50 mm scale bar
   firmware.bin      libhmk build, if the firmware job ran
 
 Ordering and sourcing: docs/build/ordering.md in the repository.

@@ -83,4 +83,4 @@ def test_fab_readme_states_1p2_mm_two_layers():
 
 @needs_pkg
 def test_case_dxf_files_are_in_the_package():
-    assert len(list((PKG / "case-dxf").glob("*.dxf"))) == 5
+    assert len(list((PKG / "case-dxf").glob("*.dxf"))) == 6   # 5 acrylic layers + the silicone pad
