@@ -70,11 +70,38 @@ against the silkscreen. Datasheet revisions have disagreed before.
   AT32F405 has the High Speed USB PHY; the AT32F402 does not, so it is no
   substitute.
 
+### Where the CCT7 can be had (checked 16 Nov 2026)
+
+No distributor shows the bare chip in stock. The genuine part is on sale inside
+a development board.
+
+| Source | AT32F405CCT7 | Note |
+|---|---|---|
+| [AliExpress](https://www.aliexpress.com/w/wholesale-AT32F405CCT7.html) | **Yes, on the WeAct AT32F405CCT7 Core Board (USB HS)** | 71,686 VND, 61 sold. The chip has to be desoldered |
+| [LCSC](https://www.lcsc.com/product-detail/C19674180.html) / [szlcsc](https://item.szlcsc.com/49279997.html) | No page | RCT7-7 (C19674180) and KBU7-4 (QFN-32, C47090436) only |
+| [JLCPCB parts](https://jlcpcb.com/parts/componentSearch?searchTxt=AT32F405) | No | "0 Found" for any AT32F405 |
+| [Manduic](https://www.manduic.com/cpzx/4911/AT32F405RCT7-7) (Artery distributor) | Listed, no price | "In stock ships in 3–5 days; otherwise ask for lead time" |
+| [Onyx India](https://www.onyxindia.com/product/at32f405cct7/) | Out of stock | |
+| [Findchips](https://www.findchips.com/search/AT32F405CCT7) | No results | So no Mouser, Digi-Key or Arrow listing |
+| Taobao, 1688, Octopart | Not readable by script | Search by hand in the app |
+| [Artery](https://www.arterychip.com/en/product/AT32F405.jsp) | No retail sales | sales_artery@arterytek.com |
+
+The AT32F405**CB**T7 (same LQFP-48, 128 KB flash) also fits the board as it is,
+if the libhmk build fits in 128 KB. That is not checked yet.
+
 What to do, in order:
 
-1. Search **AT32F405CCT7** on Taobao through an order agency, as
-   `docs/build/ordering.md` already says. If a shop has it, nothing changes.
-2. If none does: **rev 2.1 on the AT32F405RCT7-7.** The body is the same
+1. **Buy 2–3 WeAct AT32F405CCT7 Core Boards** on AliExpress, from WeAct's own
+   store. They ship straight to Vietnam. Plug one in: it must show up as an
+   Artery DFU device and run USB High Speed (`lsusb -t` shows 480M). Keep that
+   board for libhmk bring-up before the PCB arrives. Desolder the chip from the
+   others with hot air (about 350 °C, flux), clean the pins with wick, and
+   solder it onto rev 2.0. A chip that has run on the WeAct board is a tested
+   chip; a bare chip from a marketplace is not.
+2. At the same time, email Artery (sales_artery@arterytek.com) for 2–5
+   samples, and search **AT32F405CCT7** on Taobao through an order agency.
+   Order only from a shop that shows the real marking.
+3. Only if all of these fail: **rev 2.1 on the AT32F405RCT7-7.** The body is the same
    7 × 7 mm, but it has 64 pins at 0.4 mm pitch instead of 48 at 0.5 mm. The
    footprint, the pin map and the routing around the MCU change, and the
    firmware's pin map follows. That is a board revision, not a BOM swap. Plan

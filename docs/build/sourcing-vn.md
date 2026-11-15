@@ -52,7 +52,10 @@ to ask about is **1.2 mm**, since the default is 1.6 mm. Decision D2 needs
   Plan B in `docs/hall-effect-task0.md`. Checked again on 16 Nov 2026: there is
   still no LQFP-48 listing, but LCSC stocks the LQFP-64 **AT32F405RCT7-7**
   (C19674180), which would mean a rev 2.1 board
-  ([order gates](../research/order-gates-2026-11.md)).
+  ([order gates](../research/order-gates-2026-11.md)). **The fastest source of
+  a genuine CCT7 is the WeAct AT32F405CCT7 Core Board on AliExpress** (about
+  72,000 VND): buy 2–3, keep one for firmware bring-up, desolder the chip
+  from the others.
 - **The DRV5056A4QDBZR is LCSC C2152902**
   ([LCSC](https://www.lcsc.com/product-image/C2152902.html)), about 0.60 USD,
   stock unclear. Arrow lists the reel suffix QDBZT as obsolete; **QDBZR** is
