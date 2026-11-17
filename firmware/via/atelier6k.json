@@ -1,0 +1,87 @@
+{
+  "name": "Atelier6K",
+  "vendorId": "0x414D",
+  "productId": "0x364B",
+  "matrix": {
+    "rows": 3,
+    "cols": 3
+  },
+  "customKeycodes": [
+    {
+      "name": "Next mode",
+      "title": "Switch to the next osu! mode layer and remember it",
+      "shortName": "MODE"
+    }
+  ],
+  "menus": [
+    "qmk_rgb_matrix",
+    {
+      "label": "Keys",
+      "content": [
+        {
+          "label": "Debounce",
+          "content": [
+            {
+              "label": "Debounce time (ms). 0 = off. Raise it if a key double-taps",
+              "type": "range",
+              "options": [
+                0,
+                25
+              ],
+              "content": [
+                "id_debounce_ms",
+                0,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "layouts": {
+    "keymap": [
+      [
+        {
+          "x": 0.75
+        },
+        "0,0",
+        "0,1",
+        "0,2"
+      ],
+      [
+        {
+          "y": -0.16,
+          "w": 0.5,
+          "h": 0.5
+        },
+        "2,0"
+      ],
+      [
+        {
+          "y": -0.84,
+          "x": 1.25
+        },
+        "1,0",
+        "1,1",
+        "1,2"
+      ],
+      [
+        {
+          "y": -0.7,
+          "w": 0.5,
+          "h": 0.5
+        },
+        "2,1"
+      ],
+      [
+        {
+          "y": -0.54,
+          "w": 0.5,
+          "h": 0.5
+        },
+        "2,2"
+      ]
+    ]
+  }
+}

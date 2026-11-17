@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atelier6K</title>
+<meta name="description" content="Atelier6K: an open-hardware osu! keypad. Rev 0 from 2022, a generated rev 1 on an RP2040, and a planned Hall-effect rapid-trigger rev 2. Browse each board in 3D.">
+<meta property="og:title" content="Atelier6K">
+<meta property="og:description" content="An osu! keypad in three revisions. Explore the boards and cases in 3D.">
+<meta property="og:image" content="assets/rev2-pcb-top.png">
+<meta name="theme-color" content="#061541">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%23061541%27/%3E%3Cpath d=%27M6 26 20 4h6L12 26z%27 fill=%27%2338d6ff%27/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@500;700;900&family=Barlow+Semi+Condensed:ital,wght@0,400;0,600;1,400&display=swap">
+<link rel="stylesheet" href="style.css">
+<script type="module" src="vendor/model-viewer.min.js"></script>
+<script type="module" src="vendor/kicanvas.js"></script>
+<script type="module" src="app.js"></script>
+</head>
+<body data-rev="2">
+<div class="sea" aria-hidden="true"></div>
+
+<header class="top">
+  <a class="brand" href="#rev2">Atelier<b>6K</b></a>
+  <div class="hud" aria-label="Today">
+    <svg class="moon" viewBox="-12 -12 24 24" aria-hidden="true"><circle r="11" class="moon-dark"/><path class="moon-lit" d=""/></svg>
+    <p><b class="hud-date"></b><span class="hud-day"></span><span class="hud-phase"></span></p>
+  </div>
+  <a class="gh" href="https://github.com/AtelierMizumi/atelier-keypad">Source on GitHub</a>
+</header>
+
+<main>
+<section class="stage" aria-label="Revisions">
+  <nav class="menu" aria-label="Choose a revision">
+    <a href="#rev0" data-rev="0"><span class="tag">REV 0</span><span class="note">2022 · ATmega32U4 · the original</span></a>
+    <a href="#rev1" data-rev="1"><span class="tag">REV 1</span><span class="note">2026 · RP2040 · generated from code</span></a>
+    <a href="#rev2" data-rev="2"><span class="tag">REV 2</span><span class="note">Rev 2.0 · order files ready · 8 kHz</span></a>
+  </nav>
+
+  <div class="show">
+    <span class="numeral" aria-hidden="true">2</span>
+    <model-viewer id="model" poster="assets/rev2-pcb-top.png"
+      alt="Interactive 3D model of the selected Atelier6K board"
+      camera-controls auto-rotate auto-rotate-delay="1200" rotation-per-second="16deg"
+      shadow-intensity="0.7" exposure="0.6" tone-mapping="neutral"
+      camera-orbit="330deg 55deg auto" interaction-prompt="none" reveal="auto"></model-viewer>
+  </div>
+</section>
+
+<!-- ======================================================== REV 0 -->
+<article class="rev" id="page-rev0" data-rev="0" hidden>
+  <header class="rev-head">
+    <h1>The one I taught myself on</h1>
+    <p class="lede">Six hot-swap switches and three buttons on an ATmega32U4, drawn by hand in KiCad 6 in 2022. It is kept here exactly as it was: the files below are the originals.</p>
+    <dl class="specs">
+      <div><dt>MCU</dt><dd>ATmega32U4, 16 MHz</dd></div>
+      <div><dt>Keys</dt><dd>6 + 3 in a diode matrix</dd></div>
+      <div><dt>Light</dt><dd>10 RGB LEDs</dd></div>
+      <div><dt>Board</dt><dd>81 × 74 mm, 2 layers</dd></div>
+    </dl>
+  </header>
+
+  <section>
+    <h2>Acrylic case, exploded</h2>
+    <p class="sub">Five layers clamp the board with four M3 screws. Drag the slider to pull the stack apart.</p>
+    <iframe class="case-view" data-src="case.html" title="Exploded view of the rev 0 case" loading="lazy"></iframe>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/tree/revamp/case/dxf">DXF cut files</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/revamp/docs/case.md">Case notes</a></p>
+  </section>
+
+  <section>
+    <h2>Schematic and board</h2>
+    <p class="sub">The original KiCad 6 files in KiCanvas. Click a part or a net to inspect it.</p>
+    <div class="kicanvas" data-sources="kicad/atelier6k.kicad_sch kicad/atelier6k.kicad_pcb"></div>
+  </section>
+
+  <section>
+    <h2>Renders</h2>
+    <div class="gallery">
+      <figure><a href="assets/pcb-top.png"><img loading="lazy" src="assets/pcb-top.png" alt="Rev 0 PCB, top" width="2000" height="1500"></a><figcaption>Top, with the silkscreen art</figcaption></figure>
+      <figure><a href="assets/pcb-bottom.png"><img loading="lazy" src="assets/pcb-bottom.png" alt="Rev 0 PCB, bottom" width="2000" height="1500"></a><figcaption>Bottom: MCU, sockets, diodes</figcaption></figure>
+      <figure><a href="assets/case-exploded.png"><img loading="lazy" src="assets/case-exploded.png" alt="Rev 0 case exploded" width="1600" height="1300"></a><figcaption>The full stack</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>How it turned out</h2>
+    <p class="sub">A desk review in 2026, against the netlist, KiCad 10 checks and the firmware. Nothing in the files was changed.</p>
+    <ul class="findings">
+      <li><b class="good">Right</b>USB-C done properly: 5.1 kΩ on each CC pin, 22 Ω series resistors, ESD diodes, a crystal with its load caps.</li>
+      <li><b class="good">Right</b>A full 3 × 3 matrix with a diode per key, so any combination of keys registers.</li>
+      <li><b class="good">Right</b>Hot-swap sockets and reverse-mount LEDs under the switches, which is what good keypads do.</li>
+      <li><b class="bad">Fix</b>No fuse on VBUS, and ten LEDs at full white can pull more than USB's 500 mA.</li>
+      <li><b class="bad">Fix</b>The underglow chain sits on a pin the firmware drives as a PWM backlight.</li>
+      <li><b class="warn">Watch</b>No decoupling at the LEDs; the MCU capacitors are far from its supply pins.</li>
+      <li><b class="bad">Order</b>Not ordered. The review's rev 0.2 fix list is exactly what rev 1 became, so rev 0 stays a record.</li>
+    </ul>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/build/order-plan.md">Order plan for all three revisions</a></p>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/revamp/docs/rev0-review.md">Read the full rev 0 review</a></p>
+  </section>
+</article>
+
+<!-- ======================================================== REV 1 -->
+<article class="rev" id="page-rev1" data-rev="1" hidden>
+  <header class="rev-head">
+    <h1>A board written as code</h1>
+    <p class="lede">Same outline, holes and key layout as rev 0. The circuit is a Python file; the schematic, placement and every track are generated from it, then checked by KiCad. Order files ready, not yet built.</p>
+    <dl class="specs">
+      <div><dt>MCU</dt><dd>RP2040-Zero module</dd></div>
+      <div><dt>Keys</dt><dd>9 on direct pins</dd></div>
+      <div><dt>Polling</dt><dd>1000 Hz, debounce set in VIA</dd></div>
+      <div><dt>Checks</dt><dd>ERC 0, DRC 0, 0 unrouted</dd></div>
+    </dl>
+  </header>
+
+  <section>
+    <h2>Case for rev 1</h2>
+    <p class="sub">The switch plate is 1.6 mm FR4. The module hangs under the board, so the bottom frame opens for it and the base has holes for BOOT and RESET.</p>
+    <iframe class="case-view" data-src="case.html?rev=1" title="Exploded view of the rev 1 case" loading="lazy"></iframe>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/tree/revamp/case/dxf-rev1">DXF cut files</a></p>
+  </section>
+
+  <section>
+    <h2>Board and schematic</h2>
+    <div class="gallery">
+      <figure><a href="assets/rev1-pcb-top.png"><img loading="lazy" src="assets/rev1-pcb-top.png" alt="Rev 1 PCB, top" width="2000" height="1500"></a><figcaption>Top: switch side, south-facing LEDs</figcaption></figure>
+      <figure><a href="assets/rev1-pcb-bottom.png"><img loading="lazy" src="assets/rev1-pcb-bottom.png" alt="Rev 1 PCB, bottom" width="2000" height="1500"></a><figcaption>Bottom: module notch, sockets, fuse</figcaption></figure>
+      <figure><a href="assets/rev1-schematic.svg"><img loading="lazy" src="assets/rev1-schematic.svg" alt="Rev 1 schematic" width="1600" height="1130"></a><figcaption>Generated schematic</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>Click through it</h2>
+    <p class="sub">The generated KiCad 10 files in KiCanvas. Click a part or a net to follow it.</p>
+    <div class="kicanvas" data-sources="kicad/atelier6k-rev1.kicad_pcb kicad/atelier6k-rev1.kicad_sch"></div>
+  </section>
+
+  <section>
+    <h2>Is it any good?</h2>
+    <p class="sub">An honest grade of the board as a test of PCB work.</p>
+    <ul class="findings">
+      <li><b class="good">Strong</b>Every net, footprint and track is reproducible from one script, with tests that tie the pin map to the firmware.</li>
+      <li><b class="good">Strong</b>Fixes all of rev 0's power faults: polyfuse, 3.3 → 5 V data buffer, a capacitor at every LED.</li>
+      <li><b class="warn">Plain</b>Electrically it is a simple board: nine switches to ground and one LED chain on a ready-made module.</li>
+      <li><b class="warn">Plain</b>The home-made router's tracks are correct but not pretty; a person would tidy them.</li>
+      <li><b class="good">Checked</b>The LED footprint puts every signal on the corner the SK6812MINI-E datasheet's bottom view shows, even though the two number the pins differently.</li>
+      <li><b class="warn">Open</b>The module notch and the BOOT/RESET holes come from Waveshare's drawing, not from a measured RP2040-Zero.</li>
+    </ul>
+    <p class="sub">The order files are ready: Gerbers, a JLCPCB BOM and placement file, the FR4 plate as its own board, a list of the parts to solder by hand, and the acrylic cut files, all built by CI.</p>
+    <p class="sub">Ordering it is optional: its chips go in rev 2.0's China cart, and its board and plate go in the same PCB order. It is all hand-soldered, because two-sided assembly at JLCPCB costs more than the parts. <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/build/order-plan.md">Order plan</a></p>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/revamp/docs/rev1-assessment.md">Read the assessment</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/revamp/docs/rev1-board.md">How rev 1 is made</a></p>
+  </section>
+</article>
+
+<!-- ======================================================== REV 2 -->
+<article class="rev" id="page-rev2" data-rev="2">
+  <header class="rev-head">
+    <h1>Magnets, measured every 125 µs</h1>
+    <p class="lede">Three magnetic keys on an arc that follows the fingers, in a sealed case. Every key's travel is read as a distance, so a key releases the moment it starts to rise. One unit, one player, one million đồng. Rev 2.0 has its order files, firmware and a CI that checks them; nothing is built yet.</p>
+    <dl class="specs" id="he-specs">
+      <div><dt>Keys</dt><dd>3 Hall + 2 buttons</dd></div>
+      <div><dt>Checks</dt><dd>ERC 0, DRC 0, 0 unrouted</dd></div>
+      <div><dt>Report</dt><dd>USB High Speed, 8 kHz</dd></div>
+      <div><dt>Budget</dt><dd id="he-cost">≤ 1,000,000 VND</dd></div>
+    </dl>
+  </header>
+
+  <section>
+    <h2>How rapid trigger works</h2>
+    <p class="sub">Drag the key down and let it rise. A normal switch waits for the fixed reset point; rapid trigger releases as soon as the key moves up by the sensitivity you set.</p>
+    <div class="rt" id="rt">
+      <svg viewBox="0 0 640 220" role="img" aria-labelledby="rt-title">
+        <title id="rt-title">Key travel over time with the press and release events of a fixed-point switch and a rapid-trigger switch</title>
+        <g class="rt-grid"></g>
+        <path class="rt-travel" d=""/>
+        <g class="rt-marks"></g>
+      </svg>
+      <div class="rt-ui">
+        <label>Key travel <input id="rt-depth" type="range" min="0" max="4" step="0.05" value="0" aria-describedby="rt-read"></label>
+        <label>Sensitivity <select id="rt-sens"><option value="0.1">0.1 mm</option><option value="0.2" selected>0.2 mm</option><option value="0.5">0.5 mm</option></select></label>
+        <output id="rt-read"></output>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The plan</h2>
+    <ul class="findings" id="he-points">
+      <li><b class="good">MCU</b>AT32F405: USB High Speed built in for 8 kHz reports, and an ADC input for every sensor, so there is no multiplexer.</li>
+      <li><b class="good">Scan</b>Three keys, 32 samples each, in 48 µs of every 125 µs. Device-side delay 250 µs worst case, against 1125 µs on a 1 kHz board.</li>
+      <li><b class="good">Sense</b>A TI DRV5056A4 under each key, reading the magnet through a 1.2 mm board: the condition Gateron measures its switch flux in. A model fitted to Gateron's figures gives about a 0.025 mm rapid-trigger floor. On top of the board, the first design, the sensor would read flat over the last 1.2 mm of the stroke.</li>
+      <li><b class="warn">Firmware</b>The open libhmk firmware, pinned to v1.8.1: rapid trigger and 8 kHz on this chip, configured from the browser, with Esc and Retry added as keys. It does not drive the LEDs yet.</li>
+      <li><b class="good">Hand</b>Three keys 19.05 mm apart, the middle one 4.76 mm further out for the longest finger. Symmetric, so it suits either hand. Flat and low, with Esc and retry out of the tapping path.</li>
+      <li><b class="good">Sweat</b>The board sits inside closed walls under a gasketed cover and is lacquered all over; magnetic switches have no contacts, so nothing needs to stay bare. Nylon screws. USB's 5 V cannot shock you; the case is there for static and salt.</li>
+      <li><b class="bad">Honest</b>A mass-made 3-key Hall pad costs about what this single unit costs. This one wins on a finer measured floor, a layout fitted to one hand, a sealed case and openness, not on price.</li>
+    </ul>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/build/ordering.md">How to order one</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/build/sourcing-vn.md">Where to buy in Vietnam</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/research/he-switch-field.md">Why the sensors are underneath</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/releases">Production files</a></p>
+  </section>
+
+  <section>
+    <h2>Sealed case</h2>
+    <p class="sub">The board sits inside the walls: a ledge with a gasket carries its edge, another clamps it from above, and a gasketed cover is the only top surface. It sits flat on one 1.5 mm silicone pad cut to the outline: the whole underside grips the desk, nothing rocks, and the nuts stay in.</p>
+    <iframe class="case-view" data-src="case.html?rev=2" title="Exploded view of the sealed rev 2 case" loading="lazy"></iframe>
+  </section>
+
+  <section>
+    <h2>Lessons from other keypads</h2>
+    <p class="sub">What players and other builders ran into, and what this board does about it.</p>
+    <ul class="findings" id="he-lessons">
+      <li><b class="good">Height</b>Hugofrost, a keypad player since 2017, taps fast maps faster on a low keypad than on a keyboard, though he says he cannot tell why. The first rev 2 case tilted 6° on stacked rubber discs, and the keycaps stood about 33 mm off the desk. It now sits flat: the PCB is 11.5 mm off the desk.</li>
+      <li><b class="good">Grip</b>BTMC tests a pad by pushing it sideways with his wrist. On the tilted case each rubber disc met the desk on one edge, and the front edge of the case hung 0.58 mm above it, so it would rock and then scrape. One 1.5 mm silicone sheet cut to the outline now covers the whole underside.</li>
+      <li><b class="good">Scale</b>tokaku's first case came back from the laser cutter tiny, because the drawing was exported at the wrong scale. Every cut file here is in millimetres and carries a 50 mm bar to measure before cutting, and a test checks both.</li>
+      <li><b class="good">LEDs</b>tokaku's per-key LEDs were wired wrong: SK6812MINI datasheets draw the pins mirrored from each other. This footprint was checked corner by corner against the bottom view.</li>
+      <li><b class="good">Rattle</b>A LotusPro keypad rattled in its case, and was blamed on tolerances. Here the board is clamped between two gasketed ledges, and a test checks a USB-C plug fits the slot without opening the clamp.</li>
+      <li><b class="warn">Build</b>LotusPro went through five failed 3-key prototypes while taking pre-orders. Among the causes: a ground-pour edge mistaken for a cut trace, a 5.1 kΩ resistor mistaken for the fuse, and hot-swap sockets soldered backwards. Here the bring-up goes in stages, with an expected value for every measurement.</li>
+    </ul>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/superpowers/specs/2026-11-16-rev2-flat-case-grip.md">Why the case changed</a></p>
+  </section>
+
+  <section>
+    <h2>Board and schematic</h2>
+    <p class="sub">Generated from one Python file and routed by the project's own router: 34 nets, 635 track segments, 328 vias, most of them stitching the two ground pours together. The USB pair runs straight from the connector to the MCU.</p>
+    <div class="gallery">
+      <figure><a href="assets/rev2-pcb-top.png"><img loading="lazy" src="assets/rev2-pcb-top.png" alt="Rev 2.0 PCB, top: the three switch outlines, two buttons, underglow LEDs and the moon art in the palm area" width="1600" height="1500"></a><figcaption>Top: switches, buttons, the art under the clear cover</figcaption></figure>
+      <figure><a href="assets/rev2-pcb-bottom.png"><img loading="lazy" src="assets/rev2-pcb-bottom.png" alt="Rev 2.0 PCB, bottom: AT32F405, USB-C, crystal, a Hall sensor under each key and the LED chain" width="1600" height="1500"></a><figcaption>Bottom: AT32F405, USB-C, a Hall sensor under each key</figcaption></figure>
+      <figure><a href="assets/rev2-schematic.svg"><img loading="lazy" src="assets/rev2-schematic.svg" alt="Rev 2 schematic" width="1600" height="1130"></a><figcaption>Generated schematic</figcaption></figure>
+    </div>
+    <div class="kicanvas" data-sources="kicad/atelier-he.kicad_pcb kicad/atelier-he.kicad_sch"></div>
+  </section>
+
+  <section>
+    <h2>Art in the palm</h2>
+    <p class="sub">Four tones from the four things a PCB is made of: mask over laminate, mask over copper, bare gold copper and white ink. A moon over the night sea and the field lines of the three magnets, in the palm area under the clear cover, lit by the underglow.</p>
+    <figure class="art"><img loading="lazy" src="assets/rev2-art-preview.png" alt="Preview of the rev 2 art: a gold crescent moon over a blue sea, with gold and blue field-line arcs rising from three white magnets on the horizon" width="1200" height="320"></figure>
+  </section>
+
+  <section>
+    <h2>Inside one key</h2>
+    <figure class="art"><img loading="lazy" src="assets/he-concept.svg" alt="Cross-section of a magnetic switch: the magnet in the stem moves 3.5 mm toward a Hall sensor under the 1.2 mm PCB" width="700" height="520"></figure>
+  </section>
+  <section>
+    <h2>Build status</h2>
+    <p class="sub">Not built yet. The files are ready and checked; what stands between them and a board on the desk:</p>
+    <ul class="findings" id="he-status">
+      <li><b class="warn">MCU</b>No shop stocks the bare AT32F405CCT7. The genuine chip sells on WeAct's core board, so two of those are the first order: one gives up its chip, one runs the firmware early.</li>
+      <li><b class="good">Magnet</b>Gateron's pages say the north pole faces the board, which the sensors assume. A compass confirms it when the switches arrive.</li>
+      <li><b class="good">LEDs</b>The footprint matches the SK6812MINI-E datasheet's bottom view, corner by corner.</li>
+      <li><b class="good">Budget</b>990,500 đồng planned for one unit, under the one-million cap, in six orders that each wait for the check before them.</li>
+    </ul>
+    <p class="links"><a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/build/order-plan.md">Order plan</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/research/order-gates-2026-11.md">Checks and sources</a> <a href="https://github.com/AtelierMizumi/atelier-keypad/blob/plan/hall-effect/docs/build/sourcing-vn.md">Where to buy in Vietnam</a></p>
+  </section>
+</article>
+</main>
+
+<footer>
+  <p>Hardware under CERN-OHL-P v2; rev 0/1 firmware under GPL-2.0-or-later, rev 2 firmware (libhmk) under GPL-3.0. Rev 0 designed by thuanc177 in 2022.</p>
+</footer>
+</body>
+</html>

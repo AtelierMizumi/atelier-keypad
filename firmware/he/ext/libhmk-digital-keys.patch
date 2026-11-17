@@ -1,0 +1,42 @@
+diff --git a/src/matrix.c b/src/matrix.c
+index 6d4d823..dab1d1b 100644
+--- a/src/matrix.c
++++ b/src/matrix.c
+@@ -20,6 +20,12 @@
+ #include "hardware/hardware.h"
+ #include "lib/bitmap.h"
+ 
++// Atelier: GPIO buttons read as keys, for keyboards that provide digital_keys_config.h
++#if __has_include("digital_keys_config.h")
++#include "digital_keys.h"
++#define MATRIX_DIGITAL_KEYS
++#endif
++
+ // Exponential moving average (EMA) filter
+ #define EMA(x, y)                                                              \
+   (((uint32_t)(x) +                                                            \
+@@ -28,6 +34,10 @@
+ 
+ __attribute__((always_inline)) static inline uint16_t
+ matrix_analog_read(uint8_t key) {
++#if defined(MATRIX_DIGITAL_KEYS)
++  if (digital_keys_is_digital(key))
++    return digital_keys_adc(key);
++#endif
+ #if defined(MATRIX_INVERT_ADC_VALUES)
+   return ADC_MAX_VALUE - analog_read(key);
+ #else
+@@ -48,7 +58,12 @@ key_state_t key_matrix[NUM_KEYS];
+ // Bitmap for tracking which keys have Rapid Trigger disabled
+ static bitmap_t rapid_trigger_disabled[] = MAKE_BITMAP(NUM_KEYS);
+ 
+-void matrix_init(void) { matrix_recalibrate(false); }
++void matrix_init(void) {
++#if defined(MATRIX_DIGITAL_KEYS)
++  digital_keys_init();
++#endif
++  matrix_recalibrate(false);
++}
+ 
+ void matrix_recalibrate(bool reset_bottom_out_threshold) {
+   if (reset_bottom_out_threshold) {

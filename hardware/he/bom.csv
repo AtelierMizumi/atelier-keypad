@@ -1,0 +1,22 @@
+group,item,qty,unit_vnd_low,unit_vnd_high,plan_vnd,where,confidence,note
+china,"ARTERY AT32F405CCT7 (LQFP-48), taken from a WeAct AT32F405CCT7 Core Board",1,72000,80000,72000,AliExpress (WeAct store),found,"No distributor stocks the bare chip (16 Nov 2026); the board sells at 71,686 VND. A second board for firmware bring-up is a tool, outside this budget"
+china,TI DRV5056A4QDBZR linear Hall (SOT-23),4,12000,25000,16000,LCSC C2152902 or the same Taobao shop,estimate,"Buy QDBZR (SOT-23); QDBZT is obsolete, TO-92 QLPG does not fit"
+china,LP5907MFX-3.3 LDO (SOT-23-5),2,4000,8000,5000,"Taobao / szlcsc, one shop via an order agency",estimate,1 used + 1 spare; a ferrite bead splits off the analog rail
+china,USB-C 16-pin receptacle,2,3000,6000,4000,"Taobao / szlcsc, one shop via an order agency",estimate,
+china,USBLC6-2SC6 ESD,2,2000,5000,3000,"Taobao / szlcsc, one shop via an order agency",estimate,
+china,Polyfuse 500 mA 1206,2,1000,3000,2000,"Taobao / szlcsc, one shop via an order agency",estimate,
+china,Crystal 12 MHz (3225),2,2500,6000,3000,"Taobao / szlcsc, one shop via an order agency",estimate,The OTGHS PHY only runs from a 12 MHz HEXT (datasheet 2.13.6)
+china,SK6812MINI-E,10,2000,3000,2200,"Taobao / szlcsc, one shop via an order agency",estimate,7 used; pinout check carried over from rev 1
+china,74AHCT1G125 (SOT-23-5),2,2000,4000,2500,"Taobao / szlcsc, one shop via an order agency",estimate,
+local,"Tact switches: 2 x 6x6 THT 7.3 mm (Esc, retry), 1 x TL3342 (BOOT)",3,800,2500,1500,Local shop / Shopee,estimate,
+china,"Passives: 0603 R/C, 47 nF filter, 12k 1%, 1 MOhm, 4.7 nF, 33 pF C0G, 0402 5.1k, 600R ferrite",1,25000,45000,30000,"Same Taobao shop, or a local shop",estimate,Minimum quantities dominate
+ship,"China order agency: 1-3 % fee, shop domestic shipping, CN to VN freight",1,50000,200000,100000,Order agency,estimate,Freight 8-40k VND/kg (order < 1 kg); each extra Taobao shop adds its own domestic shipping; duty may apply since Feb 2025
+local,"PCB 2-layer 1.2 mm, 76 x 70 mm, 5 pcs, road shipping",1,110000,180000,130000,CXT / SmartPCB88,estimate,110k VND delivered for 5 pcs under 10x10 cm at 1.6 mm (listed); 1.2 mm surcharge to confirm
+local,SMT stencil (optional),1,0,200000,80000,Ask the PCB fab,unknown,Hand soldering works without one; it speeds up the 0603 parts
+local,Gateron Magnetic Jade PCB-mount,4,18000,27000,21000,TechSpace (original Jade),found,21k VND each at TechSpace; Jade Pro 18k at Soigear/MokbStore but its flux is unconfirmed
+local,Keycaps 1u,4,8000,15000,10000,Shopee,estimate,
+local,"Acrylic laser cut: 5 pieces about 84 x 78 mm (3, 5, 2, 2, 2 mm)",1,100000,220000,150000,"MicaTrong / Hy Huy (HCM), MTV Plastic / Mica Ha Noi (HN)",estimate,"DXF in case/dxf-he; blue translucent for walls and cover, clear base"
+local,EVA foam 0.5 mm and 1.0 mm sheets,1,15000,30000,20000,Shopee,estimate,0.5 mm cover gasket; 1.0 mm strips under the board edge
+local,"Nylon M3 x 14 screws and nuts, 1.5 mm self-adhesive silicone sheet (grip pad)",1,30000,60000,40000,Shopee / hardware store,estimate,The pad replaces the rubber feet (flat case)
+local,Conformal coating (acrylic),1,60000,150000,90000,Shopee / electronics shop,estimate,e.g. CRC Plastik 70 or a PCB coating bottle
+local,Flux for LQFP soldering,1,0,40000,25000,Electronics shop,estimate,Skip if you have it

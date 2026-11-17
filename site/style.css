@@ -1,0 +1,201 @@
+/* Atelier6K: night-sea blue, ice cyan, white. Everything leans at the same angle. */
+:root {
+  --abyss: #030b26;
+  --sea: #061541;
+  --tide: #0d2f8f;
+  --cyan: #38d6ff;
+  --ice: #d8f4ff;
+  --white: #ffffff;
+  --muted: #8fb2d9;
+  --good: #5ff2c4;
+  --warn: #ffd65a;
+  --bad: #ff5f87;
+  --lean: -12deg;          /* the one angle used by every slanted element */
+  --display: "Saira Extra Condensed", "Arial Narrow", sans-serif;
+  --body: "Barlow Semi Condensed", "Segoe UI", system-ui, sans-serif;
+  --max: 1180px;
+  --gut: max(16px, calc((100vw - var(--max)) / 2));
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; background: var(--abyss); overflow-x: clip; }
+body {
+  margin: 0; min-height: 100vh; color: var(--ice); background: var(--abyss);
+  font: 18px/1.55 var(--body); -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+a { color: var(--cyan); }
+img { max-width: 100%; height: auto; display: block; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
+
+/* Deep water behind everything: a dark gradient with faint light bands. */
+.sea {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    repeating-linear-gradient(var(--lean), transparent 0 46px, rgb(56 214 255 / .035) 46px 48px),
+    radial-gradient(120% 80% at 80% 0%, var(--tide) 0%, var(--sea) 45%, var(--abyss) 100%);
+}
+
+.top {
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 18px var(--gut) 0;
+}
+.brand {
+  font: 900 30px/1 var(--display); color: var(--white); text-decoration: none;
+  display: inline-block; transform: skewX(var(--lean)); letter-spacing: .01em;
+}
+.brand b { color: var(--sea); background: var(--cyan); padding: 0 6px; margin-left: 4px; }
+.gh { font-weight: 600; color: var(--ice); white-space: nowrap; }
+.top { gap: 24px; }
+.top .gh { margin-left: 0; }
+.hud { margin-left: auto; display: flex; align-items: center; gap: 12px; transform: skewX(var(--lean)); }
+.hud p { margin: 0; display: grid; grid-template-columns: auto auto; column-gap: 8px; align-items: baseline; line-height: 1; }
+.hud-date { font: 900 34px/1 var(--display); color: var(--white); }
+.hud-day { font: 700 18px/1 var(--display); color: var(--cyan); }
+.hud-phase { grid-column: 1 / -1; font-size: 13px; color: var(--muted); padding-top: 3px; }
+.moon { width: 34px; height: 34px; }
+.moon-dark { fill: var(--tide); }
+.moon-lit { fill: var(--ice); }
+
+/* ------------------------------------------------------------ stage */
+.stage {
+  position: relative; display: grid; grid-template-columns: minmax(280px, 5fr) 7fr; align-items: center;
+  gap: 24px; padding: 24px var(--gut) 8px; min-height: min(78vh, 760px);
+}
+.menu { display: flex; flex-direction: column; gap: 14px; z-index: 2; }
+.menu a {
+  position: relative; display: block; text-decoration: none; color: var(--ice);
+  padding: 6px 28px 10px 22px; transform: skewX(var(--lean)); transform-origin: left;
+  transition: transform .18s ease-out, color .18s;
+}
+.menu a::before {           /* the slab that slides in behind the selected item */
+  content: ""; position: absolute; inset: 0; background: var(--white); z-index: -1;
+  clip-path: polygon(0 12%, 100% 0, 97% 100%, 3% 88%);
+  transform: scaleX(0); transform-origin: left; transition: transform .22s cubic-bezier(.2,.9,.3,1.2);
+}
+.menu .tag { display: block; font: 900 clamp(64px, 9vw, 128px)/.86 var(--display); letter-spacing: -.01em; }
+.menu .note { display: block; font-size: 15px; font-weight: 600; color: var(--muted); padding-left: 4px; }
+.menu a:hover { transform: skewX(var(--lean)) translateX(10px); }
+.menu a[aria-current="true"] { color: var(--sea); transform: skewX(var(--lean)) translateX(18px) rotate(-2deg); }
+.menu a[aria-current="true"]::before { transform: scaleX(1); }
+.menu a[aria-current="true"] .note { color: var(--tide); }
+.menu a[aria-current="true"] .tag { text-shadow: 5px 5px 0 var(--cyan); }
+.menu a:not([aria-current="true"]):hover .tag { text-shadow: 4px 4px 0 var(--tide); }
+.menu a:not([aria-current="true"]) .tag { color: transparent; -webkit-text-stroke: 2px var(--ice); }
+.menu a:not([aria-current="true"]):hover .tag { color: var(--cyan); -webkit-text-stroke: 0; }
+
+.show { position: relative; height: min(70vh, 640px); }
+.numeral {
+  position: absolute; right: -2%; top: 50%; transform: translateY(-52%) skewX(var(--lean));
+  font: 900 clamp(320px, 52vw, 720px)/.8 var(--display); color: var(--tide); opacity: .55;
+  user-select: none; pointer-events: none;
+}
+.show::after {               /* a single cyan slash through the stage */
+  content: ""; position: absolute; left: 6%; right: -4%; top: 58%; height: 10px; background: var(--cyan);
+  transform: rotate(var(--lean)); box-shadow: 0 0 32px rgb(56 214 255 / .6); pointer-events: none; opacity: .9; z-index: 0;
+}
+model-viewer, .concept { position: absolute; inset: 0; width: 100%; height: 100%; background: transparent; z-index: 1; }
+.concept { object-fit: contain; padding: 4%; }
+
+/* The one orchestrated moment: switching revision wipes a slab across the stage. */
+.show.wipe::before {
+  content: ""; position: absolute; inset: -10% -20%; z-index: 3; background: var(--white);
+  clip-path: polygon(0 0, 30% 0, 18% 100%, 0 100%);
+  animation: wipe .5s cubic-bezier(.7,0,.2,1) forwards;
+}
+@keyframes wipe {
+  0% { transform: translateX(-40%); }
+  100% { transform: translateX(140%); }
+}
+
+/* ------------------------------------------------------------ revision pages */
+.rev { padding: 0 var(--gut) 40px; }
+.rev > section { position: relative; }
+.rev > section::before {          /* a faint angled panel behind each block */
+  content: ""; position: absolute; inset: 40px -20px -20px -20px; z-index: -1;
+  background: linear-gradient(100deg, rgb(13 47 143 / .28), rgb(6 21 65 / 0) 70%);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 36px), calc(100% - 36px) 100%, 0 100%);
+}
+.art { margin: 0; max-width: 900px; }
+.art img { width: 100%; image-rendering: pixelated; }
+.rev-head { max-width: 860px; margin: 8px 0 40px; }
+h1, h2 {
+  font-family: var(--display); color: var(--white); font-weight: 900; line-height: .95;
+  transform: skewX(var(--lean)); transform-origin: left;
+}
+h1 { font-size: clamp(44px, 6vw, 84px); margin: 0 0 18px; }
+h2 {
+  display: inline-block; font-size: clamp(30px, 3.6vw, 46px); margin: 72px 0 14px; padding: 6px 28px 8px 14px;
+  color: var(--sea); background: var(--white); box-shadow: 8px 8px 0 var(--cyan);
+}
+.lede { font-size: 21px; max-width: 64ch; margin: 0 0 28px; color: var(--ice); }
+.sub { color: var(--muted); max-width: 70ch; margin: 0 0 18px; }
+
+.specs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin: 0; max-width: 900px; }
+.specs div { padding: 10px 16px 12px; border-left: 3px solid var(--cyan); }
+.specs dt { font: 700 18px/1 var(--display); color: var(--cyan); letter-spacing: .04em; }
+.specs dd { margin: 4px 0 0; font-weight: 600; color: var(--white); }
+
+.case-view, .kicanvas {
+  display: block; width: 100%; border: 0; background: var(--abyss);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%);
+}
+.case-view { height: min(76vh, 680px); }
+.kicanvas { height: min(78vh, 720px); }
+.links { display: flex; gap: 24px; flex-wrap: wrap; font-weight: 600; margin: 14px 0 0; }
+
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+.gallery figure { margin: 0; }
+.gallery img { width: 100%; background: var(--sea); }
+.gallery figcaption { color: var(--muted); font-size: 15px; padding-top: 6px; }
+
+.findings { list-style: none; padding: 0; margin: 0; max-width: 900px; }
+.findings li { display: grid; grid-template-columns: 92px 1fr; gap: 14px; align-items: baseline;
+  padding: 12px 0; border-bottom: 1px solid rgb(143 178 217 / .18); }
+.findings b {
+  font: 900 20px/1 var(--display); text-align: center; padding: 5px 0 6px; color: var(--abyss);
+  transform: skewX(var(--lean)); background: var(--muted);
+}
+.findings b.good { background: var(--good); }
+.findings b.warn { background: var(--warn); }
+.findings b.bad { background: var(--bad); }
+
+/* Rapid-trigger demo */
+.rt { max-width: 900px; background: rgb(3 11 38 / .7); padding: 16px 18px 18px; border-left: 3px solid var(--cyan); }
+.rt svg { width: 100%; height: auto; display: block; }
+.rt-grid line { stroke: rgb(143 178 217 / .22); stroke-width: 1; }
+.rt-grid text, .rt-marks text { fill: var(--muted); font: 600 12px var(--body); }
+.rt-travel { fill: none; stroke: var(--white); stroke-width: 2.5; }
+.rt-marks .fixed { stroke: var(--warn); }
+.rt-marks .rapid { stroke: var(--cyan); }
+.rt-marks line { stroke-width: 2; stroke-dasharray: 4 3; }
+.rt-ui { display: flex; flex-wrap: wrap; gap: 18px 28px; align-items: center; margin-top: 10px; }
+.rt-ui label { display: flex; gap: 10px; align-items: center; font-weight: 600; }
+.rt-ui input[type=range] { width: min(52vw, 280px); accent-color: var(--cyan); }
+.rt-ui select { font: inherit; background: var(--sea); color: var(--ice); border: 1px solid var(--muted); padding: 2px 6px; }
+.rt-ui output { color: var(--white); font-weight: 600; }
+
+footer { padding: 40px var(--gut) 60px; color: var(--muted); font-size: 15px; }
+
+@media (max-width: 860px) {
+  body { font-size: 17px; }
+  .hud-phase, .hud-day { display: none; }
+  .top { gap: 14px; }
+  .gh { font-size: 15px; }
+  .hud-date { font-size: 26px; }
+  h2 { box-shadow: 5px 5px 0 var(--cyan); }
+  .stage { grid-template-columns: 1fr; min-height: 0; padding-top: 12px; }
+  .menu { flex-direction: row; gap: 4px; overflow: hidden; }
+  .menu a { padding: 4px 14px 6px 10px; flex: 1; }
+  .menu .tag { font-size: clamp(30px, 10vw, 54px); }
+  .menu .note { display: none; }
+  .menu a[aria-current="true"] { transform: skewX(var(--lean)); }
+  .show { height: 54vh; }
+  .numeral { font-size: 70vw; }
+  .specs { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 12px; }
+  .findings li { grid-template-columns: 74px 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .menu a, .menu a::before { transition: none; }
+  .show.wipe::before { animation: none; display: none; }
+}

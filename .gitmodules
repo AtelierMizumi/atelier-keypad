@@ -1,15 +1,18 @@
 [submodule "random-keyboard-parts.pretty"]
-	path = random-keyboard-parts.pretty
+	path = hardware/libs/random-keyboard-parts.pretty
 	url = https://github.com/ai03-2725/random-keyboard-parts.pretty.git
 [submodule "MX_Alps_Hybrid"]
-	path = MX_Alps_Hybrid
+	path = hardware/libs/MX_Alps_Hybrid
 	url = https://github.com/ai03-2725/MX_Alps_Hybrid.git
 [submodule "kicad-footprints"]
-	path = kicad-footprints
+	path = hardware/libs/kicad-footprints
 	url = https://github.com/KiCad/kicad-footprints.git
 [submodule "Type-C.pretty"]
-	path = Type-C.pretty
+	path = hardware/libs/Type-C.pretty
 	url = https://github.com/ai03-2725/Type-C.pretty.git
 [submodule "Cherry-MX-Breakout-Board"]
-	path = Cherry-MX-Breakout-Board
+	path = hardware/libs/Cherry-MX-Breakout-Board
 	url = https://github.com/sszczep/Cherry-MX-Breakout-Board.git
+[submodule "firmware/he/libhmk"]
+	path = firmware/he/libhmk
+	url = https://github.com/peppapighs/libhmk.git

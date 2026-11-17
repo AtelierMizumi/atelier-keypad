@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "atelier_he")(type "KiCad")(uri "${KIPRJMOD}/../libs/local/atelier_he.kicad_sym")(options "")(descr "Atelier rev 2 project symbols"))
+)

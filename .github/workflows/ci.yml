@@ -1,0 +1,111 @@
+name: Rev 2.0 checks and production package
+
+on:
+  push:
+    branches: [plan/hall-effect, revamp]
+    tags: ["rev*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  KICAD_IMAGE: kicad/kicad:10.0.8-full
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - uses: astral-sh/setup-uv@v6
+      - name: Field model and budget
+        run: cd tools/he_model && uv run --no-project --with pytest pytest -q
+      - name: GLB tools
+        run: cd tools/glb && uv run --no-project --with pytest pytest -q
+      - name: Circuit, layout and BOM
+        run: cd hardware/he && uv run --no-project --with pytest pytest -q tests
+      - name: Rev 1 circuit and BOM
+        run: cd hardware/rev1 && uv run --no-project --with pytest pytest -q tests
+      - name: Cases
+        run: cd case && uv run --no-project --with pytest --with shapely --with ezdxf pytest -q tests
+      - name: Firmware config
+        run: cd firmware/he && uv run --no-project --with pytest pytest -q
+
+  firmware:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - uses: astral-sh/setup-uv@v6
+      - name: Build libhmk for Atelier
+        run: firmware/he/build.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: firmware
+          path: build/fw/atelier-he.bin
+
+  kicad:
+    runs-on: ubuntu-latest
+    needs: firmware
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Pull KiCad
+        run: docker pull "$KICAD_IMAGE"
+      - name: ERC, netlist, DRC and layout tests on the committed board
+        run: scripts/he.sh check
+      - uses: actions/download-artifact@v4
+        with:
+          name: firmware
+          path: build/fw
+      - name: Production package
+        run: scripts/fab.sh
+      - name: Package tests
+        run: cd hardware/he && FAB_REQUIRED=1 uv run --no-project --with pytest pytest -q tests/test_fab.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rev2.0-package
+          path: build/fab/rev2.0
+
+  # Rev 1 on its own job: a rev 1 failure must not block the rev 2.0 release.
+  kicad-rev1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Pull KiCad
+        run: docker pull "$KICAD_IMAGE"
+      - name: Rev 1 ERC, netlist and DRC on the committed board
+        run: scripts/rev1.sh check
+      - name: Rev 1 production package
+        run: scripts/fab.sh rev1
+      - name: Rev 1 package tests
+        run: cd hardware/rev1 && FAB_REQUIRED=1 uv run --no-project --with pytest pytest -q tests/test_fab.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rev1-package
+          path: build/fab/rev1
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/rev')
+    runs-on: ubuntu-latest
+    needs: [test, kicad]
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: rev2.0-package
+          path: rev2.0-package
+      - name: Attach the package to a Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          (cd rev2.0-package && zip -qr "../atelier-${GITHUB_REF_NAME}-package.zip" .)
+          gh release create "$GITHUB_REF_NAME" "atelier-${GITHUB_REF_NAME}-package.zip" \
+            --repo "$GITHUB_REPOSITORY" --title "Atelier $GITHUB_REF_NAME" \
+            --notes "Production package: Gerber + drill, JLCPCB BOM/CPL, case DXF, firmware. See docs/build/ordering.md."
